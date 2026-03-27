@@ -1,0 +1,46 @@
+{
+  "disabledMcpjsonServers": [
+    "filesystem",
+    "playwright",
+    "chrome-devtools"
+  ],
+
+  "permissions": {
+    "allow": [
+      "Bash(uv:*)",
+      "Bash(uvicorn:*)",
+      "Bash(ruff:*)",
+      "Bash(pytest:*)",
+      "Bash(python3:*)",
+      "Bash(git status)",
+      "Bash(git diff:*)",
+      "Bash(git log:*)",
+      "Bash(git add:*)",
+      "Bash(git commit:*)",
+      "Bash(git checkout:*)",
+      "Bash(git branch:*)",
+      "Bash(git merge:*)",
+      "Bash(git push:*)",
+      "Bash(git pull:*)",
+      "Bash(bd:*)",
+      "Bash(npm run:*)",
+      "Bash(npx:*)",
+      "Bash(node:*)",
+      "Bash(jq:*)",
+      "Bash(cat:*)",
+      "Bash(ls:*)",
+      "Bash(mkdir:*)",
+      "Bash(cp:*)",
+      "Bash(mv:*)",
+      "Bash(chmod:*)",
+      "Bash(echo:*)",
+      "Bash(which:*)",
+      "Bash(find:*)",
+      "Bash(tar:*)",
+      "Bash(curl:*)",
+      "mcp__plugin_serena_serena__*",
+      "mcp__codegrapher__*",
+      "mcp__sequential-thinking__*"
+    ]
+  }
+}
