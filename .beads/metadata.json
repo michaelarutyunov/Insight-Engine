@@ -1,0 +1,7 @@
+{
+  "database": "dolt",
+  "backend": "dolt",
+  "dolt_mode": "server",
+  "dolt_database": "Insight_Engine",
+  "project_id": "00a6fe03-b11c-43bf-8177-c554594704b4"
+}
