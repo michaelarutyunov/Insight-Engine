@@ -5,6 +5,7 @@ description = "Insights IDE — FastAPI backend"
 readme = "README.md"
 requires-python = ">=3.11"
 dependencies = [
+    "aiosqlite>=0.22.1",
     "fastapi>=0.135.2",
     "pydantic>=2.12.5",
     "uvicorn[standard]>=0.42.0",
@@ -12,6 +13,7 @@ dependencies = [
 
 [dependency-groups]
 dev = [
+    "httpx>=0.28.1",
     "pyright>=1.1.408",
     "pytest>=9.0.2",
     "pytest-asyncio>=1.3.0",

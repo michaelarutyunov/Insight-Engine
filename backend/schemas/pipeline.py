@@ -93,3 +93,29 @@ class PipelineUpdateRequest(BaseModel):
     edges: list[EdgeSchema] | None = None
     loop_definitions: list[LoopSchema] | None = None
     metadata: PipelineMetadata | None = None
+
+
+class ConnectionValidationRequest(BaseModel):
+    """Request body for POST /api/v1/pipelines/validate-connection."""
+
+    source_block_type: str
+    source_block_implementation: str
+    source_port: str
+    target_block_type: str
+    target_block_implementation: str
+    target_port: str
+    data_type: str
+
+
+class ConnectionValidationResponse(BaseModel):
+    """Response for connection validation."""
+
+    valid: bool
+    reason: str | None = None
+
+
+class PipelineValidationResponse(BaseModel):
+    """Response for full pipeline validation."""
+
+    valid: bool
+    errors: list[str] = Field(default_factory=list)
