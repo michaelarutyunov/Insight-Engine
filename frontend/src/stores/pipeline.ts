@@ -102,6 +102,10 @@ interface PipelineStore {
   isLoading: boolean
   error: string | null
 
+  // --- execution state ---
+  activeRunId: string | null
+  nodeStatuses: Record<string, string>
+
   // --- React Flow controlled-mode handlers ---
   onNodesChange: (changes: NodeChange<Node<PipelineNodeData>>[]) => void
   onEdgesChange: (changes: EdgeChange<Edge>[]) => void
@@ -121,6 +125,10 @@ interface PipelineStore {
 
   // --- pipeline-level mutations ---
   updatePipelineMeta: (meta: Partial<PipelineMetadata>) => void
+
+  // --- execution actions ---
+  setActiveRunId: (runId: string | null) => void
+  setNodeStatuses: (statuses: Record<string, string>) => void
 
   // --- async API operations ---
   loadPipeline: (pipelineId: string) => Promise<void>
@@ -156,6 +164,8 @@ export const usePipelineStore = create<PipelineStore>((set, get) => ({
   selectedEdgeId: null,
   isLoading: false,
   error: null,
+  activeRunId: null,
+  nodeStatuses: {},
 
   // -----------------------------------------------------------------------
   // React Flow controlled-mode handlers
@@ -188,6 +198,10 @@ export const usePipelineStore = create<PipelineStore>((set, get) => ({
   setSelectedNode: (nodeId) => set({ selectedNodeId: nodeId, selectedEdgeId: null }),
 
   setSelectedEdge: (edgeId) => set({ selectedEdgeId: edgeId, selectedNodeId: null }),
+
+  setActiveRunId: (runId) => set({ activeRunId: runId }),
+
+  setNodeStatuses: (statuses) => set({ nodeStatuses: statuses }),
 
   // -----------------------------------------------------------------------
   // Node mutations

@@ -1,7 +1,77 @@
 import { memo } from 'react'
 import { Handle, Position, type NodeProps } from '@xyflow/react'
 
-import type { PipelineNodeData } from '../../stores/pipeline'
+import { usePipelineStore, type PipelineNodeData } from '../../stores/pipeline'
+
+// ---------------------------------------------------------------------------
+// Status indicator
+// ---------------------------------------------------------------------------
+
+type ExecutionStatus = 'pending' | 'running' | 'completed' | 'failed' | 'suspended'
+
+function StatusIndicator({ status }: { status: ExecutionStatus }) {
+  if (status === 'pending') {
+    return (
+      <span
+        className="inline-block h-2.5 w-2.5 rounded-full bg-gray-400"
+        title="Pending"
+        aria-label="Pending"
+      />
+    )
+  }
+  if (status === 'running') {
+    return (
+      <span
+        className="inline-block h-2.5 w-2.5 rounded-full bg-blue-500 animate-pulse"
+        title="Running"
+        aria-label="Running"
+      />
+    )
+  }
+  if (status === 'completed') {
+    return (
+      <svg
+        className="h-3.5 w-3.5 text-green-500 shrink-0"
+        fill="none"
+        viewBox="0 0 24 24"
+        stroke="currentColor"
+        strokeWidth={3}
+        aria-label="Completed"
+      >
+        <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
+      </svg>
+    )
+  }
+  if (status === 'failed') {
+    return (
+      <svg
+        className="h-3.5 w-3.5 text-red-500 shrink-0"
+        fill="none"
+        viewBox="0 0 24 24"
+        stroke="currentColor"
+        strokeWidth={3}
+        aria-label="Failed"
+      >
+        <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
+      </svg>
+    )
+  }
+  if (status === 'suspended') {
+    return (
+      <svg
+        className="h-3.5 w-3.5 text-yellow-500 shrink-0"
+        fill="none"
+        viewBox="0 0 24 24"
+        stroke="currentColor"
+        strokeWidth={2.5}
+        aria-label="Suspended"
+      >
+        <path strokeLinecap="round" strokeLinejoin="round" d="M10 9v6m4-6v6" />
+      </svg>
+    )
+  }
+  return null
+}
 
 // ---------------------------------------------------------------------------
 // Visual style per block type
@@ -98,8 +168,10 @@ function spreadHandles(
 // Component
 // ---------------------------------------------------------------------------
 
-function PipelineNode({ data, selected }: NodeProps) {
+function PipelineNode({ data, selected, id }: NodeProps) {
   const d = data as PipelineNodeData
+  const nodeStatuses = usePipelineStore((s) => s.nodeStatuses)
+  const executionStatus = nodeStatuses[id] as ExecutionStatus | undefined
 
   const inputHandles = spreadHandles(d.inputSchema, Position.Left)
   const outputHandles = spreadHandles(d.outputSchema, Position.Right)
@@ -111,6 +183,8 @@ function PipelineNode({ data, selected }: NodeProps) {
         shadow-sm transition-shadow
         ${blockStyle(d.type)}
         ${selected ? 'shadow-md ring-2 ring-blue-400 dark:ring-blue-500' : ''}
+        ${executionStatus === 'failed' ? 'ring-2 ring-red-500' : ''}
+        ${executionStatus === 'running' ? 'ring-2 ring-blue-400' : ''}
       `}
     >
       {/* ---- Input handles (left side) ---- */}
@@ -138,6 +212,11 @@ function PipelineNode({ data, selected }: NodeProps) {
         <span className="text-[10px] font-semibold uppercase tracking-wider text-gray-500 dark:text-gray-400">
           {d.type.replace('_', ' ')}
         </span>
+        {executionStatus && (
+          <span className="ml-auto">
+            <StatusIndicator status={executionStatus} />
+          </span>
+        )}
       </div>
 
       {/* ---- Implementation name (label) ---- */}

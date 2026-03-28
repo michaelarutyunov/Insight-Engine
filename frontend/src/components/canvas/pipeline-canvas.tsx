@@ -1,4 +1,4 @@
-import { useCallback, useRef, useState, type DragEvent } from 'react'
+import { useCallback, useEffect, useRef, useState, type DragEvent } from 'react'
 import {
   ReactFlow,
   ReactFlowProvider,
@@ -19,14 +19,20 @@ import PipelineNodeComponent from './pipeline-node'
 import { usePipelineStore, type PipelineNodeData } from '../../stores/pipeline'
 import type { PipelineNode } from '../../types/pipeline'
 import { apiClient } from '../../api/client'
+import { useExecutionPolling, type HitlCheckpoint } from '../../hooks/useExecutionPolling'
 
 // ---------------------------------------------------------------------------
-// Types for connection validation
+// Types for connection validation and execution
 // ---------------------------------------------------------------------------
 
 interface ConnectionValidationResponse {
   valid: boolean
   reason?: string | null
+}
+
+interface RunPipelineResponse {
+  run_id: string
+  [key: string]: unknown
 }
 
 // ---------------------------------------------------------------------------
@@ -51,6 +57,92 @@ function PipelineCanvasInner() {
   const [connectionValidity, setConnectionValidity] = useState<'valid' | 'invalid' | null>(null)
   // Error tooltip message for invalid connections
   const [errorTooltip, setErrorTooltip] = useState<string | null>(null)
+
+  useEffect(() => {
+    if (!errorTooltip) return
+    const timer = setTimeout(() => setErrorTooltip(null), 3000)
+    return () => clearTimeout(timer)
+  }, [errorTooltip])
+
+  // ---- Execution state ---------------------------------------------------
+
+  const [isRunning, setIsRunning] = useState(false)
+  const [runError, setRunError] = useState<string | null>(null)
+  const [successMessage, setSuccessMessage] = useState<string | null>(null)
+  const [hitlCheckpoint, setHitlCheckpoint] = useState<HitlCheckpoint | null>(null)
+  const [hitlResponse, setHitlResponse] = useState('')
+  const [hitlSubmitting, setHitlSubmitting] = useState(false)
+
+  // Show success notification, then clear after 4s
+  useEffect(() => {
+    if (!successMessage) return
+    const timer = setTimeout(() => setSuccessMessage(null), 4000)
+    return () => clearTimeout(timer)
+  }, [successMessage])
+
+  const onTerminal = useCallback(
+    (status: string, response: { hitl_checkpoint?: HitlCheckpoint | null }) => {
+      setIsRunning(false)
+      if (status === 'completed') {
+        setSuccessMessage('Pipeline completed successfully.')
+        store.setNodeStatuses({})
+      } else if (status === 'failed') {
+        setRunError('Pipeline run failed. Check node status indicators for details.')
+      } else if (status === 'suspended') {
+        const checkpoint = response.hitl_checkpoint ?? null
+        setHitlCheckpoint(checkpoint)
+      }
+    },
+    [store],
+  )
+
+  useExecutionPolling(store.activeRunId, onTerminal)
+
+  const handleRunPipeline = useCallback(async () => {
+    const pipelineId = store.pipeline?.id
+    if (!pipelineId) {
+      setRunError('No pipeline loaded. Save the pipeline first.')
+      return
+    }
+    setIsRunning(true)
+    setRunError(null)
+    setSuccessMessage(null)
+    setHitlCheckpoint(null)
+    store.setNodeStatuses({})
+
+    try {
+      const res = await apiClient.post<RunPipelineResponse>(
+        `/api/v1/execution/${pipelineId}/run`,
+        {},
+      )
+      store.setActiveRunId(res.run_id)
+    } catch (err) {
+      setIsRunning(false)
+      setRunError(err instanceof Error ? err.message : 'Failed to start pipeline run.')
+    }
+  }, [store])
+
+  const handleHitlSubmit = useCallback(async () => {
+    if (!store.activeRunId) return
+    setHitlSubmitting(true)
+    try {
+      await apiClient.post(`/api/v1/hitl/${store.activeRunId}/respond`, {
+        response: hitlResponse,
+      })
+      setHitlCheckpoint(null)
+      setHitlResponse('')
+      setIsRunning(true)
+      // Restart polling by refreshing activeRunId to trigger hook re-run
+      const runId = store.activeRunId
+      store.setActiveRunId(null)
+      setTimeout(() => store.setActiveRunId(runId), 50)
+    } catch (err) {
+      setRunError(err instanceof Error ? err.message : 'Failed to submit HITL response.')
+    } finally {
+      setHitlSubmitting(false)
+    }
+  }, [store, hitlResponse])
+
   // Ref to debounce rapid isValidConnection calls
   const validationCache = useRef<Map<string, boolean>>(new Map())
 
@@ -357,6 +449,38 @@ function PipelineCanvasInner() {
         />
       </ReactFlow>
 
+      {/* ---- Run Pipeline toolbar button ---- */}
+      <div className="absolute top-3 left-3 z-10 flex items-center gap-2">
+        <button
+          onClick={() => { void handleRunPipeline() }}
+          disabled={isRunning || !store.pipeline?.id}
+          className={`
+            flex items-center gap-1.5 rounded-md px-3 py-1.5 text-sm font-medium shadow
+            transition-colors
+            ${isRunning
+              ? 'cursor-not-allowed bg-blue-400 text-white'
+              : 'bg-blue-600 text-white hover:bg-blue-700 active:bg-blue-800'
+            }
+            disabled:opacity-60
+          `}
+          aria-label="Run pipeline"
+        >
+          {isRunning ? (
+            <>
+              <span className="inline-block h-3 w-3 animate-spin rounded-full border-2 border-white border-t-transparent" />
+              Running…
+            </>
+          ) : (
+            <>
+              <svg className="h-3.5 w-3.5" fill="currentColor" viewBox="0 0 20 20">
+                <path d="M6.3 2.841A1.5 1.5 0 004 4.11V15.89a1.5 1.5 0 002.3 1.269l9.344-5.89a1.5 1.5 0 000-2.538L6.3 2.84z" />
+              </svg>
+              Run Pipeline
+            </>
+          )}
+        </button>
+      </div>
+
       {/* Error tooltip shown when a connection is rejected */}
       {errorTooltip && (
         <div
@@ -365,6 +489,93 @@ function PipelineCanvasInner() {
           aria-live="assertive"
         >
           {errorTooltip}
+        </div>
+      )}
+
+      {/* Run error notification */}
+      {runError && (
+        <div
+          className="absolute bottom-4 left-1/2 -translate-x-1/2 z-20 flex items-center gap-2 rounded-md bg-red-600 px-4 py-2 text-sm font-medium text-white shadow-lg"
+          role="alert"
+        >
+          <svg className="h-4 w-4 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+            <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
+          </svg>
+          {runError}
+          <button
+            className="ml-2 opacity-75 hover:opacity-100"
+            onClick={() => setRunError(null)}
+            aria-label="Dismiss error"
+          >
+            ×
+          </button>
+        </div>
+      )}
+
+      {/* Success notification */}
+      {successMessage && (
+        <div
+          className="pointer-events-none absolute bottom-4 left-1/2 -translate-x-1/2 z-20 flex items-center gap-2 rounded-md bg-green-600 px-4 py-2 text-sm font-medium text-white shadow-lg"
+          role="status"
+          aria-live="polite"
+        >
+          <svg className="h-4 w-4 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={3}>
+            <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
+          </svg>
+          {successMessage}
+        </div>
+      )}
+
+      {/* HITL review modal */}
+      {hitlCheckpoint && (
+        <div
+          className="absolute inset-0 z-30 flex items-center justify-center bg-black/40"
+          role="dialog"
+          aria-modal="true"
+          aria-labelledby="hitl-modal-title"
+        >
+          <div className="w-full max-w-md rounded-xl bg-white dark:bg-gray-800 p-6 shadow-2xl">
+            <h2 id="hitl-modal-title" className="text-base font-semibold text-gray-900 dark:text-gray-100 mb-1">
+              Human Review Required
+            </h2>
+            {hitlCheckpoint.message && (
+              <p className="text-sm text-gray-600 dark:text-gray-300 mb-3">
+                {hitlCheckpoint.message}
+              </p>
+            )}
+            {hitlCheckpoint.data !== undefined && (
+              <pre className="mb-3 max-h-40 overflow-auto rounded-md bg-gray-100 dark:bg-gray-900 p-3 text-xs text-gray-700 dark:text-gray-300">
+                {JSON.stringify(hitlCheckpoint.data, null, 2)}
+              </pre>
+            )}
+            <label htmlFor="hitl-response" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+              Your response
+            </label>
+            <textarea
+              id="hitl-response"
+              className="w-full rounded-md border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 px-3 py-2 text-sm text-gray-900 dark:text-gray-100 focus:outline-none focus:ring-2 focus:ring-blue-500 resize-none"
+              rows={4}
+              value={hitlResponse}
+              onChange={(e) => setHitlResponse(e.target.value)}
+              placeholder="Enter your review or approval…"
+            />
+            <div className="mt-3 flex justify-end gap-2">
+              <button
+                className="rounded-md px-3 py-1.5 text-sm font-medium text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700"
+                onClick={() => setHitlCheckpoint(null)}
+                disabled={hitlSubmitting}
+              >
+                Dismiss
+              </button>
+              <button
+                className="rounded-md bg-blue-600 px-4 py-1.5 text-sm font-medium text-white hover:bg-blue-700 disabled:opacity-60"
+                onClick={() => { void handleHitlSubmit() }}
+                disabled={hitlSubmitting || hitlResponse.trim() === ''}
+              >
+                {hitlSubmitting ? 'Submitting…' : 'Submit'}
+              </button>
+            </div>
+          </div>
         </div>
       )}
     </div>
