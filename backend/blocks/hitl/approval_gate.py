@@ -2,27 +2,32 @@
 
 from typing import Any
 
+from blocks._llm_client import BlockExecutionError, HITLSuspendSignal
 from blocks.base import HITLBase
 
 
 class ApprovalGate(HITLBase):
-    """Suspends pipeline execution and presents data for human approval or rejection."""
+    """Human approval checkpoint. Pauses pipeline execution and presents data for human review.
+
+    Reviewer can approve, reject, or modify data before continuing.
+    """
 
     @property
     def input_schemas(self) -> list[str]:
-        return ["respondent_collection"]
+        return ["generic_blob"]
 
     @property
     def output_schemas(self) -> list[str]:
-        return ["respondent_collection"]
+        return ["generic_blob"]
 
     @property
     def config_schema(self) -> dict:
         return {
             "type": "object",
             "properties": {
-                "review_message": {
+                "prompt_text": {
                     "type": "string",
+                    "default": "Please review and approve the following data",
                     "description": "Message displayed to the human reviewer",
                 },
                 "require_comment": {
@@ -30,67 +35,162 @@ class ApprovalGate(HITLBase):
                     "default": False,
                     "description": "Whether a comment is required on approval/rejection",
                 },
+                "allow_modification": {
+                    "type": "boolean",
+                    "default": False,
+                    "description": "Whether the reviewer can modify the data before approval",
+                },
             },
-            "required": ["review_message"],
         }
 
     @property
     def description(self) -> str:
-        return "Suspends execution to present respondent data for human approval or rejection."
+        return "Human approval checkpoint. Pauses pipeline execution and presents data for human review. Reviewer can approve, reject, or modify data before continuing."
 
     def validate_config(self, config: dict) -> bool:
-        if not isinstance(config.get("review_message"), str):
+        """Validate the configuration.
+
+        Args:
+            config: Configuration dictionary
+
+        Returns:
+            True if config is valid
+        """
+        prompt_text = config.get("prompt_text", "")
+        if not isinstance(prompt_text, str):
             return False
-        return bool(config["review_message"].strip())
+
+        require_comment = config.get("require_comment", False)
+        if not isinstance(require_comment, bool):
+            return False
+
+        allow_modification = config.get("allow_modification", False)
+        return isinstance(allow_modification, bool)
 
     def render_checkpoint(self, inputs: dict[str, Any]) -> dict:
+        """Prepare data to present to the human reviewer.
+
+        Args:
+            inputs: Input data from previous blocks
+
+        Returns:
+            Dictionary containing prompt, data, and config flags
+        """
+        config = inputs.get("_config", {})
         return {
-            "review_message": "Please review the following data before proceeding.",
-            "data": inputs.get("respondent_collection", {}),
-            "actions": ["approve", "reject"],
+            "prompt": config.get("prompt_text", "Please review and approve the following data"),
+            "data": inputs,
+            "require_comment": config.get("require_comment", False),
+            "allow_modification": config.get("allow_modification", False),
         }
 
-    def process_response(self, human_input: dict) -> dict[str, Any]:
-        decision = human_input.get("decision", "reject")
-        if decision == "approve":
-            return {
-                "respondent_collection": human_input.get("data", {}),
-            }
-        # On rejection, return empty collection
-        return {"respondent_collection": {"rows": []}}
+    def process_response(
+        self, human_input: dict, original_inputs: dict[str, Any], config: dict
+    ) -> dict[str, Any]:
+        """Handle the human's response and produce the block's output.
 
-    async def execute(self, inputs: dict[str, Any], config: dict) -> dict[str, Any]:  # noqa: F841 — base contract requires config param
-        # In normal execution, this would suspend and wait for HITL response.
-        # For non-HITL execution paths, pass through the data unchanged.
-        return {"respondent_collection": inputs["respondent_collection"]}
+        Args:
+            human_input: Human's response with approved, comment, and optional modified_data
+            original_inputs: Original input data
+            config: Block configuration
+
+        Returns:
+            Output data dictionary
+
+        Raises:
+            BlockExecutionError: If approval is rejected or validation fails
+        """
+        approved = human_input.get("approved")
+        if not isinstance(approved, bool):
+            raise BlockExecutionError("Response must include 'approved' boolean field")
+
+        comment = human_input.get("comment", "")
+        modified_data = human_input.get("modified_data")
+
+        # Check comment requirement
+        require_comment = config.get("require_comment", False)
+        if require_comment and not comment:
+            raise BlockExecutionError("Comment is required when require_comment is true")
+
+        # Handle rejection
+        if not approved:
+            reason = comment or "No reason provided"
+            raise BlockExecutionError(f"Approval rejected: {reason}")
+
+        # Handle approval with modification
+        allow_modification = config.get("allow_modification", False)
+        if allow_modification and modified_data is not None:
+            if not isinstance(modified_data, dict):
+                raise BlockExecutionError("modified_data must be a dictionary")
+            return {"generic_blob": modified_data}
+
+        # Handle simple approval - pass through original data
+        return {"generic_blob": original_inputs.get("generic_blob", {})}
+
+    async def execute(self, inputs: dict[str, Any], config: dict) -> dict[str, Any]:
+        """Execute this block.
+
+        Args:
+            inputs: Input data dictionary
+            config: Block configuration
+
+        Raises:
+            HITLSuspendSignal: Always raises to signal execution should suspend
+        """
+        # Inject config into inputs for render_checkpoint
+        inputs_with_config = {**inputs, "_config": config}
+
+        checkpoint = self.render_checkpoint(inputs_with_config)
+        raise HITLSuspendSignal(checkpoint_data=checkpoint)
 
     def test_fixtures(self) -> dict:
+        """Provide sample inputs, config, and expected outputs for contract tests."""
         return {
             "config": {
-                "review_message": "Please verify these respondents are valid.",
-                "require_comment": True,
+                "prompt_text": "Please review this data before proceeding",
+                "require_comment": False,
+                "allow_modification": False,
             },
             "inputs": {
-                "respondent_collection": {
-                    "rows": [{"name": "Alice", "age": "30"}],
-                },
+                "generic_blob": {"key": "value", "items": [1, 2, 3]},
             },
             "expected_output": {
-                "respondent_collection": {
-                    "rows": [{"name": "Alice", "age": "30"}],
-                },
+                "generic_blob": {"key": "value", "items": [1, 2, 3]},
             },
             "expected_checkpoint": {
-                "review_message": "Please review the following data before proceeding.",
-                "data": {"rows": [{"name": "Alice", "age": "30"}]},
-                "actions": ["approve", "reject"],
-            },
-            "expected_approve_output": {
-                "respondent_collection": {
-                    "rows": [{"name": "Alice", "age": "30"}],
+                "prompt": "Please review this data before proceeding",
+                "data": {
+                    "generic_blob": {"key": "value", "items": [1, 2, 3]},
+                    "_config": {
+                        "prompt_text": "Please review this data before proceeding",
+                        "require_comment": False,
+                        "allow_modification": False,
+                    },
                 },
+                "require_comment": False,
+                "allow_modification": False,
             },
-            "expected_reject_output": {
-                "respondent_collection": {"rows": []},
+            "test_approve_response": {
+                "approved": True,
+                "comment": "Looks good!",
+            },
+            "test_reject_response": {
+                "approved": False,
+                "comment": "Data is incorrect",
+            },
+            "test_modify_response": {
+                "approved": True,
+                "comment": "Made some corrections",
+                "modified_data": {"key": "modified_value", "items": [4, 5, 6]},
+            },
+            "config_with_require_comment": {
+                "prompt_text": "Please review",
+                "require_comment": True,
+                "allow_modification": False,
+            },
+            "config_with_allow_modification": {
+                "prompt_text": "Please review",
+                "require_comment": False,
+                "allow_modification": True,
             },
         }

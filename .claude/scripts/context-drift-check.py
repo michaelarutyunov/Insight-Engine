@@ -291,7 +291,9 @@ def main() -> int:
         print(f"\n{len(warnings)} warning(s), 0 errors.")
         return 1 if args.strict else 0
 
-    print(f"\n{len(warnings)} warning(s), {len(errors)} error(s). Fix errors before proceeding.")
+    print(
+        f"\n{len(warnings)} warning(s), {len(errors)} error(s). Fix errors before proceeding."
+    )
     return 1
 
 

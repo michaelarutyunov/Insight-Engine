@@ -6,7 +6,7 @@ Visual pipeline IDE for insights professionals. Research workflows as node-and-e
 
 The platform lets researchers build, save, version, share, and reuse research designs. Three interaction modes — visual canvas, CLI, chat panel — all operate on the same underlying API and data structures.
 
-**Current phase: Phase 1** (graph editor with backend skeleton)
+**Current phase: Phase 2** (execution engine)
 
 ---
 
@@ -100,6 +100,17 @@ The platform lets researchers build, save, version, share, and reuse research de
 
 When uncertain which agent to use: check this table first.
 When exploring unfamiliar code: consult the relevant context doc before making changes.
+
+**Context docs to load on demand:**
+
+| Topic | File | Load When |
+|---|---|---|
+| Pipeline definition schema | `.claude/context/pipeline-schema.md` | Modifying serialization, validation, or CRUD |
+| Block contracts & base classes | `.claude/context/block-contracts.md` | Implementing or modifying any block |
+| Execution engine | `.claude/context/execution-engine.md` | Modifying graph walker, layers, or state machine |
+| HITL state machine | `.claude/context/hitl-state-machine.md` | Modifying HITL blocks or suspend/resume flow |
+| Edge type system | `.claude/context/edge-type-system.md` | Adding data types or modifying validation |
+| React Flow patterns | `.claude/context/react-flow-patterns.md` | Modifying canvas components |
 
 ---
 

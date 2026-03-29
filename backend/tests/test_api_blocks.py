@@ -36,12 +36,16 @@ def client():
 
 EXPECTED_BLOCKS = {
     ("source", "csv_source"),
+    ("source", "csv_loader"),
     ("transform", "filter_transform"),
+    ("transform", "segmentation_kmeans"),
     ("generation", "llm_generation"),
     ("evaluation", "rubric_evaluation"),
+    ("evaluation", "concept_evaluator"),
     ("comparator", "side_by_side_comparator"),
     ("llm_flex", "prompt_flex"),
     ("router", "conditional_router"),
+    ("router", "threshold_router"),
     ("hitl", "approval_gate"),
     ("reporting", "markdown_report"),
     ("sink", "json_sink"),
@@ -66,7 +70,7 @@ async def test_list_blocks_returns_list(client):
 
 
 @pytest.mark.asyncio
-async def test_list_blocks_returns_all_ten_implementations(client):
+async def test_list_blocks_returns_all_implementations(client):
     response = await client.get("/api/v1/blocks")
     data = response.json()
 
@@ -164,3 +168,74 @@ async def test_get_block_evaluation_has_multiple_inputs(client):
     data = response.json()
     assert set(data["input_schemas"]) == {"text_corpus", "concept_brief_set"}
     assert data["output_schemas"] == ["evaluation_set"]
+
+
+# ---------------------------------------------------------------------------
+# GET /api/v1/blocks?type={block_type} — filter by type
+# ---------------------------------------------------------------------------
+
+
+@pytest.mark.asyncio
+async def test_list_blocks_no_filter_returns_all(client):
+    """Test that omitting type parameter returns all blocks."""
+    response = await client.get("/api/v1/blocks")
+    assert response.status_code == HTTPStatus.OK
+
+    data = response.json()
+    returned_keys = {(b["block_type"], b["block_implementation"]) for b in data}
+    assert returned_keys == EXPECTED_BLOCKS
+
+
+@pytest.mark.asyncio
+async def test_list_blocks_filter_by_type_transform(client):
+    """Test filtering blocks by type=transform."""
+    response = await client.get("/api/v1/blocks?type=transform")
+    assert response.status_code == HTTPStatus.OK
+
+    data = response.json()
+    assert all(b["block_type"] == "transform" for b in data)
+    assert any(b["block_implementation"] == "filter_transform" for b in data)
+
+
+@pytest.mark.asyncio
+async def test_list_blocks_filter_by_type_source(client):
+    """Test filtering blocks by type=source."""
+    response = await client.get("/api/v1/blocks?type=source")
+    assert response.status_code == HTTPStatus.OK
+
+    data = response.json()
+    assert all(b["block_type"] == "source" for b in data)
+    assert len(data) == 2
+    impls = {b["block_implementation"] for b in data}
+    assert impls == {"csv_source", "csv_loader"}
+
+
+@pytest.mark.asyncio
+async def test_list_blocks_filter_by_type_generation(client):
+    """Test filtering blocks by type=generation."""
+    response = await client.get("/api/v1/blocks?type=generation")
+    assert response.status_code == HTTPStatus.OK
+
+    data = response.json()
+    assert all(b["block_type"] == "generation" for b in data)
+    assert any(b["block_implementation"] == "llm_generation" for b in data)
+
+
+@pytest.mark.asyncio
+async def test_list_blocks_filter_by_type_invalid(client):
+    """Test filtering by a type that has no blocks returns empty list."""
+    response = await client.get("/api/v1/blocks?type=nonexistent")
+    assert response.status_code == HTTPStatus.OK
+
+    data = response.json()
+    assert data == []
+
+
+@pytest.mark.asyncio
+async def test_list_blocks_filter_case_sensitive(client):
+    """Test that type filter is case-sensitive."""
+    response = await client.get("/api/v1/blocks?type=Transform")
+    assert response.status_code == HTTPStatus.OK
+
+    data = response.json()
+    assert data == []

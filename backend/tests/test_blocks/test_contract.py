@@ -15,6 +15,7 @@ import pytest
 
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent.parent))
 
+from blocks._llm_client import BlockExecutionError  # noqa: E402
 from blocks.base import (  # noqa: E402
     BlockBase,
     ComparatorBase,
@@ -127,16 +128,31 @@ class TestBlockContracts:
         assert len(block.description) > 0
 
     def test_execute_returns_declared_outputs(self, block_cls: type[BlockBase]) -> None:
+        from blocks._llm_client import HITLSuspendSignal
+
         block = block_cls()
         fixtures = block.test_fixtures()
-        result = _run(block.execute(fixtures["inputs"], fixtures["config"]))
-        assert isinstance(result, dict)
-        for port in block.output_schemas:
-            assert port in result, f"Missing output port: {port}"
+
+        # HITL blocks raise HITLSuspendSignal instead of returning output
+        if isinstance(block, HITLBase):
+            with pytest.raises(HITLSuspendSignal) as exc_info:
+                _run(block.execute(fixtures["inputs"], fixtures["config"]))
+            # Verify checkpoint data is present
+            assert hasattr(exc_info.value, "checkpoint_data")
+            assert isinstance(exc_info.value.checkpoint_data, dict)
+        else:
+            result = _run(block.execute(fixtures["inputs"], fixtures["config"]))
+            assert isinstance(result, dict)
+            for port in block.output_schemas:
+                assert port in result, f"Missing output port: {port}"
 
     def test_validate_config_rejects_empty(self, block_cls: type[BlockBase]) -> None:
         block = block_cls()
-        assert block.validate_config({}) is False
+        # ApprovalGate accepts empty config because all fields have defaults
+        if block_cls.__name__ == "ApprovalGate":
+            assert block.validate_config({}) is True
+        else:
+            assert block.validate_config({}) is False
 
 
 # ---------------------------------------------------------------------------
@@ -214,24 +230,23 @@ class TestApprovalGate:
     def test_render_checkpoint(self) -> None:
         block = ApprovalGate()
         fixtures = block.test_fixtures()
-        checkpoint = block.render_checkpoint(fixtures["inputs"])
+        inputs_with_config = {**fixtures["inputs"], "_config": fixtures["config"]}
+        checkpoint = block.render_checkpoint(inputs_with_config)
         assert checkpoint == fixtures["expected_checkpoint"]
 
     def test_process_response_approve(self) -> None:
         block = ApprovalGate()
         fixtures = block.test_fixtures()
-        human_input = {
-            "decision": "approve",
-            "data": fixtures["inputs"]["respondent_collection"],
-        }
-        result = block.process_response(human_input)
-        assert result == fixtures["expected_approve_output"]
+        human_input = fixtures["test_approve_response"]
+        result = block.process_response(human_input, fixtures["inputs"], fixtures["config"])
+        assert result == fixtures["expected_output"]
 
     def test_process_response_reject(self) -> None:
         block = ApprovalGate()
-        human_input = {"decision": "reject"}
-        result = block.process_response(human_input)
-        assert result == {"respondent_collection": {"rows": []}}
+        fixtures = block.test_fixtures()
+        human_input = fixtures["test_reject_response"]
+        with pytest.raises(BlockExecutionError):
+            block.process_response(human_input, fixtures["inputs"], fixtures["config"])
 
 
 class TestMarkdownReport:
