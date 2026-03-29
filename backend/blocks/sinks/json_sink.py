@@ -3,6 +3,7 @@
 from typing import Any
 
 from blocks.base import SinkBase
+from schemas.data_objects import DATA_TYPES
 
 
 class JSONSink(SinkBase):
@@ -10,7 +11,7 @@ class JSONSink(SinkBase):
 
     @property
     def input_schemas(self) -> list[str]:
-        return ["evaluation_set"]
+        return sorted(DATA_TYPES)
 
     @property
     def config_schema(self) -> dict:
@@ -32,7 +33,7 @@ class JSONSink(SinkBase):
 
     @property
     def description(self) -> str:
-        return "Persists evaluation_set input as a named JSON artifact. Terminal block with no outputs."
+        return "Persists pipeline output as a named JSON artifact. Terminal block with no outputs."
 
     def validate_config(self, config: dict) -> bool:
         if not isinstance(config.get("output_key"), str):
@@ -40,9 +41,13 @@ class JSONSink(SinkBase):
         return bool(config["output_key"].strip())
 
     async def execute(self, inputs: dict[str, Any], config: dict) -> dict[str, Any]:
+        # Find the actual data key (skip internal keys that start with "_")
+        data_key = next((k for k in inputs if not k.startswith("_")), None)
+        if data_key is None:
+            return {}
         # Sink blocks have no output schemas, so return empty dict.
         # In production, this would persist to storage.
-        _ = inputs["evaluation_set"]
+        _ = inputs[data_key]
         _ = config["output_key"]
         return {}
 

@@ -87,10 +87,8 @@ class TestValidateConnection:
         valid, reason = validator.validate_connection(
             source_block_type="source",
             source_block_implementation="csv_loader",
-            source_port="respondent_collection",
             target_block_type="transform",
             target_block_implementation="filter_rows",
-            target_port="respondent_collection",
             data_type="respondent_collection",
         )
         assert valid is True
@@ -101,10 +99,8 @@ class TestValidateConnection:
         valid, reason = validator.validate_connection(
             source_block_type="source",
             source_block_implementation="nonexistent",
-            source_port="respondent_collection",
             target_block_type="transform",
             target_block_implementation="filter_rows",
-            target_port="respondent_collection",
             data_type="respondent_collection",
         )
         assert valid is False
@@ -117,10 +113,8 @@ class TestValidateConnection:
         valid, reason = validator.validate_connection(
             source_block_type="source",
             source_block_implementation="csv_loader",
-            source_port="respondent_collection",
             target_block_type="transform",
             target_block_implementation="nonexistent",
-            target_port="respondent_collection",
             data_type="respondent_collection",
         )
         assert valid is False
@@ -133,10 +127,8 @@ class TestValidateConnection:
         valid, reason = validator.validate_connection(
             source_block_type="source",
             source_block_implementation="csv_loader",
-            source_port="text_corpus",
             target_block_type="transform",
             target_block_implementation="filter_rows",
-            target_port="text_corpus",
             data_type="text_corpus",
         )
         assert valid is False
@@ -148,44 +140,12 @@ class TestValidateConnection:
         valid, reason = validator.validate_connection(
             source_block_type="source",
             source_block_implementation="text_loader",
-            source_port="text_corpus",
             target_block_type="sink",
             target_block_implementation="json_export",
-            target_port="text_corpus",
             data_type="text_corpus",
         )
         assert valid is False
         assert isinstance(reason, str) and "not in target block's input_schemas" in reason
-
-    @patch.object(validator, "get_block_info", side_effect=_mock_get_block_info)
-    def test_data_type_mismatch_with_source_port(self, _mock_info) -> None:
-        valid, reason = validator.validate_connection(
-            source_block_type="source",
-            source_block_implementation="csv_loader",
-            source_port="wrong_port",
-            target_block_type="transform",
-            target_block_implementation="filter_rows",
-            target_port="respondent_collection",
-            data_type="respondent_collection",
-        )
-        assert valid is False
-        assert reason is not None
-        assert "source_port" in reason
-
-    @patch.object(validator, "get_block_info", side_effect=_mock_get_block_info)
-    def test_data_type_mismatch_with_target_port(self, _mock_info) -> None:
-        valid, reason = validator.validate_connection(
-            source_block_type="source",
-            source_block_implementation="csv_loader",
-            source_port="respondent_collection",
-            target_block_type="transform",
-            target_block_implementation="filter_rows",
-            target_port="wrong_port",
-            data_type="respondent_collection",
-        )
-        assert valid is False
-        assert reason is not None
-        assert "target_port" in reason
 
 
 # ---------------------------------------------------------------------------

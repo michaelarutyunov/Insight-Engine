@@ -84,10 +84,8 @@ async def validate_connection_endpoint(
     valid, reason = validate_connection(
         source_block_type=body.source_block_type,
         source_block_implementation=body.source_block_implementation,
-        source_port=body.source_port,
         target_block_type=body.target_block_type,
         target_block_implementation=body.target_block_implementation,
-        target_port=body.target_port,
         data_type=body.data_type,
     )
     return ConnectionValidationResponse(valid=valid, reason=reason)

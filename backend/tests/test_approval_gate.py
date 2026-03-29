@@ -4,6 +4,7 @@ import pytest
 
 from blocks._llm_client import BlockExecutionError, HITLSuspendSignal
 from blocks.hitl.approval_gate import ApprovalGate
+from schemas.data_objects import DATA_TYPES
 
 
 class TestApprovalGate:
@@ -15,14 +16,14 @@ class TestApprovalGate:
         assert block.block_type == "hitl"
 
     def test_input_schemas(self) -> None:
-        """Test that input_schemas is ['generic_blob']."""
+        """Test that input_schemas includes all data types."""
         block = ApprovalGate()
-        assert block.input_schemas == ["generic_blob"]
+        assert block.input_schemas == sorted(DATA_TYPES)
 
     def test_output_schemas(self) -> None:
-        """Test that output_schemas is ['generic_blob']."""
+        """Test that output_schemas includes all data types."""
         block = ApprovalGate()
-        assert block.output_schemas == ["generic_blob"]
+        assert block.output_schemas == sorted(DATA_TYPES)
 
     def test_config_schema(self) -> None:
         """Test that config_schema has correct structure."""

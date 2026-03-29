@@ -34,19 +34,16 @@ def client():
 def _body(
     source_type="source",
     source_impl="csv_source",
-    source_port="respondent_collection",
     target_type="transform",
     target_impl="filter_transform",
-    target_port="respondent_collection",
     data_type="respondent_collection",
+    **kwargs,
 ) -> dict:
     return {
         "source_block_type": source_type,
         "source_block_implementation": source_impl,
-        "source_port": source_port,
         "target_block_type": target_type,
         "target_block_implementation": target_impl,
-        "target_port": target_port,
         "data_type": data_type,
     }
 
@@ -184,6 +181,7 @@ async def test_invalid_connection_wrong_data_type(client):
     response = await client.post(
         "/api/v1/pipelines/validate-connection",
         json=_body(
+            source_port="evaluation_set",
             target_type="comparator",
             target_impl="side_by_side_comparator",
             target_port="evaluation_set",
@@ -199,14 +197,17 @@ async def test_invalid_connection_wrong_data_type(client):
 
 @pytest.mark.asyncio
 async def test_invalid_connection_data_type_not_in_target_inputs(client):
-    """csv_source produces respondent_collection, but json_sink only accepts evaluation_set."""
+    """llm_generation produces text_corpus, but filter_transform only accepts respondent_collection."""
     response = await client.post(
         "/api/v1/pipelines/validate-connection",
         json=_body(
-            target_type="sink",
-            target_impl="json_sink",
-            target_port="respondent_collection",
-            data_type="respondent_collection",
+            source_type="generation",
+            source_impl="llm_generation",
+            source_port="text_corpus",
+            target_type="transform",
+            target_impl="filter_transform",
+            target_port="text_corpus",
+            data_type="text_corpus",
         ),
     )
     assert response.status_code == HTTPStatus.OK
@@ -251,39 +252,6 @@ async def test_invalid_connection_target_block_not_found(client):
     data = response.json()
     assert data["valid"] is False
     assert "not found in registry" in data["reason"]
-
-
-# ---------------------------------------------------------------------------
-# Invalid connections — port mismatch
-# ---------------------------------------------------------------------------
-
-
-@pytest.mark.asyncio
-async def test_invalid_connection_source_port_mismatch(client):
-    """source_port does not match data_type."""
-    response = await client.post(
-        "/api/v1/pipelines/validate-connection",
-        json=_body(source_port="wrong_port"),
-    )
-    assert response.status_code == HTTPStatus.OK
-
-    data = response.json()
-    assert data["valid"] is False
-    assert "source_port" in data["reason"]
-
-
-@pytest.mark.asyncio
-async def test_invalid_connection_target_port_mismatch(client):
-    """target_port does not match data_type."""
-    response = await client.post(
-        "/api/v1/pipelines/validate-connection",
-        json=_body(target_port="wrong_port"),
-    )
-    assert response.status_code == HTTPStatus.OK
-
-    data = response.json()
-    assert data["valid"] is False
-    assert "target_port" in data["reason"]
 
 
 # ---------------------------------------------------------------------------

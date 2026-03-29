@@ -4,6 +4,7 @@ from typing import Any
 
 from blocks._llm_client import BlockExecutionError, HITLSuspendSignal
 from blocks.base import HITLBase
+from schemas.data_objects import DATA_TYPES
 
 
 class ApprovalGate(HITLBase):
@@ -14,11 +15,11 @@ class ApprovalGate(HITLBase):
 
     @property
     def input_schemas(self) -> list[str]:
-        return ["generic_blob"]
+        return sorted(DATA_TYPES)
 
     @property
     def output_schemas(self) -> list[str]:
-        return ["generic_blob"]
+        return sorted(DATA_TYPES)
 
     @property
     def config_schema(self) -> dict:
@@ -117,15 +118,21 @@ class ApprovalGate(HITLBase):
             reason = comment or "No reason provided"
             raise BlockExecutionError(f"Approval rejected: {reason}")
 
+        # Find the actual data key (skip internal keys like _config, _execution_context)
+        data_key = next(
+            (k for k in original_inputs if not k.startswith("_")),
+            "generic_blob",
+        )
+
         # Handle approval with modification
         allow_modification = config.get("allow_modification", False)
         if allow_modification and modified_data is not None:
             if not isinstance(modified_data, dict):
                 raise BlockExecutionError("modified_data must be a dictionary")
-            return {"generic_blob": modified_data}
+            return {data_key: modified_data}
 
         # Handle simple approval - pass through original data
-        return {"generic_blob": original_inputs.get("generic_blob", {})}
+        return {data_key: original_inputs.get(data_key, {})}
 
     async def execute(self, inputs: dict[str, Any], config: dict) -> dict[str, Any]:
         """Execute this block.

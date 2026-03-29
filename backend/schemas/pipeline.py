@@ -100,10 +100,8 @@ class ConnectionValidationRequest(BaseModel):
 
     source_block_type: str
     source_block_implementation: str
-    source_port: str
     target_block_type: str
     target_block_implementation: str
-    target_port: str
     data_type: str
 
 

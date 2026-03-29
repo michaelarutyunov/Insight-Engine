@@ -69,6 +69,20 @@ Each edge carries exactly one data type. If a node produces output and has 3 out
 
 ---
 
+## Internal Input Keys
+
+The executor injects internal metadata keys into every block's `inputs` dict. These keys are prefixed with `_` to distinguish them from data type keys.
+
+| Key | Value | Injected by |
+|---|---|---|
+| `_execution_context` | `{run_id, pipeline_id, node_id, timestamp}` | Executor, before every `execute()` call |
+
+**Block implementation rule:** Blocks MUST ignore keys starting with `_` when iterating over inputs. Use `next(k for k in inputs if not k.startswith("_"))` to find the actual data key. Blocks that need execution metadata (e.g. JSONSink for `include_metadata`) can read `_execution_context` explicitly.
+
+**Engine invariant:** The executor always injects `_execution_context` before calling `execute()`. Blocks can rely on its presence but must not require it in `input_schemas`.
+
+---
+
 ## Router Handling
 
 After a Router block executes:

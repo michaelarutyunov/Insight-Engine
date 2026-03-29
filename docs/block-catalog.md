@@ -161,15 +161,16 @@ Routes based on row count conditions in a `respondent_collection`.
 Suspends execution and persists full pipeline state. Resumes via `POST /api/v1/hitl/{run_id}/respond`.
 
 ### `approval_gate` — ApprovalGate
-Pauses execution and presents data to a human reviewer. Reviewer can approve, reject, or modify.
+Pauses execution and presents data to a human reviewer. Type-passthrough — accepts and outputs any data type. Reviewer can approve, reject, or modify.
 
 | | |
 |---|---|
-| **Inputs** | `generic_blob` |
-| **Outputs** | `generic_blob` |
+| **Inputs** | any type (all vocabulary types accepted) |
+| **Outputs** | same type as input (passthrough) |
 | **Config** | `prompt_text` (message shown to reviewer, default `"Please review and approve..."`), `require_comment` (bool, default `false`), `allow_modification` (bool, default `false`) |
 | **Human response shape** | `{"approved": bool, "comment": str?, "modified_data": any?}` |
 | **Use when** | QA checkpoints, client approval gates, editorial review before downstream steps |
+| **Note** | Dynamically discovers the input data type key at runtime; no need to configure types |
 
 ---
 
@@ -211,14 +212,14 @@ Assembles evaluation results and text documents into a structured Markdown repor
 Terminal blocks. No outgoing edges. Persist final outputs.
 
 ### `json_sink` — JSONSink
-Persists an `evaluation_set` as a named JSON artifact.
+Persists pipeline output as a named JSON artifact. Accepts any data type.
 
 | | |
 |---|---|
-| **Inputs** | `evaluation_set` |
+| **Inputs** | any type (all vocabulary types accepted) |
 | **Outputs** | none |
 | **Config** | `output_key` (artifact name, required), `pretty_print` (bool, default `true`) |
-| **Use when** | Persisting final evaluation results for downstream retrieval or export |
+| **Use when** | Persisting final pipeline results for downstream retrieval or export |
 
 ---
 
@@ -228,13 +229,14 @@ Persists an `evaluation_set` as a named JSON artifact.
 ```
 CSVLoader → FilterTransform → KMeansTransform → JSONSink
 ```
-Load survey CSV → filter to target age group → segment into clusters → persist results.
+Load survey CSV → filter to target age group → segment into clusters → persist results. JSONSink accepts any data type, so this works with `segment_profile_set` directly.
 
 ### Concept test with approval
 ```
-CSVLoader → KMeansTransform → ConceptEvaluation → ApprovalGate → MarkdownReport → JSONSink
+CSVLoader(survey) → KMeansTransform → PersonaGeneration ──→ ConceptEvaluation → ApprovalGate → JSONSink
+CSVLoader(concepts) ──────────────────────────────────────↗
 ```
-Load data → segment → evaluate concepts against personas → human reviews scores → generate report → persist.
+Load survey data → segment → generate personas → evaluate concepts (needs both personas AND concept briefs from a second source) → human reviews scores → persist. Note: ConceptEvaluation requires two inputs (`concept_brief_set` + `persona_set`), so the pipeline has two entry points converging at that node.
 
 ### Conditional re-work loop
 ```

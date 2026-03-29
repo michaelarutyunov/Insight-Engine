@@ -11,10 +11,8 @@ from schemas.pipeline import EdgeSchema, NodeSchema, PipelineSchema
 def validate_connection(
     source_block_type: str,
     source_block_implementation: str,
-    source_port: str,
     target_block_type: str,
     target_block_implementation: str,
-    target_port: str,
     data_type: str,
 ) -> tuple[bool, str | None]:
     """Check whether a single connection is valid.
@@ -23,8 +21,6 @@ def validate_connection(
     1. Both source and target blocks are registered.
     2. ``data_type`` is in the source block's ``output_schemas``.
     3. ``data_type`` is in the target block's ``input_schemas``.
-    4. ``source_port`` matches the data_type on the source side.
-    5. ``target_port`` matches the data_type on the target side.
 
     Returns (valid, reason) where reason is None when valid.
     """
@@ -65,20 +61,6 @@ def validate_connection(
             False,
             f"data_type {data_type!r} is not in target block's input_schemas "
             f"(available: {target_inputs})",
-        )
-
-    # --- source_port must match data_type ---
-    if source_port != data_type:
-        return (
-            False,
-            f"source_port {source_port!r} does not match data_type {data_type!r}",
-        )
-
-    # --- target_port must match data_type ---
-    if target_port != data_type:
-        return (
-            False,
-            f"target_port {target_port!r} does not match data_type {data_type!r}",
         )
 
     return (True, None)
