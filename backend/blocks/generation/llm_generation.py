@@ -40,7 +40,24 @@ class LLMGeneration(GenerationBase):
 
     @property
     def description(self) -> str:
-        return "Generates text content from respondent data using an LLM prompt template."
+        return "Generates qualitative text content (concepts, narratives, themes) from structured respondent data using a language model prompt template. Use this block when you need LLM-powered synthesis, creative ideation, or open-ended interpretation that requires semantic understanding beyond deterministic transformation rules."
+
+    @property
+    def methodological_notes(self) -> str:
+        return "Assumes availability of configured LLM API and prompt engineering expertise. Non-deterministic by design — outputs vary with temperature, seed, and model version; track these parameters for reproducibility. Token limits may constrain input size or truncate outputs; consider chunking large respondent collections. Quality depends heavily on prompt template design — include clear instructions, examples, and output format specifications. Deterministic transform blocks are preferable for structured calculations or rule-based processing."
+
+    @property
+    def tags(self) -> list[str]:
+        return [
+            "llm",
+            "generation",
+            "text",
+            "qualitative",
+            "prompt-based",
+            "non-deterministic",
+            "concepts",
+            "narratives",
+        ]
 
     def validate_config(self, config: dict) -> bool:
         if not isinstance(config.get("prompt_template"), str):

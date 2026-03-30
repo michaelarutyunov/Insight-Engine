@@ -16,7 +16,7 @@ The platform lets researchers build, save, version, share, and reuse research de
 - **BLOCK CONTRACTS**: All blocks implement BlockBase. Block type (abstract category) and block implementation (concrete class) are separate. `input_schemas` and `output_schemas` declare what connects to what.
 - **TYPED EDGES**: Data flowing between blocks has a declared type identifier. The validator rejects connections where edge `data_type` is not in both source's `output_schemas` and target's `input_schemas`.
 - **PIPELINE JSON IS THE ARTIFACT**: The pipeline definition schema is the most important data structure. It gets saved, versioned, shared, and eventually sold. Design it to be LLM-readable, LLM-writable, and schema-stable.
-- **BLOCKS ARE INDEPENDENT**: Block implementations must not import from other block implementations. All shared base classes live in `blocks/base.py`.
+- **BLOCKS ARE INDEPENDENT**: Block implementations must not import from other block implementations. All shared base classes live in `blocks/base.py`. Shared mixins (e.g. `IntegrationMixin`) live in `blocks/integration.py`.
 
 ---
 
@@ -54,12 +54,13 @@ The platform lets researchers build, save, version, share, and reuse research de
 
 ---
 
-## Block Types (10 base types)
+## Block Types (11 base types)
 
 | Type        | Inputs        | Outputs  | Key Behavior                                               |
 |-------------|---------------|----------|------------------------------------------------------------|
 | Source      | none          | data     | Entry point; execution starts here; no incoming edges      |
 | Transform   | data          | data     | Deterministic, cacheable; same input → same output         |
+| Analysis    | data          | segment_profile_set etc | Question-driven; produces structurally new output type |
 | Generation  | data          | content  | Non-deterministic (LLM); version and seed tracking matter  |
 | Evaluation  | 2+ (subject + criteria) | assess | Judges subject against criteria; requires multiple input types |
 | Comparator  | N same-type   | compare  | Sync point; waits for all parallel branches to complete    |
@@ -119,6 +120,8 @@ When exploring unfamiliar code: consult the relevant context doc before making c
 | File                                    | Role                                                  |
 |-----------------------------------------|-------------------------------------------------------|
 | `backend/blocks/base.py`                | All block base classes and contracts                  |
+| `backend/blocks/integration.py`         | IntegrationMixin for external service blocks          |
+| `backend/blocks/analysis/`              | Analysis block implementations (question-driven)      |
 | `backend/engine/executor.py`            | Graph walker — the core execution loop                |
 | `backend/engine/validator.py`           | Edge type checking, pipeline integrity validation     |
 | `backend/engine/state.py`               | HITL suspend/resume state persistence                 |

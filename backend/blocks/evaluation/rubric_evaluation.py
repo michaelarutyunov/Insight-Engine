@@ -38,7 +38,43 @@ class RubricEvaluation(EvaluationBase):
 
     @property
     def description(self) -> str:
-        return "Evaluates text_corpus subjects against concept_brief criteria to produce scored assessments."
+        return (
+            "Scores text documents against a predefined rubric of evaluation criteria. "
+            "Use when you need to assess subjects against consistent, structured standards "
+            "with numeric scoring. Supports binary pass/fail, 5-point, or 10-point scales."
+        )
+
+    @property
+    def methodological_notes(self) -> str:
+        return (
+            "ASSUMPTIONS: Rubric criteria are predefined and consistently applied across all subjects. "
+            "Scoring scales are ordinal—intervals between scores may not be equal in meaning. "
+            "The current implementation assigns placeholder scores; production use requires LLM integration "
+            "or domain-specific scoring logic to meaningfully evaluate subjects against criteria.\n\n"
+            "DATA REQUIREMENTS: text_corpus input with 'documents' key (list of text strings) or "
+            "concept_brief_set with criteria definitions. Criteria names must match evaluation dimensions "
+            "you intend to score. For meaningful evaluation, documents should contain sufficient content "
+            "to assess against each criterion.\n\n"
+            "LIMITATIONS: Placeholder scoring assigns maximum scores to all criteria; this is not "
+            "meaningful evaluation. The block does not handle ambiguous or partial criterion matching— "
+            "each criterion receives a single score. For qualitative feedback or rationale, consider "
+            "LLM-powered evaluation blocks (e.g., ConceptEvaluation). Alternatives: use LLM Flex blocks "
+            "for custom prompt-based evaluation, or ConceptEvaluation for persona-based concept assessment."
+        )
+
+    @property
+    def tags(self) -> list[str]:
+        return [
+            "evaluation",
+            "rubric-scoring",
+            "structured-assessment",
+            "numeric-scores",
+            "text-corpus-input",
+            "concept-brief-input",
+            "criteria-based",
+            "scoring-scales",
+            "multi-criteria",
+        ]
 
     def validate_config(self, config: dict) -> bool:
         if "criteria" not in config or not isinstance(config["criteria"], list):

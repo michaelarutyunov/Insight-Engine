@@ -41,7 +41,39 @@ class PromptFlex(LLMFlexBase):
 
     @property
     def description(self) -> str:
-        return "User-configurable LLM prompt block that transforms text_corpus input into text_corpus output."
+        """Natural language description for the block catalog."""
+        return (
+            "Use this block when you need a custom LLM transformation not covered by purpose-built blocks. "
+            "Provide your own prompt template to transform text_corpus input into text_corpus output. "
+            "Ideal for exploratory analysis, custom extraction tasks, or prototyping new research workflows "
+            "before committing to a specialized block implementation."
+        )
+
+    @property
+    def methodological_notes(self) -> str:
+        """Methodological guidance for block selection and usage."""
+        return (
+            "Assumes LLM API availability and connection. Data requirements: text_corpus input with "
+            "'documents' key (list of text strings or dict with documents key). Output format varies by config: "
+            "plain text, JSON-structured, or bullet-list formatted text_corpus. Limitations: non-deterministic "
+            "output requires version/seed tracking for reproducibility; no built-in validation that LLM response "
+            "matches requested format. Alternatives: use domain-specific Generation blocks (e.g., "
+            "ConceptGenerator, PersonaSynthesizer) for structured, validated outputs."
+        )
+
+    @property
+    def tags(self) -> list[str]:
+        """Searchable tags for catalog filtering."""
+        return [
+            "llm",
+            "flexible",
+            "text_transformation",
+            "custom_prompt",
+            "exploratory",
+            "prototyping",
+            "text_corpus_in",
+            "text_corpus_out",
+        ]
 
     def validate_config(self, config: dict) -> bool:
         if not isinstance(config.get("user_prompt_template"), str):

@@ -65,6 +65,31 @@ class ThresholdRouter(RouterBase):
             "Use after evaluation blocks to create conditional workflows."
         )
 
+    @property
+    def methodological_notes(self) -> str:
+        return (
+            "Threshold selection requires domain knowledge of the evaluation scale and distribution "
+            "of expected scores. The block assumes scores are numeric and comparable across evaluations. "
+            "Aggregation method (mean, median, min, max) significantly impacts routing behavior: mean "
+            "is sensitive to outliers, median is robust, and min/max enforce worst/best-case criteria. "
+            "For skewed score distributions or small sample sizes, consider using median to avoid outlier-driven "
+            "routing. Limitations: single-metric routing may miss multidimensional quality signals; "
+            "alternatives include percentile-based routing or multi-criteria decision rules."
+        )
+
+    @property
+    def tags(self) -> list[str]:
+        return [
+            "routing",
+            "conditional-logic",
+            "evaluation-filtering",
+            "threshold-gating",
+            "quality-control",
+            "numeric-scores",
+            "aggregation",
+            "evaluation-set-input",
+        ]
+
     def validate_config(self, config: dict) -> bool:
         if "metric" not in config or not isinstance(config["metric"], str):
             return False

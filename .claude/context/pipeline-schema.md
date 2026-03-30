@@ -29,7 +29,7 @@ Pydantic models live in `backend/schemas/pipeline.py`.
 | Field                  | Type          | Required | Description                                               |
 |------------------------|---------------|----------|-----------------------------------------------------------|
 | `node_id`              | UUID string   | yes      | Unique identifier within this pipeline                    |
-| `block_type`           | enum string   | yes      | Abstract category — one of the 10 base types              |
+| `block_type`           | enum string   | yes      | Abstract category — one of the 11 base types              |
 | `block_implementation` | string        | yes      | Concrete implementation key (e.g. `segmentation_kmeans`)  |
 | `label`                | string        | yes      | Display name shown on canvas                              |
 | `position`             | `{x: float, y: float}` | yes | Canvas coordinates; stored with the definition    |
@@ -38,7 +38,7 @@ Pydantic models live in `backend/schemas/pipeline.py`.
 | `output_schema`        | string[]      | yes      | Produced output data type identifiers                     |
 
 ### block_type enum values
-`source` | `transform` | `generation` | `evaluation` | `comparator` | `llm_flex` | `router` | `hitl` | `reporting` | `sink`
+`source` | `transform` | `analysis` | `generation` | `evaluation` | `comparator` | `llm_flex` | `router` | `hitl` | `reporting` | `sink`
 
 ### Type-specific node constraints
 | block_type    | input_schema | output_schema |

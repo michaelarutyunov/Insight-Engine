@@ -39,7 +39,38 @@ class FilterTransform(TransformBase):
 
     @property
     def description(self) -> str:
-        return "Filters respondent_collection rows by a column value using a comparison operator."
+        return (
+            "Filters rows from a respondent_collection based on a column condition "
+            "using comparison operators (equals, not equals, greater than, less than, "
+            "contains). Use when you need to subset respondents by demographic, behavioral, "
+            "or attitudinal criteria before downstream analysis or segmentation."
+        )
+
+    @property
+    def methodological_notes(self) -> str:
+        return (
+            "Operates on respondent_collection data type with row-level filtering. "
+            "All comparison operators cast column values to strings for equality checks "
+            "(eq, neq, contains) and to floats for numeric comparisons (gt, lt, gte, lte). "
+            "This means numeric filters will fail on non-numeric data — consider upstream "
+            "data cleaning or recoding if columns have mixed types. Missing values are "
+            "treated as empty strings or zero, which may produce unexpected results.\n\n"
+            "Filters are applied row-wise; this block does not support aggregation, "
+            "grouping, or multi-column conditions. For complex filtering logic involving "
+            "AND/OR conditions across multiple columns, chain multiple filter_transform "
+            "blocks in series. For conditional routing rather than row subsetting, "
+            "consider using a Router block instead."
+        )
+
+    @property
+    def tags(self) -> list[str]:
+        return [
+            "data-preparation",
+            "row-filtering",
+            "subsetting",
+            "respondent-collection",
+            "deterministic",
+        ]
 
     def validate_config(self, config: dict) -> bool:
         if "column" not in config or not isinstance(config["column"], str):

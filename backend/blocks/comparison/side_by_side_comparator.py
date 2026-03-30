@@ -38,7 +38,24 @@ class SideBySideComparator(ComparatorBase):
 
     @property
     def description(self) -> str:
-        return "Compares multiple evaluation_set inputs from parallel branches and produces a combined comparison."
+        return "Synchronization point that collects multiple evaluation_set inputs from parallel pipeline branches and produces a combined comparison output. Use this block when you need to wait for two or more independent evaluation branches to complete before aggregating, ranking, or diffing their results. Common use cases include comparing alternative concepts against the same criteria, evaluating different segment responses to the same stimulus, or aggregating multi-rater assessments where consistency or disagreement analysis is required."
+
+    @property
+    def methodological_notes(self) -> str:
+        return "Assumes all incoming evaluation_set inputs are structurally comparable — they must evaluate against compatible criteria or score scales. The 'rank' mode assumes numeric scores can be ordered; the 'diff' mode assumes identical subject IDs across branches; the 'aggregate' mode simply concatenates all evaluations. Requires that expected_branches matches the actual number of incoming edges — mismatches will cause execution to hang or fail. For meaningful comparisons, ensure upstream evaluation blocks use consistent scoring schemes and criteria definitions. Alternative: use separate evaluation blocks and a custom reporting block if you need complex cross-tabulation or statistical comparison beyond simple aggregation."
+
+    @property
+    def tags(self) -> list[str]:
+        return [
+            "comparator",
+            "sync",
+            "parallel",
+            "aggregation",
+            "evaluation",
+            "ranking",
+            "multi-branch",
+            "comparison",
+        ]
 
     def validate_config(self, config: dict) -> bool:
         if not isinstance(config.get("expected_branches"), int):

@@ -50,6 +50,27 @@ class CSVLoader(SourceBase):
             "customer records, or any tabular dataset."
         )
 
+    @property
+    def methodological_notes(self) -> str:
+        return (
+            "Assumes well-formed CSV with consistent column structure across all rows. "
+            "All values are read as strings; downstream blocks must handle type conversion "
+            "for numeric or date fields. For large files, consider chunked loading strategies "
+            "or database sources instead of in-memory CSV reading. Missing values are "
+            "represented as empty strings; ensure downstream blocks handle null/empty cases."
+        )
+
+    @property
+    def tags(self) -> list[str]:
+        return [
+            "data_ingestion",
+            "csv",
+            "tabular_data",
+            "survey_data",
+            "respondent_data",
+            "file_source",
+        ]
+
     def validate_config(self, config: dict) -> bool:
         if not isinstance(config.get("file_path"), str):
             return False

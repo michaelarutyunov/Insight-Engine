@@ -1,4 +1,4 @@
-"""K-Means segmentation transform -- clusters respondents into segments."""
+"""K-Means segmentation analysis -- clusters respondents into segments."""
 
 from typing import Any
 
@@ -6,10 +6,10 @@ import numpy as np
 from sklearn.cluster import KMeans
 from sklearn.preprocessing import MinMaxScaler, StandardScaler
 
-from blocks.base import TransformBase
+from blocks.base import AnalysisBase
 
 
-class KMeansTransform(TransformBase):
+class KMeansAnalysis(AnalysisBase):
     """Segments respondents into clusters using K-Means.
 
     Requires numeric features. Output includes cluster assignments and
@@ -59,10 +59,50 @@ class KMeansTransform(TransformBase):
     @property
     def description(self) -> str:
         return (
-            "Segments respondents into clusters using K-Means. "
-            "Requires numeric features. Output includes cluster assignments "
-            "and centroid-based profiles for each segment."
+            "Clusters respondents into segments using the K-Means algorithm. "
+            "Use when you need a simple, interpretable segmentation of respondents "
+            "based on numeric behavioral or attitudinal features. Produces segment "
+            "profiles with centroid-based descriptions suitable for persona development "
+            "or targeting strategies."
         )
+
+    @property
+    def methodological_notes(self) -> str:
+        return (
+            "ASSUMPTIONS: K-Means assumes spherical clusters of roughly equal size "
+            "and variance. It minimizes within-cluster variance using Euclidean "
+            "distance, which works best when clusters are compact and well-separated. "
+            "The algorithm is deterministic only when random_state is fixed; "
+            "different seeds may produce different segment assignments.\n\n"
+            "DATA REQUIREMENTS: All features must be numeric (continuous or discrete). "
+            "Categorical features must be encoded upstream using one-hot encoding, "
+            "ordinal encoding, or embedding techniques. Missing values must be handled "
+            "upstream via imputation or row removal. Feature scaling (standard or "
+            "minmax) is strongly recommended—unscaled features with different units "
+            "will distort distance calculations. The block requires n_rows >= n_clusters.\n\n"
+            "LIMITATIONS: Sensitive to outliers—a single extreme respondent can "
+            "substantially shift centroids. Does not automatically select the optimal "
+            "number of clusters; you must specify n_clusters a priori or evaluate "
+            "multiple k values downstream. Struggles with non-spherical cluster shapes "
+            "(e.g., crescents, concentric circles) or clusters with highly unequal "
+            "sizes or densities. May produce empty clusters if initialization is poor.\n\n"
+            "ALTERNATIVES: Use LCA (segmentation_lca) when features are categorical, "
+            "mixed numeric/categorical, or when probabilistic segment membership is "
+            "needed. Use RFM (rfm_analysis) for transaction-based customer value "
+            "segmentation where the framework is predetermined. Consider hierarchical "
+            "clustering or DBSCAN when cluster shapes are non-spherical or when you "
+            "don't want to specify k in advance."
+        )
+
+    @property
+    def tags(self) -> list[str]:
+        return [
+            "clustering",
+            "segmentation",
+            "unsupervised",
+            "numeric-features",
+            "requires-scaling",
+        ]
 
     def validate_config(self, config: dict) -> bool:
         if not isinstance(config.get("n_clusters"), int):

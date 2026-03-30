@@ -38,7 +38,7 @@ EXPECTED_BLOCKS = {
     ("source", "csv_source"),
     ("source", "csv_loader"),
     ("transform", "filter_transform"),
-    ("transform", "segmentation_kmeans"),
+    ("analysis", "segmentation_kmeans"),
     ("generation", "llm_generation"),
     ("evaluation", "rubric_evaluation"),
     ("evaluation", "concept_evaluator"),
@@ -90,6 +90,8 @@ async def test_list_blocks_each_entry_has_required_fields(client):
         "output_schemas",
         "config_schema",
         "description",
+        "methodological_notes",
+        "tags",
     }
     for block in data:
         assert required_fields.issubset(block.keys()), (
@@ -235,6 +237,118 @@ async def test_list_blocks_filter_by_type_invalid(client):
 async def test_list_blocks_filter_case_sensitive(client):
     """Test that type filter is case-sensitive."""
     response = await client.get("/api/v1/blocks?type=Transform")
+    assert response.status_code == HTTPStatus.OK
+
+    data = response.json()
+    assert data == []
+
+
+# ---------------------------------------------------------------------------
+# New fields: methodological_notes and tags
+# ---------------------------------------------------------------------------
+
+
+@pytest.mark.asyncio
+async def test_list_blocks_each_entry_has_methodological_notes(client):
+    response = await client.get("/api/v1/blocks")
+    data = response.json()
+
+    for block in data:
+        assert "methodological_notes" in block, (
+            f"Block ({block['block_type']}, {block['block_implementation']}) "
+            f"missing methodological_notes"
+        )
+        assert isinstance(block["methodological_notes"], str)
+
+
+@pytest.mark.asyncio
+async def test_list_blocks_each_entry_has_tags(client):
+    response = await client.get("/api/v1/blocks")
+    data = response.json()
+
+    for block in data:
+        assert "tags" in block, (
+            f"Block ({block['block_type']}, {block['block_implementation']}) "
+            f"missing tags"
+        )
+        assert isinstance(block["tags"], list)
+        for tag in block["tags"]:
+            assert isinstance(tag, str)
+
+
+@pytest.mark.asyncio
+async def test_get_block_has_methodological_notes_and_tags(client):
+    response = await client.get("/api/v1/blocks/source/csv_source")
+    assert response.status_code == HTTPStatus.OK
+
+    data = response.json()
+    assert "methodological_notes" in data
+    assert isinstance(data["methodological_notes"], str)
+    assert "tags" in data
+    assert isinstance(data["tags"], list)
+
+
+# ---------------------------------------------------------------------------
+# GET /api/v1/blocks?tags={tag} — filter by tag
+# ---------------------------------------------------------------------------
+
+
+@pytest.mark.asyncio
+async def test_list_blocks_filter_by_tag_clustering(client):
+    """Test filtering blocks by tags=clustering."""
+    response = await client.get("/api/v1/blocks?tags=clustering")
+    assert response.status_code == HTTPStatus.OK
+
+    data = response.json()
+    assert len(data) > 0
+    for block in data:
+        assert "clustering" in block["tags"], (
+            f"{block['block_implementation']} should have 'clustering' tag"
+        )
+
+
+@pytest.mark.asyncio
+async def test_list_blocks_filter_by_tag_no_match(client):
+    """Test filtering by a tag that has no blocks returns empty list."""
+    response = await client.get("/api/v1/blocks?tags=nonexistent_tag")
+    assert response.status_code == HTTPStatus.OK
+
+    data = response.json()
+    assert data == []
+
+
+@pytest.mark.asyncio
+async def test_list_blocks_filter_by_tags_comma_separated(client):
+    """Test filtering by multiple comma-separated tags (OR logic)."""
+    # Get all blocks with either tag
+    response = await client.get("/api/v1/blocks?tags=clustering,data-preparation")
+    assert response.status_code == HTTPStatus.OK
+
+    data = response.json()
+    for block in data:
+        block_tags = set(block["tags"])
+        assert block_tags.intersection({"clustering", "data-preparation"}), (
+            f"{block['block_implementation']} should have 'clustering' or 'data-preparation' tag"
+        )
+
+
+@pytest.mark.asyncio
+async def test_list_blocks_filter_by_type_and_tags_combined(client):
+    """Test that type and tags filters work together."""
+    response = await client.get("/api/v1/blocks?type=analysis&tags=clustering")
+    assert response.status_code == HTTPStatus.OK
+
+    data = response.json()
+    assert len(data) > 0
+    for block in data:
+        assert block["block_type"] == "analysis"
+        assert "clustering" in block["tags"]
+
+
+@pytest.mark.asyncio
+async def test_list_blocks_filter_by_type_and_tags_no_overlap(client):
+    """Test combined filters when no blocks match both."""
+    response = await client.get("/api/v1/blocks?type=sink&tags=clustering")
     assert response.status_code == HTTPStatus.OK
 
     data = response.json()

@@ -14,6 +14,8 @@ class BlockInfoResponse(BaseModel):
     output_schemas: list[str]
     config_schema: dict
     description: str
+    methodological_notes: str
+    tags: list[str]
 
 
 class BlockListResponse(RootModel[list[BlockInfoResponse]]):

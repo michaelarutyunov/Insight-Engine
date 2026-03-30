@@ -36,7 +36,22 @@ class MarkdownReport(ReportingBase):
 
     @property
     def description(self) -> str:
-        return "Assembles evaluation_set and text_corpus inputs into a structured Markdown report."
+        return "If you need to compile evaluation results and source documents into a human-readable Markdown report for stakeholders, this is the right block. Use it when you want to present analysis findings with structured sections, clear headings, and proper document formatting."
+
+    @property
+    def methodological_notes(self) -> str:
+        return (
+            "Assumes that evaluation_set contains structured evaluation results with scores and that "
+            "text_corpus provides source documents for citation. Requires properly formatted input data; "
+            "malformed or missing evaluation data will result in incomplete reports. The block performs "
+            "basic assembly without advanced formatting or template logic—for complex styling needs, "
+            "consider custom reporting blocks. Report structure follows standard Markdown conventions with "
+            "H1 (title), H2 (sections), and bullet lists for content."
+        )
+
+    @property
+    def tags(self) -> list[str]:
+        return ["reporting", "document-generation", "markdown", "evaluation-summary", "multi-input"]
 
     def declare_pipeline_inputs(self) -> list[str]:
         return ["evaluation_set", "text_corpus"]

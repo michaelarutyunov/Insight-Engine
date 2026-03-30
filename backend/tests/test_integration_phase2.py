@@ -3,7 +3,7 @@
 Exercises the full stack: API -> executor -> blocks -> HITL suspend/resume -> sink.
 
 Pipeline topology (8 nodes):
-  CSVSource(survey) -> KMeansTransform -> PersonaGeneration -> ConceptEvaluation <- CSVSource(concepts)
+  CSVSource(survey) -> KMeansAnalysis -> PersonaGeneration -> ConceptEvaluation <- CSVSource(concepts)
   ConceptEvaluation -> ThresholdRouter -> ApprovalGate -> JSONSink
 
 All LLM calls are mocked. Uses small test CSVs (10 respondent rows, 3 concept rows).
@@ -22,13 +22,13 @@ import pytest
 from httpx import ASGITransport, AsyncClient
 
 from blocks.base import (
+    AnalysisBase,
     EvaluationBase,
     GenerationBase,
     HITLBase,
     RouterBase,
     SinkBase,
     SourceBase,
-    TransformBase,
 )
 from main import app
 
@@ -102,6 +102,10 @@ class MockCSVSource(SourceBase):
     def description(self) -> str:
         return "Mock CSV source"
 
+    @property
+    def methodological_notes(self) -> str:
+        return "Mock for testing - no real methodology"
+
     def validate_config(self, config: dict) -> bool:
         return isinstance(config.get("file_path"), str)
 
@@ -135,6 +139,10 @@ class MockConceptSource(SourceBase):
     def description(self) -> str:
         return "Mock concept CSV source"
 
+    @property
+    def methodological_notes(self) -> str:
+        return "Mock for testing - no real methodology"
+
     def validate_config(self, config: dict) -> bool:
         return isinstance(config.get("file_path"), str)
 
@@ -149,8 +157,8 @@ class MockConceptSource(SourceBase):
         return {"config": {"file_path": "/tmp/test.csv"}, "inputs": {}, "expected_output": {}}
 
 
-class MockKMeansTransform(TransformBase):
-    """Transform that segments respondents into clusters."""
+class MockKMeansAnalysis(AnalysisBase):
+    """Analysis that segments respondents into clusters."""
 
     @property
     def input_schemas(self) -> list[str]:
@@ -170,7 +178,11 @@ class MockKMeansTransform(TransformBase):
 
     @property
     def description(self) -> str:
-        return "Mock KMeans transform"
+        return "Mock KMeans analysis"
+
+    @property
+    def methodological_notes(self) -> str:
+        return "Mock for testing - no real methodology"
 
     def validate_config(self, config: dict) -> bool:
         return isinstance(config.get("n_clusters"), int)
@@ -214,6 +226,10 @@ class MockPersonaGeneration(GenerationBase):
     @property
     def description(self) -> str:
         return "Mock persona generation"
+
+    @property
+    def methodological_notes(self) -> str:
+        return "Mock for testing - no real methodology"
 
     def validate_config(self, config: dict) -> bool:
         return True
@@ -259,6 +275,10 @@ class MockConceptEvaluation(EvaluationBase):
     @property
     def description(self) -> str:
         return "Mock concept evaluation"
+
+    @property
+    def methodological_notes(self) -> str:
+        return "Mock for testing - no real methodology"
 
     def validate_config(self, config: dict) -> bool:
         return isinstance(config.get("evaluation_dimensions"), list)
@@ -323,6 +343,10 @@ class MockThresholdRouter(RouterBase):
     def description(self) -> str:
         return "Mock threshold router"
 
+    @property
+    def methodological_notes(self) -> str:
+        return "Mock for testing - no real methodology"
+
     def validate_config(self, config: dict) -> bool:
         return "metric" in config and "threshold" in config
 
@@ -359,6 +383,10 @@ class MockApprovalGate(HITLBase):
     @property
     def description(self) -> str:
         return "Mock approval gate"
+
+    @property
+    def methodological_notes(self) -> str:
+        return "Mock for testing - no real methodology"
 
     def validate_config(self, config: dict) -> bool:
         return True
@@ -410,6 +438,10 @@ class MockJSONSink(SinkBase):
     def description(self) -> str:
         return "Mock JSON sink"
 
+    @property
+    def methodological_notes(self) -> str:
+        return "Mock for testing - no real methodology"
+
     def validate_config(self, config: dict) -> bool:
         return isinstance(config.get("output_key"), str)
 
@@ -428,7 +460,7 @@ class MockJSONSink(SinkBase):
 _MOCK_REGISTRY: dict[tuple[str, str], type] = {
     ("source", "csv_source_survey"): MockCSVSource,
     ("source", "csv_source_concepts"): MockConceptSource,
-    ("transform", "kmeans_transform"): MockKMeansTransform,
+    ("analysis", "kmeans_analysis"): MockKMeansAnalysis,
     ("generation", "persona_generation"): MockPersonaGeneration,
     ("evaluation", "concept_evaluation"): MockConceptEvaluation,
     ("router", "threshold_router"): MockThresholdRouter,
@@ -572,8 +604,8 @@ def _build_pipeline_body(csv_files: dict[str, str]) -> dict[str, Any]:
         },
         {
             "node_id": kmeans_id,
-            "block_type": "transform",
-            "block_implementation": "kmeans_transform",
+            "block_type": "analysis",
+            "block_implementation": "kmeans_analysis",
             "label": "KMeans Segmentation",
             "position": {"x": 200, "y": 0},
             "config": {"n_clusters": 3},
@@ -623,14 +655,14 @@ def _build_pipeline_body(csv_files: dict[str, str]) -> dict[str, Any]:
     ]
 
     edges = [
-        # CSVSource(survey) -> KMeansTransform
+        # CSVSource(survey) -> KMeansAnalysis
         {
             "edge_id": str(uuid4()),
             "source_node": csv_survey_id,
             "target_node": kmeans_id,
             "data_type": "respondent_collection",
         },
-        # KMeansTransform -> PersonaGeneration
+        # KMeansAnalysis -> PersonaGeneration
         {
             "edge_id": str(uuid4()),
             "source_node": kmeans_id,

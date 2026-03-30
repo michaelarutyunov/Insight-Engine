@@ -48,11 +48,22 @@ class MockSource(SourceBase):
     def config_schema(self) -> dict:
         return {}
 
+    @property
+    def description(self) -> str:
+        return "Mock source for testing"
+
+    @property
+    def methodological_notes(self) -> str:
+        return "Mock for testing - no real methodology"
+
     def validate_config(self, config: dict) -> bool:
         return True
 
     async def execute(self, inputs: dict[str, Any], config: dict) -> dict[str, Any]:
         return {"rows": [1, 2, 3]}
+
+    def test_fixtures(self) -> dict:
+        return {"inputs": {}, "config": {}, "outputs": {}}
 
 
 class MockTransform(TransformBase):
@@ -68,11 +79,22 @@ class MockTransform(TransformBase):
     def config_schema(self) -> dict:
         return {}
 
+    @property
+    def description(self) -> str:
+        return "Mock transform for testing"
+
+    @property
+    def methodological_notes(self) -> str:
+        return "Mock for testing - no real methodology"
+
     def validate_config(self, config: dict) -> bool:
         return True
 
     async def execute(self, inputs: dict[str, Any], config: dict) -> dict[str, Any]:
         return {"rows": [10, 20, 30]}
+
+    def test_fixtures(self) -> dict:
+        return {"inputs": {}, "config": {}, "outputs": {}}
 
 
 class MockSink(SinkBase):
@@ -84,11 +106,22 @@ class MockSink(SinkBase):
     def config_schema(self) -> dict:
         return {}
 
+    @property
+    def description(self) -> str:
+        return "Mock sink for testing"
+
+    @property
+    def methodological_notes(self) -> str:
+        return "Mock for testing - no real methodology"
+
     def validate_config(self, config: dict) -> bool:
         return True
 
     async def execute(self, inputs: dict[str, Any], config: dict) -> dict[str, Any]:
         return {}
+
+    def test_fixtures(self) -> dict:
+        return {"inputs": {}, "config": {}, "outputs": {}}
 
 
 class MockSlowTransform(TransformBase):
@@ -106,12 +139,23 @@ class MockSlowTransform(TransformBase):
     def config_schema(self) -> dict:
         return {}
 
+    @property
+    def description(self) -> str:
+        return "Mock slow transform for testing"
+
+    @property
+    def methodological_notes(self) -> str:
+        return "Mock for testing - no real methodology"
+
     def validate_config(self, config: dict) -> bool:
         return True
 
     async def execute(self, inputs: dict[str, Any], config: dict) -> dict[str, Any]:
         await asyncio.sleep(0.1)
         return {"rows": [99]}
+
+    def test_fixtures(self) -> dict:
+        return {"inputs": {}, "config": {}, "outputs": {}}
 
 
 class MockRouter(RouterBase):
@@ -129,6 +173,14 @@ class MockRouter(RouterBase):
     def config_schema(self) -> dict:
         return {}
 
+    @property
+    def description(self) -> str:
+        return "Mock router for testing"
+
+    @property
+    def methodological_notes(self) -> str:
+        return "Mock for testing - no real methodology"
+
     def validate_config(self, config: dict) -> bool:
         return True
 
@@ -140,6 +192,9 @@ class MockRouter(RouterBase):
         return self._selected_edges
 
     _selected_edges: list[str] = []
+
+    def test_fixtures(self) -> dict:
+        return {"inputs": {}, "config": {}, "outputs": {}}
 
 
 class MockHITL(HITLBase):
@@ -155,6 +210,14 @@ class MockHITL(HITLBase):
     def config_schema(self) -> dict:
         return {}
 
+    @property
+    def description(self) -> str:
+        return "Mock HITL for testing"
+
+    @property
+    def methodological_notes(self) -> str:
+        return "Mock for testing - no real methodology"
+
     def validate_config(self, config: dict) -> bool:
         return True
 
@@ -167,6 +230,9 @@ class MockHITL(HITLBase):
     async def execute(self, inputs: dict[str, Any], config: dict) -> dict[str, Any]:
         # Should not be called — executor handles HITL via render_checkpoint
         return {}
+
+    def test_fixtures(self) -> dict:
+        return {"inputs": {}, "config": {}, "outputs": {}}
 
 
 class MockFailingTransform(TransformBase):
@@ -182,11 +248,22 @@ class MockFailingTransform(TransformBase):
     def config_schema(self) -> dict:
         return {}
 
+    @property
+    def description(self) -> str:
+        return "Mock failing transform for testing"
+
+    @property
+    def methodological_notes(self) -> str:
+        return "Mock for testing - no real methodology"
+
     def validate_config(self, config: dict) -> bool:
         return True
 
     async def execute(self, inputs: dict[str, Any], config: dict) -> dict[str, Any]:
         raise RuntimeError("Something went wrong")
+
+    def test_fixtures(self) -> dict:
+        return {"inputs": {}, "config": {}, "outputs": {}}
 
 
 # ---------------------------------------------------------------------------
@@ -502,6 +579,14 @@ async def test_node_status_transitions():
         def config_schema(self) -> dict:
             return {}
 
+        @property
+        def description(self) -> str:
+            return "Mock tracking transform for testing"
+
+        @property
+        def methodological_notes(self) -> str:
+            return "Mock for testing - no real methodology"
+
         def validate_config(self, config: dict) -> bool:
             return True
 
@@ -549,6 +634,14 @@ async def test_execution_context_injected():
         @property
         def config_schema(self) -> dict:
             return {}
+
+        @property
+        def description(self) -> str:
+            return "Mock context capture for testing"
+
+        @property
+        def methodological_notes(self) -> str:
+            return "Mock for testing - no real methodology"
 
         def validate_config(self, config: dict) -> bool:
             return True

@@ -34,7 +34,28 @@ class CSVSource(SourceBase):
 
     @property
     def description(self) -> str:
-        return "Parses a CSV string into a respondent_collection for downstream processing."
+        return """Load structured respondent data from CSV format into your pipeline.
+
+Use this block when you need to bring survey responses, customer records, or experimental data into an analysis pipeline. Ideal for tabular data exported from survey platforms, CRM systems, or spreadsheets where each row represents a respondent and columns represent variables."""
+
+    @property
+    def methodological_notes(self) -> str:
+        return """Assumes standard CSV format (RFC 4180) with consistent row structure. Supports UTF-8 encoding and single-character delimiters (comma, tab, pipe, etc.). Empty rows are skipped by the csv.DictReader.
+
+Memory considerations: The entire CSV is loaded into memory as a list of dictionaries. For files larger than available RAM, consider streaming alternatives or chunked processing approaches.
+
+Alternatives: For nested or hierarchical data, consider JSON or XML sources. For database connectivity, use database query blocks. For real-time data ingestion, consider API polling blocks."""
+
+    @property
+    def tags(self) -> list[str]:
+        return [
+            "data-import",
+            "csv",
+            "tabular",
+            "respondent-data",
+            "survey-data",
+            "structured-input",
+        ]
 
     def validate_config(self, config: dict) -> bool:
         if not isinstance(config.get("csv_data"), str):

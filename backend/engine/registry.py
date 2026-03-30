@@ -77,6 +77,8 @@ def _discover() -> None:
                     "output_schemas": obj().output_schemas,
                     "config_schema": obj().config_schema,
                     "description": obj().description,
+                    "methodological_notes": obj().methodological_notes,
+                    "tags": obj().tags,
                 }
 
     _LOADED = True

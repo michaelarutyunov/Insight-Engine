@@ -64,7 +64,7 @@ BLOCK_LIST_FIXTURE = [
         "output_schemas": {"data": "respondent_collection"},
     },
     {
-        "block_type": "transform",
+        "block_type": "analysis",
         "implementation": "segmentation_kmeans",
         "description": "K-means segmentation",
         "config_schema": {},
@@ -162,11 +162,11 @@ def test_block_list_shows_all():
 def test_block_list_filter_by_type():
     filtered = [BLOCK_LIST_FIXTURE[1]]
     with patch("httpx.get", return_value=_mock_response(filtered)) as mock_get:
-        result = runner.invoke(app, ["block", "list", "--type", "transform"])
+        result = runner.invoke(app, ["block", "list", "--type", "analysis"])
     assert result.exit_code == 0
     assert "segmentation_kmeans" in result.output
     called_url = mock_get.call_args[0][0]
-    assert "type=transform" in called_url
+    assert "type=analysis" in called_url
 
 
 # ---------------------------------------------------------------------------

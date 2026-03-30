@@ -8,6 +8,7 @@ from pydantic import BaseModel, Field
 class BlockType(StrEnum):
     SOURCE = "source"
     TRANSFORM = "transform"
+    ANALYSIS = "analysis"
     GENERATION = "generation"
     EVALUATION = "evaluation"
     COMPARATOR = "comparator"

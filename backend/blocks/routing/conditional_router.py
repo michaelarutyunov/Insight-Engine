@@ -61,7 +61,31 @@ class ConditionalRouter(RouterBase):
 
     @property
     def description(self) -> str:
-        return "Routes respondent_collection to output branches based on configurable conditions."
+        return """Routes respondent_collection data to different pipeline branches based on configurable conditions.
+
+Use this block when you need to split your research workflow into multiple parallel paths that activate conditionally — for example, running different analysis modules depending on data volume, routing to specialized treatment branches based on data characteristics, or implementing fallback logic when data quality thresholds are not met. Unlike a static split, this block evaluates routing rules at execution time and only activates edges that satisfy the specified conditions."""
+
+    @property
+    def methodological_notes(self) -> str:
+        return """Assumptions: This router evaluates conditions against row count and presence of data in the input respondent_collection. Routing logic is deterministic based on the configured rules — all rules are evaluated independently, so multiple branches can activate simultaneously if their conditions are all satisfied.
+
+Data requirements: Requires a respondent_collection input with a 'rows' key containing a list-like structure. Row count is extracted from len(rows); if the input is already a list, it is counted directly. For threshold conditions, the threshold_value config field must be provided.
+
+Limitations: Conditions are limited to row-based metrics (always, threshold on minimum count, non-empty check). Cannot inspect field values, data quality metrics, or other complex attributes without modifying the block. All rules are evaluated in OR fashion — activation is not mutually exclusive, so downstream nodes should be prepared to receive data even when other branches also fire.
+
+Alternatives: For simple static splits where all branches always execute, use a direct connection without a router. For complex multi-field conditionals, consider an LLM Flex block to evaluate custom logic, or a Transform block to pre-compute routing flags before this router."""
+
+    @property
+    def tags(self) -> list[str]:
+        return [
+            "routing",
+            "conditional-logic",
+            "branch-selection",
+            "data-volume-routing",
+            "parallel-workflows",
+            "respondent-collection-input",
+            "respondent-collection-output",
+        ]
 
     def validate_config(self, config: dict) -> bool:
         if "rules" not in config or not isinstance(config["rules"], list):

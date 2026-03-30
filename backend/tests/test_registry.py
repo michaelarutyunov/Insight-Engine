@@ -71,6 +71,10 @@ class FakeTestSource(SourceBase):
     def description(self) -> str:
         return "test source"
 
+    @property
+    def methodological_notes(self) -> str:
+        return "Mock for testing - no real methodology"
+
     def validate_config(self, config: dict) -> bool:
         return True
 
@@ -118,6 +122,10 @@ class HelloSource(SourceBase):
     @property
     def description(self) -> str:
         return "hello source"
+
+    @property
+    def methodological_notes(self) -> str:
+        return "Mock for testing - no real methodology"
 
     def validate_config(self, config: dict) -> bool:
         return True

@@ -33,7 +33,15 @@ class JSONSink(SinkBase):
 
     @property
     def description(self) -> str:
-        return "Persists pipeline output as a named JSON artifact. Terminal block with no outputs."
+        return "Persists pipeline output as a named JSON artifact. If you need to save pipeline results as structured JSON for downstream systems, archiving, or human review, this is the right block."
+
+    @property
+    def methodological_notes(self) -> str:
+        return """Assumes all input data is JSON-serializable; complex Python objects or binary data will fail serialization. This block converts Pydantic data objects to dicts before dumping to JSON. File size is limited by available memory—large datasets (>100MB) may require chunking or streaming alternatives. For production workflows requiring database persistence or cloud storage, consider using database-backed sink blocks instead. The pretty_print option improves human readability at the cost of larger file size."""
+
+    @property
+    def tags(self) -> list[str]:
+        return ["persistence", "export", "json", "terminal", "structured-data", "serialization"]
 
     def validate_config(self, config: dict) -> bool:
         if not isinstance(config.get("output_key"), str):

@@ -10,6 +10,7 @@ export interface Position {
 export type BlockType =
   | 'source'
   | 'transform'
+  | 'analysis'
   | 'generation'
   | 'evaluation'
   | 'comparator'

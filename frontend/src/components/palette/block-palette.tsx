@@ -22,6 +22,12 @@ const BLOCK_TYPE_META: Record<
     bg: 'bg-green-100 dark:bg-green-900/40',
     border: 'border-green-300 dark:border-green-700',
   },
+  analysis: {
+    label: 'Analysis',
+    color: 'text-violet-700 dark:text-violet-300',
+    bg: 'bg-violet-100 dark:bg-violet-900/40',
+    border: 'border-violet-300 dark:border-violet-700',
+  },
   generation: {
     label: 'Generation',
     color: 'text-purple-700 dark:text-purple-300',
@@ -76,6 +82,7 @@ const BLOCK_TYPE_META: Record<
 const BLOCK_TYPE_ORDER: BlockType[] = [
   'source',
   'transform',
+  'analysis',
   'generation',
   'evaluation',
   'comparator',

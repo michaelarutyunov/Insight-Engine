@@ -8,8 +8,8 @@ class BlockBase(ABC):
     @property
     @abstractmethod
     def block_type(self) -> str:
-        """Abstract category. One of: source, transform, generation, evaluation,
-        comparator, reporting, llm_flex, router, hitl, sink."""
+        """Abstract category. One of: source, transform, analysis, generation,
+        evaluation, comparator, reporting, llm_flex, router, hitl, sink."""
         ...
 
     @property
@@ -31,9 +31,21 @@ class BlockBase(ABC):
         ...
 
     @property
+    @abstractmethod
     def description(self) -> str:
         """Natural language description for the block catalog."""
-        return ""
+        ...
+
+    @property
+    @abstractmethod
+    def methodological_notes(self) -> str:
+        """Methodological guidance for block selection and usage."""
+        ...
+
+    @property
+    def tags(self) -> list[str]:
+        """Searchable tags for catalog filtering."""
+        return []
 
     @abstractmethod
     def validate_config(self, config: dict) -> bool:
@@ -64,6 +76,29 @@ class TransformBase(BlockBase):
     @property
     def block_type(self) -> str:
         return "transform"
+
+
+class AnalysisBase(BlockBase):
+    """Base for question-driven analytical blocks.
+
+    Analysis blocks consume input data and produce a structurally
+    new output type that answers a research question. Their selection
+    is driven by what the researcher wants to learn, not by what
+    downstream blocks require.
+
+    Key distinction from Transform:
+    - Transform: input type preserved, demand-driven (prep)
+    - Analysis: new output type produced, question-driven (insight)
+    """
+
+    @property
+    def block_type(self) -> str:
+        return "analysis"
+
+    @property
+    def preserves_input_type(self) -> bool:
+        """Analysis blocks produce new types by definition."""
+        return False
 
 
 class GenerationBase(BlockBase):

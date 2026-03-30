@@ -15,6 +15,9 @@ router = APIRouter(tags=["blocks"])
 @router.get("/blocks", response_model=BlockListResponse)
 async def list_blocks_endpoint(
     type: Annotated[str | None, Query(description="Filter blocks by type")] = None,
+    tags: Annotated[
+        str | None, Query(description="Filter blocks by tag (comma-separated for OR)")
+    ] = None,
 ) -> list[dict]:
     """Return all registered block types and implementations with their schemas.
 
@@ -22,14 +25,20 @@ async def list_blocks_endpoint(
 
     Args:
         type: Optional block type filter (e.g., "transform", "source")
+        tags: Optional tag filter, comma-separated for OR matching
+              (e.g., "clustering" or "data-preparation,row-filtering")
 
     Returns:
-        List of block info dictionaries. If type is provided, only blocks of that type.
+        List of block info dictionaries filtered by the provided parameters.
     """
     all_blocks = list_blocks()
 
     if type is not None:
-        return [b for b in all_blocks if b["block_type"] == type]
+        all_blocks = [b for b in all_blocks if b["block_type"] == type]
+
+    if tags is not None:
+        requested_tags = {t.strip() for t in tags.split(",")}
+        all_blocks = [b for b in all_blocks if requested_tags.intersection(b.get("tags", []))]
 
     return all_blocks
 

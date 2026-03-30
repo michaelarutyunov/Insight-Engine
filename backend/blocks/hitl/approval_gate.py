@@ -46,7 +46,45 @@ class ApprovalGate(HITLBase):
 
     @property
     def description(self) -> str:
-        return "Human approval checkpoint. Pauses pipeline execution and presents data for human review. Reviewer can approve, reject, or modify data before continuing."
+        """Natural language description for the block catalog."""
+        return (
+            "Human-in-the-loop approval checkpoint for pipelines requiring manual verification "
+            "before proceeding. Use this block when you need to insert a quality gate, compliance check, "
+            "or expert review step into your pipeline. The block suspends execution, presents data to a "
+            "human reviewer via the HITL API, and waits for approval, rejection, or modification before "
+            "resuming. Supports optional comment requirements and inline data modification for review workflows."
+        )
+
+    @property
+    def methodological_notes(self) -> str:
+        """Methodological guidance for block selection and usage."""
+        return (
+            "Assumes a synchronous human-in-the-loop workflow where pipeline execution can block until "
+            "a reviewer responds. The blocking nature makes this suitable for critical decision points but "
+            "inappropriate for high-throughput automated pipelines. Data requirements are flexible—any data "
+            "type in the edge vocabulary can be passed through, though structured data formats render better "
+            "in the review interface. Limitations: requires external HITL API coordination, introduces "
+            "unbounded latency (human response time), and creates state that must be persisted across "
+            "suspend/resume cycles. Alternatives: for automated quality checks, use Evaluation blocks with "
+            "threshold-based routing; for non-blocking review patterns, consider side-channel logging to "
+            "Sink blocks with offline review."
+        )
+
+    @property
+    def tags(self) -> list[str]:
+        """Searchable tags for catalog filtering."""
+        return [
+            "hitl",
+            "human-in-the-loop",
+            "quality-gate",
+            "approval",
+            "review",
+            "checkpoint",
+            "blocking",
+            "data-agnostic",
+            "stateful",
+            "manual-verification",
+        ]
 
     def validate_config(self, config: dict) -> bool:
         """Validate the configuration.

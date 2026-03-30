@@ -68,6 +68,32 @@ class ConceptEvaluation(EvaluationBase):
             "Requires both concept briefs and personas as inputs."
         )
 
+    @property
+    def methodological_notes(self) -> str:
+        return (
+            "Assumes evaluation dimensions are qualitative and require subjective judgment "
+            "(e.g., appeal, uniqueness, purchase intent). Requires well-formed concept briefs "
+            "with clear value propositions and detailed persona profiles including demographics, "
+            "psychographics, and behavioral patterns. The LLM simulates persona perspective-taking, "
+            "but outputs are synthetic and should be validated against real human feedback. "
+            "Scoring scale must be clearly defined; 1-5 or 1-7 scales are common for concept testing. "
+            "Limitations: LLM may not capture cultural nuances or emotional responses accurately; "
+            "complex concepts may require more detailed prompts or human-in-the-loop validation. "
+            "Alternatives: For large-scale concept screening, consider max-diff conjoint analysis; "
+            "for deep qualitative insights, use human focus groups or in-depth interviews."
+        )
+
+    @property
+    def tags(self) -> list[str]:
+        return [
+            "concept-testing",
+            "persona-simulation",
+            "llm-evaluation",
+            "qualitative-scoring",
+            "product-research",
+            "multi-dimensional",
+        ]
+
     def validate_config(self, config: dict) -> bool:
         if "evaluation_dimensions" not in config:
             return False
