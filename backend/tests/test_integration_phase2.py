@@ -204,6 +204,10 @@ class MockKMeansAnalysis(AnalysisBase):
             )
         return {"segment_profile_set": {"segments": segments}}
 
+    @property
+    def dimensions(self) -> dict[str, str]:
+        return {}
+
     def test_fixtures(self) -> dict:
         return {"config": {"n_clusters": 2}, "inputs": {}, "expected_output": {}}
 

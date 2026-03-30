@@ -16,6 +16,10 @@ class BlockInfoResponse(BaseModel):
     description: str
     methodological_notes: str
     tags: list[str]
+    dimensions: dict[str, str] | None = None
+    practitioner_workflow: str | None = None
+
+    model_config = {"populate_by_name": True}
 
 
 class BlockListResponse(RootModel[list[BlockInfoResponse]]):

@@ -70,16 +70,22 @@ def _discover() -> None:
                 block_type = obj().block_type
                 key = (block_type, implementation)
                 _REGISTRY[key] = obj
-                _INFO[key] = {
+                instance = obj()
+                info: dict[str, Any] = {
                     "block_type": block_type,
                     "block_implementation": implementation,
-                    "input_schemas": obj().input_schemas,
-                    "output_schemas": obj().output_schemas,
-                    "config_schema": obj().config_schema,
-                    "description": obj().description,
-                    "methodological_notes": obj().methodological_notes,
-                    "tags": obj().tags,
+                    "input_schemas": instance.input_schemas,
+                    "output_schemas": instance.output_schemas,
+                    "config_schema": instance.config_schema,
+                    "description": instance.description,
+                    "methodological_notes": instance.methodological_notes,
+                    "tags": instance.tags,
                 }
+                if instance.dimensions:
+                    info["dimensions"] = instance.dimensions
+                if instance.practitioner_workflow is not None:
+                    info["practitioner_workflow"] = instance.practitioner_workflow
+                _INFO[key] = info
 
     _LOADED = True
 

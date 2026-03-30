@@ -1,0 +1,18 @@
+name: "Default Research Methodology"
+version: "1.0.0"
+description: "Balanced methodological stance for general insights work"
+
+dimension_weights:
+  exploratory_confirmatory: 1.0
+  assumption_weight: 0.8
+  output_interpretability: 1.0
+  sample_sensitivity: 0.9
+  reproducibility: 0.7
+  data_structure_affinity: 1.0
+
+preferences:
+  default_stance: "exploratory"
+  transparency_threshold: "medium"
+  prefer_established: true
+
+practitioner_workflows_dir: "practitioner_workflows"

@@ -57,6 +57,24 @@ class BlockBase(ABC):
         """Execute this block. Must return all ports declared in output_schemas."""
         ...
 
+    @property
+    def dimensions(self) -> dict[str, str]:
+        """Ordinal metadata for reasoning layer matching.
+
+        Concrete default {} so non-Analysis blocks work without overriding.
+        Analysis blocks MUST override (see AnalysisBase).
+        """
+        return {}
+
+    @property
+    def practitioner_workflow(self) -> str | None:
+        """Optional filename of a practitioner workflow document.
+
+        Returns None by default. Override in blocks that have an associated
+        workflow guide in the reasoning profiles directory.
+        """
+        return None
+
     def test_fixtures(self) -> dict:
         """Sample inputs, config, and expected outputs for contract tests."""
         raise NotImplementedError(f"{self.__class__.__name__} must implement test_fixtures()")
@@ -99,6 +117,17 @@ class AnalysisBase(BlockBase):
     def preserves_input_type(self) -> bool:
         """Analysis blocks produce new types by definition."""
         return False
+
+    @property
+    @abstractmethod
+    def dimensions(self) -> dict[str, str]:
+        """Ordinal metadata for reasoning layer matching.
+
+        All Analysis blocks must declare their dimensional profile.
+        Keys and values must align with the dimension taxonomy in
+        ``reasoning/dimensions.py``.
+        """
+        ...
 
 
 class GenerationBase(BlockBase):

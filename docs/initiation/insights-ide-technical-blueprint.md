@@ -147,15 +147,31 @@ backend/
 │   ├── main.py                      # CLI entry point (Typer app)
 │   ├── pipeline_commands.py         # pipeline list, run, status, validate
 │   └── block_commands.py            # block list, inspect
+├── reasoning/
+│   ├── __init__.py                  # Package exports
+│   ├── dimensions.py                # Dimension definitions and validation (6 ordinal dimensions)
+│   ├── profiles.py                  # Reasoning profile loading and management
+│   └── workflows.py                 # Practitioner workflow loading and lookup
 ├── chat/
 │   ├── context_builder.py           # Assembles pipeline state for LLM context
 │   ├── assistant.py                 # Research assistant mode (domain Q&A)
 │   ├── copilot.py                   # Pipeline co-pilot mode (graph modification)
-│   └── config_helper.py             # Block configuration helper mode
+│   ├── config_helper.py             # Block configuration helper mode
+│   └── research_advisor.py          # Research question → method recommendation (uses reasoning layer)
 └── tests/
     ├── test_executor.py
     ├── test_validator.py
     └── test_blocks/
+```
+
+**Reasoning profiles** (project root, alongside `backend/`):
+
+```
+reasoning_profiles/
+└── default/
+    ├── profile.yaml                   # Default reasoning profile (dimension weights, preferences)
+    └── practitioner_workflows/
+        └── segmentation.md            # Segmentation workflow guidance
 ```
 
 ## Block Interface Contract

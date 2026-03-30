@@ -98,6 +98,7 @@ The platform lets researchers build, save, version, share, and reuse research de
 | `backend/api/*.py`, `backend/schemas/*.py`    | api-specialist      |
 | `backend/schemas/pipeline.py`, `schemas/data_objects.py` | schema-specialist |
 | Any block importing or calling Anthropic API  | llm-integration     |
+| `backend/reasoning/*.py`, `backend/chat/research_advisor.py`, `reasoning_profiles/**` | reasoning-specialist |
 
 When uncertain which agent to use: check this table first.
 When exploring unfamiliar code: consult the relevant context doc before making changes.
@@ -112,6 +113,7 @@ When exploring unfamiliar code: consult the relevant context doc before making c
 | HITL state machine | `.claude/context/hitl-state-machine.md` | Modifying HITL blocks or suspend/resume flow |
 | Edge type system | `.claude/context/edge-type-system.md` | Adding data types or modifying validation |
 | React Flow patterns | `.claude/context/react-flow-patterns.md` | Modifying canvas components |
+| Reasoning layer | `.claude/context/reasoning-layer.md` | Implementing dimensions on Analysis blocks, or modifying reasoning/ or research_advisor.py |
 
 ---
 
@@ -122,6 +124,12 @@ When exploring unfamiliar code: consult the relevant context doc before making c
 | `backend/blocks/base.py`                | All block base classes and contracts                  |
 | `backend/blocks/integration.py`         | IntegrationMixin for external service blocks          |
 | `backend/blocks/analysis/`              | Analysis block implementations (question-driven)      |
+| `backend/reasoning/dimensions.py`       | Dimension definitions and validation (6 ordinal dimensions) |
+| `backend/reasoning/profiles.py`         | Reasoning profile loading and management |
+| `backend/reasoning/workflows.py`        | Practitioner workflow loading and lookup |
+| `backend/chat/research_advisor.py`      | ResearchAdvisor — research question → method recommendation |
+| `backend/api/advise.py`                 | Advisor API endpoints (/api/v1/advise/*)               |
+| `reasoning_profiles/default/`           | Default reasoning profile and practitioner workflows  |
 | `backend/engine/executor.py`            | Graph walker — the core execution loop                |
 | `backend/engine/validator.py`           | Edge type checking, pipeline integrity validation     |
 | `backend/engine/state.py`               | HITL suspend/resume state persistence                 |
@@ -147,3 +155,4 @@ When exploring unfamiliar code: consult the relevant context doc before making c
 | Edge type system             | `.claude/context/edge-type-system.md` | Adding data types or modifying validation   |
 | React Flow patterns          | `.claude/context/react-flow-patterns.md` | Modifying canvas components              |
 | Research data objects        | `.claude/context/data-objects.md`   | Modifying data object schemas              |
+| Reasoning layer              | `.claude/context/reasoning-layer.md` | Implementing dimensions on Analysis blocks, or modifying reasoning/ or research_advisor.py |

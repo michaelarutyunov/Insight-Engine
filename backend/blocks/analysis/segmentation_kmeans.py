@@ -104,6 +104,22 @@ class KMeansAnalysis(AnalysisBase):
             "requires-scaling",
         ]
 
+    @property
+    def dimensions(self) -> dict[str, str]:
+        # NOTE: sample_sensitivity is "high" per implementation spec (not "medium" from classification draft)
+        return {
+            "exploratory_confirmatory": "exploratory",
+            "assumption_weight": "medium",
+            "output_interpretability": "medium",
+            "sample_sensitivity": "high",
+            "reproducibility": "high",
+            "data_structure_affinity": "numeric_continuous",
+        }
+
+    @property
+    def practitioner_workflow(self) -> str | None:
+        return "segmentation.md"
+
     def validate_config(self, config: dict) -> bool:
         if not isinstance(config.get("n_clusters"), int):
             return False

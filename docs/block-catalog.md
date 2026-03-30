@@ -48,16 +48,6 @@ Parses a CSV **string** (inline data) into a `respondent_collection`.
 
 Deterministic and cacheable. Same input → same output.
 
-### `segmentation_kmeans` — KMeansTransform
-Clusters respondents into segments using K-Means. Requires numeric features.
-
-| | |
-|---|---|
-| **Inputs** | `respondent_collection` |
-| **Outputs** | `segment_profile_set` |
-| **Config** | `n_clusters` (2–20, required), `features` (list of column names, required), `scaling` (`standard`/`minmax`/`none`, default `standard`), `random_state` (default `42`) |
-| **Use when** | Quantitative segmentation of survey or behavioural data |
-
 ### `filter_transform` — FilterTransform
 Filters rows in a `respondent_collection` by a column condition.
 
@@ -69,6 +59,24 @@ Filters rows in a `respondent_collection` by a column condition.
 | **Use when** | Subsetting a dataset before downstream processing |
 
 ---
+
+## Analysis
+
+Question-driven blocks that produce structurally new output types. Analysis blocks are the primary consumers of the reasoning layer -- each block can carry a dimensional profile describing its analytical character along six ordinal dimensions (exploratory_confirmatory, assumption_weight, output_interpretability, sample_sensitivity, reproducibility, data_structure_affinity). The ResearchAdvisor matches research questions to Analysis blocks using these dimensions.
+
+Practitioner workflows (in `reasoning_profiles/default/practitioner_workflows/`) provide method-specific guidance that the advisor can surface when recommending a block.
+
+### `segmentation_kmeans` — KMeansAnalysis
+Clusters respondents into segments using K-Means. Requires numeric features.
+
+| | |
+|---|---|
+| **Inputs** | `respondent_collection` |
+| **Outputs** | `segment_profile_set` |
+| **Config** | `n_clusters` (2–20, required), `features` (list of column names, required), `scaling` (`standard`/`minmax`/`none`, default `standard`), `random_state` (default `42`) |
+| **Use when** | Quantitative segmentation of survey or behavioural data |
+| **Dimensional profile** | Not yet declared on the block (planned). Expected: exploratory_confirmatory=exploratory, assumption_weight=medium, output_interpretability=high, sample_sensitivity=medium, reproducibility=high, data_structure_affinity=numeric_continuous |
+| **Practitioner workflow** | `reasoning_profiles/default/practitioner_workflows/segmentation.md` |
 
 ## Generation
 

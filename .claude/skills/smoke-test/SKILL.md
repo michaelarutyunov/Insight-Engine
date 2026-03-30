@@ -46,11 +46,11 @@ print('OK')
 PIPELINE_ID=$(curl -s -X POST http://localhost:8000/api/v1/pipelines \
   -H 'Content-Type: application/json' \
   -d '{"name":"smoke-test","description":"","nodes":[],"edges":[]}' \
-  | python3 -c "import sys,json; print(json.load(sys.stdin)['id'])")
+  | python3 -c "import sys,json; print(json.load(sys.stdin)['pipeline_id'])")
 echo "Pipeline created: $PIPELINE_ID"
 
 curl -s http://localhost:8000/api/v1/pipelines/$PIPELINE_ID \
-  | python3 -c "import sys,json; p=json.load(sys.stdin); assert 'id' in p; print('Pipeline GET OK')"
+  | python3 -c "import sys,json; p=json.load(sys.stdin); assert 'pipeline_id' in p; print('Pipeline GET OK')"
 
 curl -s -X DELETE http://localhost:8000/api/v1/pipelines/$PIPELINE_ID
 echo "Pipeline DELETE OK"

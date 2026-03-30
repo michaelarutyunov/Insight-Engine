@@ -81,11 +81,12 @@ graphs. React + React Flow frontend, Python/FastAPI backend, SQLite (→ Postgre
 ### 1c. Block Taxonomy (quick reference)
 
 ```markdown
-## Block Types (10 base types)
+## Block Types (11 base types)
 | Type        | Inputs | Outputs | Key Behavior                          |
 |-------------|--------|---------|---------------------------------------|
 | Source      | none   | data    | Entry point, execution starts here    |
 | Transform   | data   | data    | Deterministic, cacheable              |
+| Analysis    | data   | varies  | Question-driven; produces structurally new output type |
 | Generation  | data   | content | Non-deterministic (LLM), version/seed |
 | Evaluation  | 2+ in  | assess  | Judges subject against criteria       |
 | Comparator  | N same | compare | Sync point, waits for all branches    |
@@ -194,7 +195,7 @@ Implements new blocks and ensures all blocks conform to the BlockBase contract.
 
 ## Domain Knowledge
 Every block MUST implement:
-- block_type: one of the 10 base types
+- block_type: one of the 11 base types
 - input_schemas: list of accepted data type identifiers
 - output_schemas: list of produced data type identifiers
 - config_schema: JSON Schema for configuration options
@@ -272,7 +273,7 @@ Optimized for AI consumption — structured, not prose:
 | Field               | Type          | Required | Description                    |
 |---------------------|---------------|----------|--------------------------------|
 | node_id             | UUID string   | yes      | Unique identifier              |
-| block_type          | enum          | yes      | One of 10 base types           |
+| block_type          | enum          | yes      | One of 11 base types           |
 | block_implementation| string        | yes      | Specific block (e.g. segmentation_kmeans) |
 | label               | string        | yes      | Display name                   |
 | position            | {x, y}       | yes      | Canvas coordinates             |
