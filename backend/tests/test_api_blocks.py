@@ -37,7 +37,11 @@ def client():
 EXPECTED_BLOCKS = {
     ("source", "csv_source"),
     ("source", "csv_loader"),
+    ("source", "db_source"),
+    ("source", "sample_provider_source"),
     ("transform", "filter_transform"),
+    ("transform", "column_recoding"),
+    ("transform", "data_cleaning"),
     ("analysis", "segmentation_kmeans"),
     ("generation", "llm_generation"),
     ("evaluation", "rubric_evaluation"),
@@ -49,6 +53,8 @@ EXPECTED_BLOCKS = {
     ("hitl", "approval_gate"),
     ("reporting", "markdown_report"),
     ("sink", "json_sink"),
+    ("sink", "api_push_sink"),
+    ("sink", "notification_sink"),
 }
 
 
@@ -207,9 +213,9 @@ async def test_list_blocks_filter_by_type_source(client):
 
     data = response.json()
     assert all(b["block_type"] == "source" for b in data)
-    assert len(data) == 2
+    assert len(data) == 4
     impls = {b["block_implementation"] for b in data}
-    assert impls == {"csv_source", "csv_loader"}
+    assert impls == {"csv_source", "csv_loader", "db_source", "sample_provider_source"}
 
 
 @pytest.mark.asyncio

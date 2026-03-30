@@ -1,0 +1,301 @@
+respondent_id,age,gender,education,income_bracket,region,urban_rural,household_size,primary_category,purchase_frequency,avg_monthly_spend,brand_used_most_often,channel_preference,price_importance,quality_importance,convenience_importance,sustainability_importance,brand_loyalty,satisfaction_score,nps_likelihood,would_recommend,segment_persona
+R0001,32,Female,Some College,$25k-$50k,Northeast,Suburban,4,Sports,Monthly,324,Brand B,Mobile App,6,4,5,3,2,4,6,Maybe,Convenience First
+R0002,59,Non-binary,Bachelor's,$75k-$100k,Northeast,Suburban,3,Electronics,Monthly,640,Brand D,In-store,3,7,5,2,6,5,4,No,Quality Seeker
+R0003,55,Male,Some College,$50k-$75k,West,Suburban,1,Food & Beverage,Monthly,110,Brand B,Online,7,4,4,6,2,4,4,No,Price Conscious
+R0004,19,Non-binary,Graduate Degree,$75k-$100k,West,Urban,2,Home & Garden,Monthly,231,Brand A,In-store,5,7,4,6,7,5,4,No,Quality Seeker
+R0005,23,Non-binary,Some College,$50k-$75k,West,Rural,4,Food & Beverage,Weekly,164,Brand B,Online,6,2,7,5,1,8,8,Yes,Price Conscious
+R0006,39,Female,Some College,$75k-$100k,Southwest,Rural,1,Electronics,Bi-weekly,281,Brand B,Mobile App,4,1,6,6,3,4,4,No,Convenience First
+R0007,19,Female,High School,< $25k,Northeast,Rural,1,Fashion,Quarterly,270,Brand D,Online,4,3,3,2,5,5,3,No,Price Conscious
+R0008,34,Male,Some College,$50k-$75k,Southeast,Urban,2,Food & Beverage,Weekly,435,Brand B,Mobile App,2,5,7,2,6,4,5,Maybe,Convenience First
+R0009,18,Prefer not to say,Bachelor's,$100k-$150k,Southwest,Suburban,3,Fashion,Monthly,130,Brand E,Marketplace,5,4,4,3,1,7,6,Maybe,Price Conscious
+R0010,57,Female,High School,$50k-$75k,West,Urban,3,Food & Beverage,Rarely,37,Brand E,Online,7,3,2,4,3,5,6,Maybe,Price Conscious
+R0011,41,Female,Bachelor's,$100k-$150k,Midwest,Urban,4,Electronics,Quarterly,301,Brand C,In-store,6,5,3,4,4,5,4,No,Quality Seeker
+R0012,37,Male,High School,$25k-$50k,Southwest,Rural,1,Sports,Quarterly,68,Brand E,Mobile App,3,4,3,7,7,4,2,No,Brand Loyalist
+R0013,40,Non-binary,Some College,$75k-$100k,Southeast,Suburban,2,Sports,Monthly,220,Brand B,Mobile App,3,5,4,4,7,6,8,Yes,Brand Loyalist
+R0014,46,Prefer not to say,Bachelor's,$50k-$75k,Midwest,Rural,4,Fashion,Monthly,141,Brand B,Mobile App,5,6,4,3,6,8,5,Maybe,Brand Loyalist
+R0015,30,Male,Graduate Degree,$100k-$150k,West,Urban,1,Health & Beauty,Quarterly,272,Brand C,In-store,7,6,3,6,4,5,4,No,Quality Seeker
+R0016,26,Prefer not to say,Some College,$25k-$50k,West,Suburban,2,Electronics,Monthly,136,Brand C,Mobile App,5,3,4,2,5,3,4,No,Convenience First
+R0017,39,Female,Some College,$75k-$100k,Northeast,Urban,5,Health & Beauty,Quarterly,448,Brand B,Social Commerce,4,3,3,7,5,7,8,Yes,Eco Advocate
+R0018,31,Prefer not to say,Bachelor's,$100k-$150k,Southwest,Suburban,3,Electronics,Quarterly,259,Brand C,Marketplace,7,5,3,5,3,5,4,No,Price Conscious
+R0019,53,Prefer not to say,Some College,$75k-$100k,Southeast,Urban,2,Electronics,Monthly,202,Brand D,Mobile App,5,4,5,7,4,5,6,Maybe,Brand Loyalist
+R0020,18,Prefer not to say,Bachelor's,$50k-$75k,Southwest,Suburban,4,Sports,Weekly,158,Brand C,Online,4,3,7,5,4,7,8,Yes,Convenience First
+R0021,30,Male,Bachelor's,$100k-$150k,Southeast,Suburban,4,Health & Beauty,Monthly,309,Brand B,Online,7,7,4,5,4,8,8,Yes,Quality Seeker
+R0022,21,Non-binary,Graduate Degree,> $150k,Southwest,Rural,1,Electronics,Quarterly,271,Brand A,Online,6,4,3,7,2,4,5,Maybe,Price Conscious
+R0023,35,Prefer not to say,Some College,$75k-$100k,Southwest,Urban,3,Electronics,Monthly,121,Brand E,Online,7,2,4,5,4,4,6,Maybe,Price Conscious
+R0024,44,Non-binary,Bachelor's,$50k-$75k,West,Suburban,2,Electronics,Monthly,114,Brand B,Online,7,1,4,4,5,3,2,No,Price Conscious
+R0025,33,Prefer not to say,Bachelor's,$50k-$75k,Midwest,Urban,1,Electronics,Monthly,618,Brand C,In-store,3,6,4,2,4,7,3,No,Quality Seeker
+R0026,35,Female,Graduate Degree,$100k-$150k,Northeast,Rural,3,Electronics,Monthly,163,Brand A,Online,3,6,5,1,4,6,5,Maybe,Quality Seeker
+R0027,18,Prefer not to say,Graduate Degree,$100k-$150k,Midwest,Rural,5,Health & Beauty,Quarterly,51,Brand D,Social Commerce,5,5,3,7,2,4,3,No,Eco Advocate
+R0028,43,Female,Bachelor's,$75k-$100k,West,Suburban,5,Health & Beauty,Weekly,146,Brand C,Online,4,6,7,3,5,8,6,Maybe,Quality Seeker
+R0029,18,Non-binary,Bachelor's,$100k-$150k,Northeast,Urban,5,Fashion,Monthly,191,Brand A,Online,7,4,4,1,3,4,6,Maybe,Price Conscious
+R0030,22,Prefer not to say,High School,< $25k,Southwest,Urban,2,Fashion,Quarterly,193,Brand B,Marketplace,6,5,3,5,3,7,8,Yes,Price Conscious
+R0031,18,Female,Some College,$25k-$50k,Midwest,Suburban,3,Sports,Weekly,203,Brand D,Mobile App,6,7,7,3,3,6,5,Maybe,Convenience First
+R0032,36,Prefer not to say,Bachelor's,$100k-$150k,West,Urban,1,Electronics,Rarely,495,Brand B,In-store,2,4,1,2,4,4,5,Maybe,Brand Loyalist
+R0033,41,Prefer not to say,Some College,$75k-$100k,Southwest,Rural,1,Home & Garden,Monthly,223,Brand A,Social Commerce,5,5,5,7,4,6,5,Maybe,Eco Advocate
+R0034,38,Male,High School,< $25k,Southeast,Suburban,5,Health & Beauty,Quarterly,233,Brand D,Online,2,4,3,5,6,1,2,No,Quality Seeker
+R0035,56,Female,Graduate Degree,$100k-$150k,West,Urban,2,Electronics,Rarely,282,Brand D,Online,6,3,2,7,3,5,3,No,Price Conscious
+R0036,26,Non-binary,High School,$50k-$75k,Southwest,Urban,3,Food & Beverage,Monthly,256,Brand B,Online,7,3,5,4,3,7,6,Maybe,Price Conscious
+R0037,36,Male,Bachelor's,$50k-$75k,Midwest,Suburban,1,Health & Beauty,Monthly,461,Brand D,In-store,4,4,5,5,4,5,5,Maybe,Quality Seeker
+R0038,40,Non-binary,High School,$25k-$50k,Southwest,Urban,3,Home & Garden,Quarterly,362,Brand A,Online,3,3,3,5,5,3,3,No,Eco Advocate
+R0039,67,Prefer not to say,High School,$25k-$50k,Northeast,Urban,3,Electronics,Monthly,135,Brand C,Marketplace,6,5,4,2,1,3,2,No,Price Conscious
+R0040,51,Non-binary,High School,$25k-$50k,Southwest,Urban,5,Sports,Rarely,202,Brand B,In-store,4,6,2,4,7,7,7,Yes,Brand Loyalist
+R0041,54,Non-binary,Some College,$25k-$50k,Northeast,Suburban,1,Electronics,Bi-weekly,405,Brand D,In-store,4,6,6,5,3,7,7,Yes,Brand Loyalist
+R0042,24,Male,High School,< $25k,Southwest,Rural,2,Sports,Monthly,417,Brand D,Mobile App,5,7,5,2,5,4,5,Maybe,Brand Loyalist
+R0043,32,Female,Graduate Degree,$100k-$150k,Southwest,Rural,2,Home & Garden,Bi-weekly,99,Brand B,Social Commerce,3,4,6,5,7,4,4,No,Eco Advocate
+R0044,29,Prefer not to say,High School,$50k-$75k,Midwest,Suburban,2,Fashion,Rarely,309,Brand E,Marketplace,7,5,2,3,1,6,7,Yes,Price Conscious
+R0045,28,Male,Some College,$25k-$50k,Southeast,Suburban,2,Fashion,Rarely,93,Brand B,Online,5,1,2,5,6,1,2,No,Eco Advocate
+R0046,24,Non-binary,Some College,$50k-$75k,West,Urban,2,Home & Garden,Weekly,198,Brand A,Social Commerce,2,4,7,7,4,6,4,No,Eco Advocate
+R0047,45,Non-binary,High School,< $25k,Southwest,Rural,1,Fashion,Quarterly,285,Brand A,Social Commerce,5,2,3,5,4,5,4,No,Eco Advocate
+R0048,37,Female,Bachelor's,$100k-$150k,Southeast,Urban,3,Fashion,Monthly,61,Brand D,Marketplace,7,3,4,6,1,3,3,No,Price Conscious
+R0049,49,Non-binary,Bachelor's,$100k-$150k,Southeast,Suburban,2,Fashion,Rarely,364,Brand D,Mobile App,3,1,2,6,7,6,7,Yes,Brand Loyalist
+R0050,42,Prefer not to say,Some College,$50k-$75k,Northeast,Suburban,4,Electronics,Monthly,336,Brand E,Mobile App,4,6,5,3,7,4,3,No,Brand Loyalist
+R0051,37,Female,Bachelor's,$75k-$100k,Northeast,Suburban,1,Electronics,Weekly,474,Brand D,Mobile App,3,5,7,2,6,8,9,Yes,Convenience First
+R0052,41,Female,Some College,$75k-$100k,Northeast,Urban,4,Home & Garden,Monthly,603,Brand D,In-store,4,7,4,2,6,4,5,Maybe,Quality Seeker
+R0053,39,Female,Some College,$25k-$50k,Midwest,Rural,4,Food & Beverage,Monthly,347,Brand A,Online,7,4,4,5,4,5,6,Maybe,Convenience First
+R0054,36,Female,Bachelor's,$75k-$100k,Southwest,Rural,1,Fashion,Monthly,44,Brand A,Mobile App,6,5,4,3,7,5,6,Maybe,Brand Loyalist
+R0055,35,Female,Graduate Degree,$75k-$100k,Southwest,Suburban,5,Home & Garden,Monthly,369,Brand A,In-store,5,6,5,3,1,5,4,No,Quality Seeker
+R0056,35,Male,Bachelor's,$100k-$150k,Southeast,Suburban,1,Sports,Weekly,125,Brand C,Mobile App,7,1,7,2,3,5,4,No,Convenience First
+R0057,33,Male,Bachelor's,$100k-$150k,West,Urban,3,Health & Beauty,Monthly,211,Brand E,Social Commerce,3,5,5,6,5,7,8,Yes,Eco Advocate
+R0058,50,Male,Bachelor's,$75k-$100k,Midwest,Urban,2,Food & Beverage,Monthly,351,Brand E,Mobile App,5,6,4,3,4,7,6,Maybe,Convenience First
+R0059,42,Prefer not to say,Bachelor's,$75k-$100k,Southwest,Urban,4,Electronics,Rarely,159,Brand A,Online,2,6,2,2,5,6,5,Maybe,Quality Seeker
+R0060,55,Prefer not to say,Bachelor's,$50k-$75k,Midwest,Suburban,1,Electronics,Monthly,410,Brand B,Mobile App,2,5,4,3,6,6,5,Maybe,Brand Loyalist
+R0061,31,Prefer not to say,High School,$50k-$75k,Midwest,Suburban,3,Food & Beverage,Monthly,119,Brand A,Online,7,3,4,3,4,3,5,Maybe,Price Conscious
+R0062,43,Prefer not to say,Graduate Degree,> $150k,West,Suburban,2,Food & Beverage,Quarterly,189,Brand A,Marketplace,7,2,3,4,4,4,6,Maybe,Price Conscious
+R0063,34,Non-binary,High School,$25k-$50k,Midwest,Urban,5,Fashion,Weekly,49,Brand A,Marketplace,6,2,7,2,2,3,3,No,Price Conscious
+R0064,27,Prefer not to say,Bachelor's,$100k-$150k,Midwest,Suburban,4,Home & Garden,Rarely,254,Brand C,Online,2,5,2,7,4,7,8,Yes,Eco Advocate
+R0065,60,Prefer not to say,Graduate Degree,$100k-$150k,Southeast,Rural,5,Health & Beauty,Monthly,224,Brand E,In-store,3,7,4,3,2,8,8,Yes,Quality Seeker
+R0066,23,Male,Graduate Degree,$100k-$150k,Southeast,Rural,3,Fashion,Monthly,362,Brand B,Online,2,5,5,7,6,6,5,Maybe,Eco Advocate
+R0067,40,Prefer not to say,High School,$25k-$50k,Northeast,Urban,3,Sports,Monthly,474,Brand E,Mobile App,5,5,4,2,5,6,5,Maybe,Brand Loyalist
+R0068,41,Male,Graduate Degree,> $150k,Midwest,Rural,4,Sports,Quarterly,106,Brand A,In-store,3,5,3,5,7,4,5,Maybe,Brand Loyalist
+R0069,26,Male,Some College,$75k-$100k,West,Urban,2,Sports,Monthly,362,Brand B,Online,3,4,4,4,4,4,6,Maybe,Convenience First
+R0070,35,Prefer not to say,Bachelor's,$100k-$150k,Southwest,Urban,5,Sports,Monthly,90,Brand D,Mobile App,5,4,4,4,5,5,6,Maybe,Brand Loyalist
+R0071,36,Male,Some College,$25k-$50k,Southeast,Urban,5,Health & Beauty,Monthly,382,Brand C,In-store,5,6,4,1,4,5,5,Maybe,Quality Seeker
+R0072,35,Male,Some College,$25k-$50k,Southwest,Rural,1,Sports,Bi-weekly,253,Brand E,Online,4,6,6,4,5,8,5,Maybe,Convenience First
+R0073,34,Prefer not to say,Bachelor's,$75k-$100k,Southeast,Urban,2,Electronics,Monthly,382,Brand B,Online,4,7,4,5,5,3,3,No,Quality Seeker
+R0074,26,Non-binary,Bachelor's,$75k-$100k,Southeast,Urban,1,Electronics,Monthly,382,Brand D,In-store,2,6,4,5,5,5,3,No,Quality Seeker
+R0075,31,Female,Some College,$50k-$75k,West,Rural,1,Sports,Weekly,109,Brand E,Mobile App,3,4,7,1,6,8,9,Yes,Convenience First
+R0076,23,Prefer not to say,Bachelor's,$100k-$150k,Northeast,Urban,4,Food & Beverage,Bi-weekly,310,Brand D,Marketplace,7,3,6,5,3,7,8,Yes,Price Conscious
+R0077,64,Female,Bachelor's,$100k-$150k,Northeast,Urban,3,Health & Beauty,Monthly,158,Brand C,In-store,7,6,4,3,5,8,8,Yes,Quality Seeker
+R0078,48,Male,Some College,$50k-$75k,Southeast,Urban,3,Home & Garden,Monthly,169,Brand E,Social Commerce,3,4,4,7,1,5,4,No,Eco Advocate
+R0079,39,Non-binary,Bachelor's,$100k-$150k,Northeast,Suburban,3,Food & Beverage,Monthly,142,Brand B,Online,6,2,4,4,1,4,4,No,Price Conscious
+R0080,44,Prefer not to say,Graduate Degree,$100k-$150k,West,Suburban,2,Health & Beauty,Quarterly,146,Brand D,Online,2,5,3,6,3,8,9,Yes,Eco Advocate
+R0081,36,Prefer not to say,Some College,$25k-$50k,West,Suburban,2,Electronics,Monthly,307,Brand B,Online,7,1,4,2,6,3,4,No,Price Conscious
+R0082,56,Prefer not to say,Bachelor's,$100k-$150k,Southeast,Urban,2,Electronics,Monthly,95,Brand E,Marketplace,6,3,5,4,4,7,6,Maybe,Price Conscious
+R0083,55,Male,High School,< $25k,Southwest,Urban,3,Fashion,Quarterly,182,Brand A,Marketplace,7,2,3,3,5,4,4,No,Price Conscious
+R0084,41,Female,High School,$50k-$75k,Northeast,Suburban,2,Fashion,Rarely,384,Brand A,In-store,4,3,2,6,5,2,2,No,Brand Loyalist
+R0085,53,Non-binary,High School,$50k-$75k,West,Rural,2,Health & Beauty,Monthly,455,Brand D,Online,3,7,4,7,4,6,5,Maybe,Eco Advocate
+R0086,27,Prefer not to say,Some College,$25k-$50k,Northeast,Suburban,5,Electronics,Quarterly,301,Brand C,In-store,4,2,3,4,6,3,2,No,Brand Loyalist
+R0087,35,Female,High School,$50k-$75k,Northeast,Urban,2,Home & Garden,Monthly,434,Brand A,Online,1,7,4,5,1,4,2,No,Quality Seeker
+R0088,33,Prefer not to say,High School,$50k-$75k,West,Rural,5,Health & Beauty,Monthly,231,Brand D,In-store,3,6,5,4,5,7,6,Maybe,Quality Seeker
+R0089,25,Non-binary,Graduate Degree,> $150k,Midwest,Suburban,4,Electronics,Quarterly,447,Brand C,In-store,4,7,3,4,5,6,7,Yes,Brand Loyalist
+R0090,26,Male,Graduate Degree,> $150k,Southeast,Suburban,2,Sports,Monthly,249,Brand E,Online,6,4,5,5,3,3,3,No,Convenience First
+R0091,32,Male,High School,$50k-$75k,Southeast,Suburban,2,Electronics,Bi-weekly,315,Brand D,Mobile App,3,3,6,4,5,4,4,No,Convenience First
+R0092,37,Non-binary,Graduate Degree,$75k-$100k,Northeast,Urban,5,Fashion,Bi-weekly,108,Brand C,Marketplace,5,2,6,3,6,5,7,Yes,Price Conscious
+R0093,49,Prefer not to say,Graduate Degree,$75k-$100k,Southeast,Suburban,3,Food & Beverage,Rarely,345,Brand E,Marketplace,5,1,2,3,3,3,3,No,Price Conscious
+R0094,29,Prefer not to say,Graduate Degree,$100k-$150k,West,Urban,2,Sports,Monthly,122,Brand D,Mobile App,4,4,5,6,7,4,3,No,Brand Loyalist
+R0095,42,Female,Some College,$50k-$75k,Southwest,Urban,1,Electronics,Monthly,480,Brand D,Online,5,4,4,3,2,2,3,No,Convenience First
+R0096,33,Prefer not to say,Graduate Degree,$100k-$150k,West,Suburban,3,Food & Beverage,Quarterly,141,Brand D,Marketplace,7,4,3,6,5,7,8,Yes,Price Conscious
+R0097,39,Non-binary,Graduate Degree,$75k-$100k,Southeast,Suburban,4,Fashion,Weekly,326,Brand B,Marketplace,6,2,7,2,3,6,6,Maybe,Price Conscious
+R0098,54,Female,Some College,$75k-$100k,Midwest,Rural,4,Sports,Bi-weekly,499,Brand D,Mobile App,5,4,6,4,6,6,6,Maybe,Brand Loyalist
+R0099,28,Non-binary,High School,< $25k,West,Urban,5,Fashion,Bi-weekly,451,Brand A,Social Commerce,3,2,6,7,5,7,8,Yes,Eco Advocate
+R0100,29,Female,Bachelor's,$50k-$75k,Southeast,Rural,4,Sports,Rarely,127,Brand B,In-store,3,6,2,3,5,6,5,Maybe,Brand Loyalist
+R0101,42,Prefer not to say,Some College,$75k-$100k,Southwest,Urban,2,Fashion,Monthly,37,Brand D,Marketplace,7,3,5,4,4,6,7,Yes,Price Conscious
+R0102,41,Male,Some College,$50k-$75k,Northeast,Suburban,2,Electronics,Monthly,348,Brand B,Online,6,6,5,4,5,4,4,No,Convenience First
+R0103,43,Prefer not to say,Graduate Degree,$75k-$100k,Northeast,Urban,3,Food & Beverage,Bi-weekly,40,Brand A,Marketplace,7,4,6,3,3,8,8,Yes,Price Conscious
+R0104,26,Prefer not to say,Graduate Degree,> $150k,Southwest,Urban,3,Electronics,Bi-weekly,58,Brand D,Online,7,7,6,2,3,7,9,Yes,Convenience First
+R0105,26,Non-binary,Some College,$25k-$50k,Northeast,Urban,1,Electronics,Monthly,154,Brand C,Online,6,6,5,5,6,6,6,Maybe,Quality Seeker
+R0106,51,Female,Bachelor's,$100k-$150k,Southeast,Urban,1,Food & Beverage,Weekly,333,Brand B,Online,5,5,7,1,4,4,4,No,Convenience First
+R0107,21,Male,Some College,$50k-$75k,Southeast,Rural,5,Fashion,Rarely,174,Brand C,Online,3,5,2,5,2,3,4,No,Price Conscious
+R0108,38,Male,Graduate Degree,> $150k,Northeast,Urban,2,Fashion,Monthly,122,Brand A,Mobile App,4,2,4,1,3,4,4,No,Brand Loyalist
+R0109,37,Male,Some College,$50k-$75k,Southwest,Urban,3,Fashion,Monthly,154,Brand B,In-store,4,6,4,4,6,3,5,Maybe,Brand Loyalist
+R0110,29,Prefer not to say,Bachelor's,$75k-$100k,Northeast,Urban,4,Health & Beauty,Bi-weekly,609,Brand A,In-store,3,7,6,2,4,7,5,Maybe,Quality Seeker
+R0111,44,Male,High School,< $25k,Northeast,Rural,5,Fashion,Rarely,277,Brand A,Marketplace,4,5,1,5,3,5,7,Yes,Price Conscious
+R0112,18,Prefer not to say,Graduate Degree,$100k-$150k,Northeast,Urban,2,Food & Beverage,Quarterly,65,Brand D,Online,6,6,3,3,2,6,5,Maybe,Convenience First
+R0113,40,Prefer not to say,Bachelor's,$100k-$150k,Southwest,Suburban,2,Electronics,Weekly,169,Brand A,Mobile App,3,3,7,4,4,6,6,Maybe,Convenience First
+R0114,46,Prefer not to say,Bachelor's,$100k-$150k,Southeast,Urban,3,Home & Garden,Monthly,327,Brand B,Social Commerce,5,3,4,7,4,7,7,Yes,Eco Advocate
+R0115,75,Female,Some College,$50k-$75k,Midwest,Suburban,5,Electronics,Quarterly,70,Brand C,Online,7,5,3,5,3,7,6,Maybe,Convenience First
+R0116,32,Non-binary,Some College,$75k-$100k,West,Rural,2,Electronics,Bi-weekly,163,Brand D,Mobile App,5,5,6,4,1,6,8,Yes,Convenience First
+R0117,43,Non-binary,Graduate Degree,$75k-$100k,Northeast,Urban,2,Electronics,Rarely,70,Brand E,Online,7,5,2,2,3,5,7,Yes,Price Conscious
+R0118,30,Male,High School,$50k-$75k,Midwest,Urban,2,Electronics,Monthly,91,Brand A,In-store,7,4,4,3,5,7,5,Maybe,Brand Loyalist
+R0119,30,Non-binary,Some College,$50k-$75k,Northeast,Urban,3,Fashion,Quarterly,292,Brand C,In-store,2,4,3,7,5,3,3,No,Brand Loyalist
+R0120,26,Prefer not to say,Bachelor's,$75k-$100k,Southeast,Suburban,2,Food & Beverage,Weekly,233,Brand D,Mobile App,6,5,7,4,4,6,7,Yes,Convenience First
+R0121,32,Male,Graduate Degree,> $150k,Northeast,Suburban,5,Electronics,Weekly,272,Brand B,Mobile App,4,4,7,4,1,6,6,Maybe,Convenience First
+R0122,24,Non-binary,Bachelor's,$100k-$150k,West,Suburban,4,Food & Beverage,Rarely,452,Brand E,Online,5,2,2,5,2,5,4,No,Price Conscious
+R0123,44,Prefer not to say,Some College,$25k-$50k,West,Suburban,3,Sports,Bi-weekly,342,Brand B,Mobile App,6,5,6,2,4,9,9,Yes,Convenience First
+R0124,28,Female,Graduate Degree,$100k-$150k,Southeast,Rural,2,Electronics,Quarterly,138,Brand B,In-store,4,5,3,5,5,5,6,Maybe,Quality Seeker
+R0125,46,Prefer not to say,High School,$25k-$50k,Northeast,Urban,2,Health & Beauty,Bi-weekly,487,Brand B,Online,5,4,6,6,2,5,3,No,Eco Advocate
+R0126,38,Male,Graduate Degree,$75k-$100k,Southeast,Suburban,3,Electronics,Monthly,396,Brand E,Online,4,3,4,4,3,1,2,No,Price Conscious
+R0127,29,Non-binary,High School,$50k-$75k,Southwest,Urban,5,Home & Garden,Monthly,332,Brand B,Online,3,7,5,4,7,6,6,Maybe,Quality Seeker
+R0128,54,Female,Bachelor's,$75k-$100k,Southeast,Suburban,3,Home & Garden,Monthly,572,Brand C,In-store,3,7,5,6,4,7,8,Yes,Quality Seeker
+R0129,33,Non-binary,Graduate Degree,> $150k,Northeast,Suburban,4,Electronics,Quarterly,292,Brand E,Online,2,7,3,3,5,7,8,Yes,Quality Seeker
+R0130,24,Female,Bachelor's,$50k-$75k,Northeast,Urban,2,Fashion,Rarely,106,Brand A,Online,7,4,1,2,5,5,6,Maybe,Price Conscious
+R0131,39,Non-binary,Bachelor's,$75k-$100k,Southeast,Urban,3,Electronics,Quarterly,163,Brand B,Marketplace,7,3,3,6,3,5,5,Maybe,Price Conscious
+R0132,35,Female,High School,$25k-$50k,Midwest,Suburban,4,Home & Garden,Monthly,146,Brand D,Social Commerce,3,6,4,7,3,6,7,Yes,Eco Advocate
+R0133,18,Female,Graduate Degree,$100k-$150k,Northeast,Suburban,3,Health & Beauty,Rarely,109,Brand C,Online,6,7,2,3,7,9,10,Yes,Quality Seeker
+R0134,51,Male,High School,$25k-$50k,Midwest,Suburban,2,Food & Beverage,Monthly,37,Brand B,Mobile App,7,5,5,2,6,7,7,Yes,Convenience First
+R0135,28,Male,Graduate Degree,$100k-$150k,Southwest,Rural,2,Fashion,Bi-weekly,386,Brand B,Social Commerce,2,6,6,7,5,7,7,Yes,Eco Advocate
+R0136,45,Prefer not to say,Graduate Degree,$75k-$100k,Northeast,Rural,2,Sports,Quarterly,402,Brand D,In-store,3,4,3,6,5,4,3,No,Brand Loyalist
+R0137,31,Male,High School,$25k-$50k,Southeast,Suburban,2,Health & Beauty,Monthly,360,Brand A,Online,4,6,4,2,5,5,3,No,Quality Seeker
+R0138,18,Male,High School,$50k-$75k,West,Rural,3,Fashion,Monthly,386,Brand D,Social Commerce,3,3,4,6,3,5,4,No,Eco Advocate
+R0139,37,Non-binary,High School,$50k-$75k,Northeast,Rural,2,Electronics,Bi-weekly,73,Brand D,In-store,3,5,6,5,5,4,6,Maybe,Brand Loyalist
+R0140,29,Prefer not to say,Graduate Degree,> $150k,West,Suburban,5,Food & Beverage,Monthly,133,Brand C,Online,6,1,5,3,3,4,2,No,Price Conscious
+R0141,35,Non-binary,Some College,$75k-$100k,Southeast,Urban,3,Home & Garden,Monthly,348,Brand E,Social Commerce,2,4,4,6,2,7,6,Maybe,Eco Advocate
+R0142,26,Female,Bachelor's,$50k-$75k,Southeast,Rural,3,Fashion,Bi-weekly,266,Brand B,Online,6,4,6,6,4,6,5,Maybe,Price Conscious
+R0143,23,Non-binary,High School,$25k-$50k,Northeast,Suburban,2,Food & Beverage,Quarterly,279,Brand B,Marketplace,7,3,3,4,3,5,7,Yes,Price Conscious
+R0144,48,Non-binary,High School,< $25k,Midwest,Suburban,5,Health & Beauty,Quarterly,414,Brand B,In-store,2,7,3,2,5,7,4,No,Quality Seeker
+R0145,50,Non-binary,Bachelor's,$100k-$150k,Midwest,Urban,5,Electronics,Rarely,518,Brand D,Online,5,7,2,6,3,7,5,Maybe,Quality Seeker
+R0146,40,Non-binary,Graduate Degree,$75k-$100k,Southwest,Urban,4,Home & Garden,Quarterly,347,Brand B,In-store,5,7,3,4,5,6,6,Maybe,Quality Seeker
+R0147,37,Female,High School,< $25k,Southwest,Suburban,1,Electronics,Bi-weekly,110,Brand E,Mobile App,5,3,6,2,6,6,8,Yes,Convenience First
+R0148,34,Non-binary,High School,$25k-$50k,Midwest,Suburban,2,Home & Garden,Monthly,495,Brand A,Online,4,7,4,4,4,5,7,Yes,Quality Seeker
+R0149,50,Non-binary,Some College,$75k-$100k,Midwest,Urban,5,Electronics,Monthly,200,Brand C,Mobile App,6,4,5,5,5,5,3,No,Convenience First
+R0150,29,Female,High School,$25k-$50k,Midwest,Suburban,5,Fashion,Rarely,414,Brand C,Mobile App,3,4,1,5,5,5,6,Maybe,Brand Loyalist
+R0151,32,Male,Some College,$25k-$50k,West,Urban,2,Electronics,Weekly,158,Brand E,Mobile App,5,3,7,3,3,8,7,Yes,Convenience First
+R0152,50,Non-binary,Some College,$50k-$75k,Southwest,Suburban,1,Fashion,Monthly,347,Brand D,Marketplace,6,4,5,2,6,6,6,Maybe,Price Conscious
+R0153,27,Non-binary,Graduate Degree,$75k-$100k,Southwest,Rural,4,Health & Beauty,Monthly,350,Brand E,In-store,3,5,4,2,3,7,5,Maybe,Quality Seeker
+R0154,42,Male,Some College,$75k-$100k,Southwest,Urban,1,Electronics,Quarterly,157,Brand D,In-store,5,2,3,3,5,8,8,Yes,Brand Loyalist
+R0155,18,Male,Some College,$50k-$75k,Midwest,Rural,3,Food & Beverage,Bi-weekly,162,Brand E,Online,3,3,6,1,4,3,3,No,Convenience First
+R0156,29,Prefer not to say,High School,< $25k,Southeast,Urban,1,Electronics,Weekly,304,Brand A,Mobile App,6,2,7,2,5,7,7,Yes,Convenience First
+R0157,32,Prefer not to say,Bachelor's,$75k-$100k,Northeast,Suburban,2,Fashion,Monthly,195,Brand C,Mobile App,3,4,4,6,6,5,4,No,Brand Loyalist
+R0158,18,Non-binary,Graduate Degree,> $150k,Midwest,Urban,2,Electronics,Quarterly,235,Brand C,Online,7,2,3,3,2,4,4,No,Price Conscious
+R0159,42,Female,Graduate Degree,$100k-$150k,Southeast,Urban,3,Food & Beverage,Quarterly,57,Brand B,Online,6,5,3,4,2,4,5,Maybe,Price Conscious
+R0160,35,Male,Some College,$75k-$100k,Southwest,Suburban,2,Electronics,Quarterly,122,Brand D,Online,3,7,3,3,3,4,3,No,Quality Seeker
+R0161,61,Non-binary,Bachelor's,$100k-$150k,Midwest,Rural,2,Fashion,Rarely,235,Brand D,Social Commerce,3,7,1,5,6,5,5,Maybe,Eco Advocate
+R0162,23,Male,Graduate Degree,$75k-$100k,Northeast,Urban,2,Electronics,Bi-weekly,114,Brand D,In-store,4,7,6,4,4,6,6,Maybe,Brand Loyalist
+R0163,39,Female,Some College,$25k-$50k,Southeast,Rural,2,Health & Beauty,Weekly,484,Brand C,Social Commerce,4,5,7,6,7,5,5,Maybe,Eco Advocate
+R0164,52,Non-binary,Graduate Degree,> $150k,Southeast,Suburban,1,Sports,Quarterly,54,Brand B,In-store,3,3,3,7,5,6,7,Yes,Brand Loyalist
+R0165,35,Non-binary,Bachelor's,$100k-$150k,Southeast,Suburban,2,Fashion,Bi-weekly,189,Brand B,Online,6,2,6,5,3,8,8,Yes,Price Conscious
+R0166,52,Non-binary,Graduate Degree,$75k-$100k,Midwest,Urban,4,Electronics,Quarterly,158,Brand D,Marketplace,6,5,3,3,1,8,8,Yes,Price Conscious
+R0167,43,Non-binary,Bachelor's,$100k-$150k,Midwest,Suburban,2,Sports,Bi-weekly,338,Brand A,Mobile App,6,3,6,5,2,6,5,Maybe,Convenience First
+R0168,36,Prefer not to say,Bachelor's,$50k-$75k,West,Suburban,2,Health & Beauty,Monthly,230,Brand A,In-store,6,5,4,6,7,4,4,No,Quality Seeker
+R0169,62,Prefer not to say,Bachelor's,$100k-$150k,Southeast,Urban,2,Electronics,Weekly,360,Brand E,Mobile App,1,7,7,3,5,5,4,No,Convenience First
+R0170,29,Non-binary,Bachelor's,$75k-$100k,Southwest,Suburban,4,Sports,Bi-weekly,566,Brand C,Online,3,7,6,3,3,3,4,No,Convenience First
+R0171,23,Prefer not to say,Graduate Degree,$100k-$150k,Southeast,Urban,3,Fashion,Monthly,324,Brand D,Online,7,1,5,3,2,7,8,Yes,Price Conscious
+R0172,33,Prefer not to say,Some College,$75k-$100k,Midwest,Urban,1,Sports,Weekly,168,Brand A,Online,7,6,7,7,2,8,8,Yes,Convenience First
+R0173,18,Female,Bachelor's,$100k-$150k,Southwest,Rural,1,Fashion,Rarely,209,Brand B,Social Commerce,4,4,1,5,4,5,5,Maybe,Eco Advocate
+R0174,41,Male,Some College,$25k-$50k,Northeast,Urban,2,Electronics,Weekly,230,Brand D,In-store,3,7,7,3,3,5,5,Maybe,Quality Seeker
+R0175,20,Male,Some College,$75k-$100k,Southwest,Urban,5,Sports,Monthly,327,Brand B,Online,5,5,5,6,2,3,2,No,Convenience First
+R0176,45,Female,High School,$25k-$50k,West,Urban,2,Fashion,Monthly,387,Brand B,Mobile App,2,3,5,3,5,3,2,No,Brand Loyalist
+R0177,46,Male,High School,< $25k,Southeast,Urban,1,Electronics,Quarterly,72,Brand D,In-store,5,7,3,4,3,6,5,Maybe,Quality Seeker
+R0178,45,Non-binary,High School,< $25k,West,Urban,1,Electronics,Monthly,335,Brand A,Online,4,3,4,5,3,3,3,No,Quality Seeker
+R0179,44,Prefer not to say,Bachelor's,$75k-$100k,Southeast,Suburban,3,Health & Beauty,Quarterly,574,Brand C,Online,3,6,3,4,2,6,6,Maybe,Quality Seeker
+R0180,25,Non-binary,High School,$25k-$50k,Midwest,Rural,2,Fashion,Rarely,185,Brand E,Mobile App,5,4,2,4,4,4,3,No,Brand Loyalist
+R0181,56,Non-binary,Graduate Degree,> $150k,Southeast,Suburban,4,Sports,Monthly,184,Brand B,Mobile App,6,4,5,7,3,5,5,Maybe,Convenience First
+R0182,18,Non-binary,Some College,$25k-$50k,Midwest,Suburban,2,Sports,Weekly,239,Brand E,Mobile App,6,4,7,4,2,8,8,Yes,Convenience First
+R0183,18,Prefer not to say,Graduate Degree,> $150k,West,Urban,3,Electronics,Quarterly,247,Brand C,Marketplace,7,1,3,1,4,3,4,No,Price Conscious
+R0184,51,Female,Some College,$25k-$50k,Midwest,Urban,3,Food & Beverage,Bi-weekly,153,Brand E,Mobile App,7,4,6,2,1,3,3,No,Convenience First
+R0185,37,Male,Graduate Degree,$100k-$150k,West,Rural,3,Electronics,Monthly,234,Brand A,Mobile App,4,3,4,1,5,6,7,Yes,Convenience First
+R0186,46,Prefer not to say,High School,$50k-$75k,Southeast,Urban,5,Food & Beverage,Monthly,306,Brand A,Online,5,2,4,2,2,5,5,Maybe,Convenience First
+R0187,35,Female,Bachelor's,$75k-$100k,Southwest,Suburban,1,Food & Beverage,Rarely,108,Brand E,Marketplace,6,3,2,3,2,5,5,Maybe,Price Conscious
+R0188,47,Female,Some College,$75k-$100k,Midwest,Urban,3,Fashion,Monthly,428,Brand B,Social Commerce,2,4,5,5,6,6,6,Maybe,Eco Advocate
+R0189,20,Female,Some College,$75k-$100k,Southeast,Suburban,2,Sports,Weekly,441,Brand C,Mobile App,5,3,7,1,4,6,6,Maybe,Convenience First
+R0190,59,Prefer not to say,Graduate Degree,$100k-$150k,Midwest,Rural,4,Food & Beverage,Rarely,221,Brand D,Marketplace,7,3,2,3,4,6,6,Maybe,Price Conscious
+R0191,40,Prefer not to say,High School,$25k-$50k,Southeast,Urban,2,Electronics,Bi-weekly,107,Brand E,Mobile App,4,3,6,3,5,5,3,No,Convenience First
+R0192,19,Female,Graduate Degree,> $150k,Northeast,Urban,3,Food & Beverage,Monthly,315,Brand A,Online,4,6,5,2,3,6,5,Maybe,Convenience First
+R0193,40,Male,Graduate Degree,$100k-$150k,Midwest,Urban,4,Fashion,Monthly,211,Brand B,Marketplace,7,4,4,1,4,4,6,Maybe,Price Conscious
+R0194,18,Female,High School,< $25k,Southeast,Urban,3,Electronics,Weekly,282,Brand D,Mobile App,7,3,7,7,3,5,5,Maybe,Convenience First
+R0195,40,Prefer not to say,High School,$25k-$50k,Midwest,Suburban,1,Home & Garden,Rarely,588,Brand D,Online,2,7,1,4,4,5,6,Maybe,Quality Seeker
+R0196,18,Prefer not to say,Graduate Degree,$100k-$150k,Southeast,Rural,2,Home & Garden,Bi-weekly,462,Brand A,In-store,4,3,6,5,3,4,6,Maybe,Quality Seeker
+R0197,39,Male,Bachelor's,$50k-$75k,Midwest,Urban,3,Home & Garden,Rarely,287,Brand D,Online,4,7,2,7,2,7,5,Maybe,Quality Seeker
+R0198,50,Non-binary,Bachelor's,$50k-$75k,Northeast,Rural,2,Fashion,Monthly,66,Brand D,Social Commerce,2,5,5,7,5,8,8,Yes,Eco Advocate
+R0199,44,Non-binary,High School,< $25k,Southeast,Rural,2,Home & Garden,Monthly,396,Brand B,In-store,4,4,5,3,5,4,3,No,Quality Seeker
+R0200,36,Male,Bachelor's,$100k-$150k,Southwest,Rural,1,Electronics,Monthly,88,Brand C,Marketplace,7,3,5,2,2,8,8,Yes,Price Conscious
+R0201,36,Non-binary,Some College,$50k-$75k,Southeast,Urban,3,Electronics,Quarterly,334,Brand E,Online,6,7,3,1,5,4,4,No,Convenience First
+R0202,61,Prefer not to say,Some College,$50k-$75k,Northeast,Rural,5,Fashion,Bi-weekly,408,Brand C,Mobile App,2,5,6,6,4,7,6,Maybe,Brand Loyalist
+R0203,40,Female,High School,$25k-$50k,Southwest,Rural,4,Food & Beverage,Bi-weekly,326,Brand D,Online,6,2,6,5,6,4,5,Maybe,Convenience First
+R0204,35,Prefer not to say,High School,< $25k,West,Suburban,2,Health & Beauty,Monthly,161,Brand E,Online,4,5,5,6,3,5,8,Yes,Eco Advocate
+R0205,27,Prefer not to say,Some College,$75k-$100k,Southeast,Suburban,2,Food & Beverage,Monthly,340,Brand A,Online,6,4,5,4,2,4,3,No,Price Conscious
+R0206,49,Male,Some College,$50k-$75k,Southwest,Suburban,2,Electronics,Bi-weekly,496,Brand B,In-store,2,5,6,5,4,3,5,Maybe,Brand Loyalist
+R0207,39,Female,Graduate Degree,$100k-$150k,Southwest,Rural,3,Fashion,Monthly,306,Brand D,Social Commerce,2,5,4,7,4,5,8,Yes,Eco Advocate
+R0208,23,Male,Some College,$50k-$75k,West,Rural,5,Sports,Bi-weekly,254,Brand C,Mobile App,6,5,6,4,4,8,9,Yes,Convenience First
+R0209,27,Non-binary,Bachelor's,$100k-$150k,Southeast,Urban,5,Sports,Monthly,92,Brand E,Mobile App,5,2,5,3,5,5,4,No,Convenience First
+R0210,36,Female,Some College,$75k-$100k,Southwest,Urban,1,Health & Beauty,Monthly,577,Brand B,Online,5,7,4,5,5,6,4,No,Quality Seeker
+R0211,35,Male,High School,$25k-$50k,Southeast,Suburban,2,Electronics,Quarterly,245,Brand E,Mobile App,4,3,3,6,7,6,5,Maybe,Brand Loyalist
+R0212,51,Non-binary,Bachelor's,$100k-$150k,Midwest,Urban,1,Fashion,Monthly,394,Brand A,In-store,2,5,4,3,6,9,6,Maybe,Brand Loyalist
+R0213,44,Male,High School,< $25k,Northeast,Rural,3,Food & Beverage,Monthly,284,Brand C,Marketplace,6,4,5,5,5,4,2,No,Price Conscious
+R0214,34,Non-binary,Bachelor's,$50k-$75k,Southeast,Suburban,2,Electronics,Rarely,136,Brand E,In-store,2,7,2,6,7,6,7,Yes,Brand Loyalist
+R0215,60,Non-binary,Graduate Degree,> $150k,Northeast,Rural,1,Home & Garden,Rarely,337,Brand E,Online,7,6,2,5,3,3,4,No,Eco Advocate
+R0216,51,Non-binary,Bachelor's,$100k-$150k,Southwest,Urban,5,Food & Beverage,Monthly,203,Brand A,Online,3,4,4,5,1,4,2,No,Price Conscious
+R0217,46,Female,Graduate Degree,$100k-$150k,Southwest,Urban,3,Fashion,Rarely,391,Brand E,Social Commerce,5,5,2,6,4,3,4,No,Eco Advocate
+R0218,27,Male,Some College,$50k-$75k,Southeast,Urban,3,Food & Beverage,Monthly,187,Brand D,Online,7,4,5,1,4,8,8,Yes,Price Conscious
+R0219,38,Female,Bachelor's,$75k-$100k,Northeast,Urban,1,Electronics,Monthly,91,Brand A,In-store,2,5,5,3,7,8,8,Yes,Brand Loyalist
+R0220,39,Female,Some College,$50k-$75k,Southeast,Suburban,3,Home & Garden,Quarterly,170,Brand A,In-store,5,5,3,6,2,5,6,Maybe,Quality Seeker
+R0221,24,Female,Bachelor's,$100k-$150k,Northeast,Urban,4,Electronics,Monthly,72,Brand A,In-store,4,5,5,5,4,5,4,No,Brand Loyalist
+R0222,36,Non-binary,Graduate Degree,$75k-$100k,Southeast,Suburban,4,Food & Beverage,Quarterly,112,Brand B,Online,6,3,3,1,4,6,5,Maybe,Price Conscious
+R0223,52,Male,Bachelor's,$75k-$100k,Southeast,Urban,2,Fashion,Quarterly,260,Brand B,Mobile App,2,4,3,5,6,6,6,Maybe,Brand Loyalist
+R0224,28,Female,Some College,$25k-$50k,West,Rural,2,Fashion,Rarely,565,Brand D,Online,1,6,2,7,4,6,5,Maybe,Eco Advocate
+R0225,33,Prefer not to say,High School,$50k-$75k,Southwest,Suburban,1,Electronics,Monthly,304,Brand E,Online,7,1,5,7,5,5,6,Maybe,Price Conscious
+R0226,46,Non-binary,High School,< $25k,Northeast,Urban,2,Sports,Monthly,644,Brand B,In-store,4,6,4,4,3,7,5,Maybe,Brand Loyalist
+R0227,21,Male,Graduate Degree,$100k-$150k,West,Suburban,3,Food & Beverage,Monthly,197,Brand A,Marketplace,5,3,4,6,1,7,8,Yes,Price Conscious
+R0228,41,Prefer not to say,Some College,$75k-$100k,Southwest,Urban,2,Electronics,Quarterly,247,Brand D,Online,7,5,3,2,3,7,7,Yes,Price Conscious
+R0229,52,Male,Some College,$75k-$100k,Midwest,Urban,5,Health & Beauty,Monthly,447,Brand D,In-store,3,7,4,5,7,7,8,Yes,Quality Seeker
+R0230,25,Female,Bachelor's,$75k-$100k,Northeast,Rural,2,Home & Garden,Monthly,508,Brand E,In-store,5,6,4,3,6,7,8,Yes,Quality Seeker
+R0231,24,Male,Bachelor's,$75k-$100k,Northeast,Suburban,4,Electronics,Bi-weekly,393,Brand E,Mobile App,4,5,6,4,6,4,3,No,Convenience First
+R0232,29,Prefer not to say,Bachelor's,$75k-$100k,Southwest,Urban,2,Electronics,Monthly,423,Brand B,Online,4,4,4,2,3,4,3,No,Price Conscious
+R0233,31,Prefer not to say,High School,$25k-$50k,Northeast,Suburban,5,Sports,Monthly,266,Brand E,Mobile App,1,6,5,2,6,6,6,Maybe,Brand Loyalist
+R0234,30,Male,Bachelor's,$100k-$150k,Southwest,Urban,5,Health & Beauty,Monthly,526,Brand C,In-store,5,7,4,3,4,5,5,Maybe,Quality Seeker
+R0235,51,Female,Bachelor's,$100k-$150k,Southeast,Urban,2,Fashion,Quarterly,150,Brand C,Online,6,1,3,4,3,4,3,No,Price Conscious
+R0236,53,Non-binary,Bachelor's,$50k-$75k,Southwest,Suburban,5,Electronics,Quarterly,341,Brand A,Online,5,7,3,3,3,8,5,Maybe,Quality Seeker
+R0237,18,Non-binary,Some College,$25k-$50k,Midwest,Urban,4,Home & Garden,Weekly,437,Brand A,Social Commerce,2,4,7,7,7,9,7,Yes,Eco Advocate
+R0238,43,Non-binary,High School,< $25k,Northeast,Suburban,5,Electronics,Bi-weekly,363,Brand E,Mobile App,5,5,6,1,5,7,8,Yes,Convenience First
+R0239,33,Male,High School,$25k-$50k,Southeast,Rural,4,Electronics,Rarely,113,Brand A,Online,5,5,2,4,5,4,4,No,Price Conscious
+R0240,18,Prefer not to say,Bachelor's,$75k-$100k,Southwest,Suburban,2,Fashion,Monthly,301,Brand D,Online,1,4,5,7,6,4,6,Maybe,Eco Advocate
+R0241,47,Female,High School,$50k-$75k,Midwest,Rural,2,Health & Beauty,Monthly,232,Brand E,Online,3,4,4,3,5,5,6,Maybe,Quality Seeker
+R0242,18,Female,Some College,$25k-$50k,Northeast,Urban,1,Sports,Monthly,318,Brand B,Online,6,2,5,4,3,2,1,No,Convenience First
+R0243,51,Male,Graduate Degree,$100k-$150k,Northeast,Urban,2,Fashion,Monthly,341,Brand E,Mobile App,5,3,5,1,4,3,4,No,Brand Loyalist
+R0244,21,Prefer not to say,Bachelor's,$50k-$75k,Midwest,Urban,1,Food & Beverage,Monthly,388,Brand B,Mobile App,2,3,5,2,4,3,2,No,Convenience First
+R0245,50,Non-binary,High School,$50k-$75k,Southwest,Suburban,2,Sports,Monthly,155,Brand D,Mobile App,3,3,4,2,7,5,4,No,Brand Loyalist
+R0246,22,Male,Some College,$75k-$100k,Midwest,Urban,2,Electronics,Monthly,295,Brand C,In-store,4,7,5,6,4,6,5,Maybe,Quality Seeker
+R0247,18,Female,High School,< $25k,West,Rural,3,Electronics,Monthly,412,Brand C,In-store,4,6,5,5,4,6,6,Maybe,Quality Seeker
+R0248,48,Male,Some College,$25k-$50k,Southwest,Urban,2,Sports,Monthly,88,Brand B,In-store,2,6,4,3,5,8,7,Yes,Brand Loyalist
+R0249,48,Prefer not to say,High School,$50k-$75k,Northeast,Rural,1,Electronics,Weekly,298,Brand E,Mobile App,7,4,7,5,4,5,4,No,Convenience First
+R0250,18,Non-binary,Bachelor's,$100k-$150k,West,Suburban,4,Food & Beverage,Bi-weekly,212,Brand D,Online,2,5,6,1,3,7,7,Yes,Convenience First
+R0251,42,Male,High School,< $25k,Northeast,Suburban,4,Health & Beauty,Monthly,234,Brand A,Online,2,6,4,4,6,6,7,Yes,Quality Seeker
+R0252,31,Prefer not to say,High School,$25k-$50k,Midwest,Rural,4,Fashion,Monthly,423,Brand D,Online,5,3,4,4,2,5,5,Maybe,Price Conscious
+R0253,49,Female,Bachelor's,$50k-$75k,Midwest,Suburban,1,Health & Beauty,Monthly,179,Brand C,Online,5,6,4,4,4,4,6,Maybe,Quality Seeker
+R0254,38,Male,Some College,$75k-$100k,Northeast,Rural,1,Electronics,Weekly,473,Brand A,Mobile App,4,3,7,1,2,6,6,Maybe,Brand Loyalist
+R0255,31,Prefer not to say,Some College,$75k-$100k,West,Urban,4,Health & Beauty,Monthly,120,Brand D,In-store,2,7,4,5,4,5,5,Maybe,Quality Seeker
+R0256,37,Non-binary,High School,< $25k,Northeast,Suburban,1,Home & Garden,Monthly,393,Brand B,Social Commerce,2,4,4,7,3,5,5,Maybe,Eco Advocate
+R0257,41,Female,High School,$25k-$50k,Midwest,Suburban,2,Sports,Bi-weekly,219,Brand D,Online,7,6,6,3,3,6,6,Maybe,Convenience First
+R0258,34,Prefer not to say,High School,< $25k,Southeast,Urban,2,Food & Beverage,Quarterly,338,Brand A,Marketplace,7,5,3,6,1,6,7,Yes,Price Conscious
+R0259,31,Female,High School,< $25k,West,Suburban,1,Home & Garden,Bi-weekly,128,Brand A,Online,1,3,6,4,4,4,3,No,Eco Advocate
+R0260,32,Male,Graduate Degree,> $150k,Midwest,Rural,5,Electronics,Monthly,577,Brand A,Online,5,6,4,3,4,7,5,Maybe,Quality Seeker
+R0261,40,Non-binary,Graduate Degree,> $150k,Southwest,Suburban,5,Sports,Quarterly,465,Brand E,Online,4,2,3,3,5,2,0,No,Convenience First
+R0262,31,Female,Graduate Degree,$100k-$150k,West,Suburban,3,Sports,Monthly,89,Brand E,In-store,5,4,4,4,4,2,1,No,Brand Loyalist
+R0263,37,Male,High School,< $25k,Northeast,Suburban,2,Food & Beverage,Bi-weekly,158,Brand A,Mobile App,5,3,6,2,3,5,5,Maybe,Convenience First
+R0264,66,Female,Graduate Degree,> $150k,Southwest,Suburban,4,Food & Beverage,Monthly,147,Brand A,Mobile App,3,5,5,2,6,5,2,No,Convenience First
+R0265,49,Female,High School,$25k-$50k,Midwest,Suburban,1,Electronics,Monthly,53,Brand A,Online,7,3,4,3,1,7,5,Maybe,Price Conscious
+R0266,36,Non-binary,High School,$50k-$75k,Southwest,Urban,3,Sports,Monthly,292,Brand D,Mobile App,4,3,5,3,7,4,3,No,Convenience First
+R0267,28,Prefer not to say,Some College,$50k-$75k,West,Urban,5,Electronics,Monthly,319,Brand B,Online,7,2,4,2,3,5,5,Maybe,Price Conscious
+R0268,21,Male,Graduate Degree,$75k-$100k,Southwest,Urban,2,Food & Beverage,Bi-weekly,77,Brand D,Marketplace,6,2,6,5,5,4,6,Maybe,Price Conscious
+R0269,49,Male,High School,< $25k,Southwest,Suburban,5,Electronics,Rarely,130,Brand D,Mobile App,4,5,1,5,7,4,5,Maybe,Brand Loyalist
+R0270,43,Female,Graduate Degree,$100k-$150k,Southwest,Suburban,1,Electronics,Quarterly,120,Brand D,Online,1,4,3,5,4,5,5,Maybe,Quality Seeker
+R0271,34,Male,High School,< $25k,Northeast,Urban,2,Home & Garden,Rarely,343,Brand E,Social Commerce,2,7,1,7,5,5,4,No,Eco Advocate
+R0272,33,Female,Graduate Degree,> $150k,Southwest,Suburban,4,Sports,Quarterly,418,Brand E,In-store,3,5,3,3,4,5,3,No,Brand Loyalist
+R0273,42,Male,Bachelor's,$75k-$100k,Southeast,Rural,2,Electronics,Monthly,52,Brand C,Online,5,2,5,1,3,4,4,No,Convenience First
+R0274,26,Female,Bachelor's,$100k-$150k,Midwest,Urban,4,Electronics,Rarely,474,Brand A,Mobile App,5,4,1,4,7,2,3,No,Brand Loyalist
+R0275,29,Prefer not to say,Bachelor's,$75k-$100k,West,Suburban,2,Fashion,Rarely,77,Brand D,Marketplace,7,2,1,2,3,4,4,No,Price Conscious
+R0276,27,Male,Bachelor's,$50k-$75k,West,Urban,3,Fashion,Monthly,100,Brand A,Mobile App,6,2,5,5,7,3,3,No,Brand Loyalist
+R0277,48,Prefer not to say,Graduate Degree,> $150k,West,Urban,1,Electronics,Weekly,73,Brand C,Online,3,5,7,2,2,7,6,Maybe,Convenience First
+R0278,28,Male,High School,< $25k,Southeast,Rural,3,Fashion,Rarely,479,Brand A,Social Commerce,3,3,2,7,5,4,6,Maybe,Eco Advocate
+R0279,18,Prefer not to say,High School,< $25k,West,Urban,2,Fashion,Monthly,63,Brand C,In-store,3,5,5,4,7,5,4,No,Brand Loyalist
+R0280,43,Female,Some College,$75k-$100k,West,Suburban,2,Home & Garden,Rarely,395,Brand B,In-store,5,3,2,4,4,3,1,No,Quality Seeker
+R0281,31,Female,Bachelor's,$100k-$150k,West,Rural,4,Health & Beauty,Monthly,245,Brand D,Online,4,7,5,3,7,7,8,Yes,Quality Seeker
+R0282,18,Male,Bachelor's,$50k-$75k,Northeast,Urban,1,Home & Garden,Monthly,365,Brand B,Online,5,6,5,5,6,6,8,Yes,Quality Seeker
+R0283,41,Male,Graduate Degree,$100k-$150k,Northeast,Rural,3,Health & Beauty,Bi-weekly,394,Brand C,In-store,3,5,6,3,5,5,4,No,Quality Seeker
+R0284,45,Male,Graduate Degree,$75k-$100k,Midwest,Rural,2,Electronics,Monthly,68,Brand D,Mobile App,4,4,5,5,7,5,6,Maybe,Brand Loyalist
+R0285,49,Prefer not to say,Some College,$75k-$100k,West,Urban,3,Fashion,Monthly,629,Brand E,In-store,2,7,4,4,6,6,6,Maybe,Brand Loyalist
+R0286,31,Non-binary,Graduate Degree,$100k-$150k,Southwest,Urban,3,Home & Garden,Weekly,463,Brand B,In-store,2,5,7,3,3,5,5,Maybe,Quality Seeker
+R0287,25,Male,High School,$50k-$75k,Southwest,Suburban,1,Fashion,Monthly,256,Brand A,Online,7,1,4,3,5,3,6,Maybe,Price Conscious
+R0288,48,Male,Some College,$50k-$75k,Northeast,Rural,2,Fashion,Bi-weekly,479,Brand D,Marketplace,5,7,6,2,4,7,6,Maybe,Price Conscious
+R0289,38,Prefer not to say,Bachelor's,$100k-$150k,West,Urban,1,Electronics,Rarely,595,Brand A,In-store,2,7,1,2,5,3,3,No,Quality Seeker
+R0290,25,Female,Some College,$50k-$75k,Southwest,Urban,2,Home & Garden,Monthly,198,Brand C,In-store,3,7,5,6,7,4,3,No,Quality Seeker
+R0291,31,Non-binary,Bachelor's,$50k-$75k,Southwest,Urban,1,Home & Garden,Monthly,155,Brand B,Social Commerce,5,4,4,7,4,6,4,No,Eco Advocate
+R0292,18,Non-binary,High School,< $25k,Northeast,Urban,2,Sports,Weekly,385,Brand C,Mobile App,4,2,7,4,2,5,6,Maybe,Convenience First
+R0293,42,Prefer not to say,High School,< $25k,Northeast,Urban,5,Health & Beauty,Monthly,217,Brand A,Online,2,3,4,4,1,4,2,No,Eco Advocate
+R0294,35,Prefer not to say,High School,$50k-$75k,Southeast,Suburban,4,Electronics,Monthly,454,Brand B,Mobile App,4,5,5,5,2,6,5,Maybe,Convenience First
+R0295,32,Non-binary,Bachelor's,$75k-$100k,West,Urban,4,Health & Beauty,Quarterly,62,Brand D,In-store,2,4,3,2,4,3,5,Maybe,Quality Seeker
+R0296,29,Non-binary,Some College,$75k-$100k,Northeast,Urban,2,Sports,Monthly,428,Brand A,Mobile App,4,4,4,3,6,5,7,Yes,Brand Loyalist
+R0297,38,Male,Graduate Degree,$100k-$150k,West,Rural,5,Fashion,Quarterly,269,Brand B,Mobile App,3,5,3,5,7,7,9,Yes,Brand Loyalist
+R0298,36,Prefer not to say,Bachelor's,$75k-$100k,Midwest,Urban,2,Sports,Bi-weekly,361,Brand D,Mobile App,3,3,6,7,6,3,4,No,Brand Loyalist
+R0299,25,Non-binary,High School,< $25k,Southeast,Urban,3,Electronics,Monthly,220,Brand B,Marketplace,6,5,4,3,1,8,9,Yes,Price Conscious
+R0300,37,Prefer not to say,Some College,$75k-$100k,Southeast,Rural,2,Electronics,Quarterly,251,Brand E,Marketplace,7,3,3,5,3,3,2,No,Price Conscious

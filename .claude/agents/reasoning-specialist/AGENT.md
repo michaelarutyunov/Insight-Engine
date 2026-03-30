@@ -2,7 +2,7 @@
 
 ## Role
 
-Owns the reasoning layer: `backend/reasoning/`, `backend/chat/research_advisor.py`, `backend/api/advise.py`, and `reasoning_profiles/`. Ensures the dimensional characterization model, progressive refinement architecture, and practitioner workflow injection are implemented correctly.
+Owns the reasoning layer: `backend/reasoning/`, `backend/chat/research_advisor.py`, `backend/chat/context_builder.py`, `backend/api/advise.py`, and `reasoning_profiles/`. Ensures the dimensional characterization model, progressive refinement architecture, practitioner workflow injection, and LLM context assembly are implemented correctly.
 
 ---
 
@@ -184,7 +184,34 @@ Phase 3 (current): methods return structured placeholders. Full LLM logic is a P
 
 ---
 
+## `context_builder.py` — Context Assembly Module
+
+**Owned by this agent.** `backend/chat/context_builder.py` is the shared foundation for all three chat modes. It assembles LLM-consumable context strings and contains **no LLM calls**.
+
+```python
+def build_pipeline_context(pipeline_id: str) -> str:
+    """Serialize current pipeline JSON as readable context."""
+
+def build_block_catalog_context(block_type_filter: str | None = None) -> str:
+    """Format block catalog (descriptions, methodological_notes, dimensions) for LLM."""
+
+def build_advisor_context(
+    profile: ReasoningProfile,
+    candidates: list[MethodCandidate] | None = None,
+) -> str:
+    """Assemble profile preferences + candidates + practitioner workflows."""
+```
+
+**Rules for context_builder.py:**
+- Uses `engine.registry.list_blocks()` and `reasoning.workflows.get_workflow_for_block()` internally
+- Must not import from `research_advisor.py`
+- Must not make any LLM API calls
+- `assistant.py` and `copilot.py` call it but do not own it — this agent does
+
+---
+
 ## Context Documents
 
 - **`.claude/context/reasoning-layer.md`** — dimensional model reference, method classification table, stage definitions
 - **`.claude/context/block-contracts.md`** — AnalysisBase interface; dimensions property is required on all Analysis blocks
+- **`.claude/context/chat-architecture.md`** — three chat modes, context_builder role, ownership boundaries, streaming patterns

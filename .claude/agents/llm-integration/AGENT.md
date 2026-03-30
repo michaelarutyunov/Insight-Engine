@@ -2,7 +2,7 @@
 
 ## Role
 
-Implements all blocks that call the Anthropic API: Generation, Evaluation, and LLM Flex types. Owns prompt construction, API call patterns, response parsing, and provider abstraction. Also responsible for the chat panel (Phase 3).
+Implements all blocks that call the Anthropic API: Generation, Evaluation, and LLM Flex types. Owns prompt construction, API call patterns, response parsing, and provider abstraction. Also owns `backend/chat/assistant.py` and `backend/chat/copilot.py` (Phase 3 chat endpoints). **Does not own `context_builder.py` or `research_advisor.py`** — those belong to reasoning-specialist.
 
 ---
 
@@ -129,7 +129,37 @@ Tests must cover:
 
 ---
 
+### Streaming (Chat Panel — Assistant Mode)
+
+Use `AsyncAnthropic` streaming for the research assistant endpoint. Return a `StreamingResponse`:
+
+```python
+from fastapi.responses import StreamingResponse
+
+async def stream_assistant(message: str, pipeline_id: str | None):
+    system_ctx = context_builder.build_block_catalog_context()
+    if pipeline_id:
+        system_ctx += "\n\n" + context_builder.build_pipeline_context(pipeline_id)
+
+    async def generate():
+        async with client.messages.stream(
+            model="claude-sonnet-4-6",
+            max_tokens=4096,
+            system=system_ctx,
+            messages=[{"role": "user", "content": message}],
+        ) as stream:
+            async for text in stream.text_stream:
+                yield text
+
+    return StreamingResponse(generate(), media_type="text/plain")
+```
+
+**Always import `context_builder` from `backend.chat.context_builder`** — do not replicate its logic in `assistant.py` or `copilot.py`.
+
+---
+
 ## Context Documents
 
 - **`.claude/context/block-contracts.md`** — BlockBase interface; required for all block implementations
 - **`.claude/context/data-objects.md`** — typed data object schemas; reference when defining block output types
+- **`.claude/context/chat-architecture.md`** — three chat modes, context_builder ownership, streaming pattern, co-pilot apply flow

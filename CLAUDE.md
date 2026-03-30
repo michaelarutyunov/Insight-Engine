@@ -98,7 +98,9 @@ The platform lets researchers build, save, version, share, and reuse research de
 | `backend/api/*.py`, `backend/schemas/*.py`    | api-specialist      |
 | `backend/schemas/pipeline.py`, `schemas/data_objects.py` | schema-specialist |
 | Any block importing or calling Anthropic API  | llm-integration     |
-| `backend/reasoning/*.py`, `backend/chat/research_advisor.py`, `reasoning_profiles/**` | reasoning-specialist |
+| `backend/reasoning/*.py`, `backend/chat/research_advisor.py`, `backend/chat/context_builder.py`, `reasoning_profiles/**` | reasoning-specialist |
+| `frontend/src/components/chat-panel/**`, `frontend/src/stores/chat.ts` | canvas-specialist |
+| `backend/chat/assistant.py`, `backend/chat/copilot.py` | llm-integration |
 
 When uncertain which agent to use: check this table first.
 When exploring unfamiliar code: consult the relevant context doc before making changes.
@@ -114,6 +116,7 @@ When exploring unfamiliar code: consult the relevant context doc before making c
 | Edge type system | `.claude/context/edge-type-system.md` | Adding data types or modifying validation |
 | React Flow patterns | `.claude/context/react-flow-patterns.md` | Modifying canvas components |
 | Reasoning layer | `.claude/context/reasoning-layer.md` | Implementing dimensions on Analysis blocks, or modifying reasoning/ or research_advisor.py |
+| Chat architecture | `.claude/context/chat-architecture.md` | Implementing chat panel, context_builder, assistant, copilot, or advisor endpoints |
 
 ---
 
@@ -156,3 +159,4 @@ When exploring unfamiliar code: consult the relevant context doc before making c
 | React Flow patterns          | `.claude/context/react-flow-patterns.md` | Modifying canvas components              |
 | Research data objects        | `.claude/context/data-objects.md`   | Modifying data object schemas              |
 | Reasoning layer              | `.claude/context/reasoning-layer.md` | Implementing dimensions on Analysis blocks, or modifying reasoning/ or research_advisor.py |
+| Chat architecture            | `.claude/context/chat-architecture.md` | Implementing chat panel, context_builder, assistant, copilot, or advisor endpoints |
