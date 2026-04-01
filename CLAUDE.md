@@ -48,6 +48,22 @@ The platform lets researchers build, save, version, share, and reuse research de
 - Tests: `cd backend && uv run pytest`
 - Lint: `ruff check backend/`
 
+### Code Quality Workflow
+
+Before completing any task:
+1. **Invoke deep-code-quality skill** when reviewing code changes
+   - Automatically loads project conventions via `.claude/agents/deep-code-quality/PROJECT_ADAPTATIONS.md`
+   - Enforces LSP-first validation pattern (catches syntax/type errors before runtime)
+2. Run `ruff check . --fix` (auto-fix linting issues)
+3. Run `ruff format .`
+4. **Check LSP diagnostics** → use `LSP(operation: "getDiagnostics", filePath: "...")` for all modified .py files
+   - Resolve all errors before committing
+   - Review warnings — they often indicate type mismatches or undefined variables
+5. Run tests → `pytest tests/blocks/test_<impl>.py` (scoped to what changed)
+6. Run `PYTHONPATH=. uv run pytest` (full suite) only after closing a wave of beads
+
+**Why LSP-first?** Syntax errors and type bugs caught before runtime save debugging cycles. The LSP check pattern is critical for catching issues that ruff doesn't catch (e.g., undefined variables, type mismatches, missing imports).
+
 ### Branch Strategy
 - `main`: stable
 - `feature/{description}`: active work
