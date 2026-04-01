@@ -31,10 +31,14 @@ from blocks.base import (  # noqa: E402
 )
 from blocks.comparison.side_by_side_comparator import SideBySideComparator
 from blocks.evaluation.rubric_evaluation import RubricEvaluation
+from blocks.generation.concept_drafter import ConceptDrafter
+from blocks.generation.discussion_guide import DiscussionGuide
 from blocks.generation.llm_generation import LLMGeneration
 from blocks.hitl.approval_gate import ApprovalGate
 from blocks.llm_flex.prompt_flex import PromptFlex
 from blocks.reporting.markdown_report import MarkdownReport
+from blocks.reporting.narrative_report import NarrativeReport
+from blocks.reporting.presentation_outline import PresentationOutline
 from blocks.routing.conditional_router import ConditionalRouter
 from blocks.sinks.api_push_sink import ApiPushSink
 from blocks.sinks.json_sink import JSONSink
@@ -45,6 +49,7 @@ from blocks.sources.sample_provider_source import SampleProviderSource
 from blocks.transforms.column_recoding import ColumnRecoding
 from blocks.transforms.data_cleaning import DataCleaning
 from blocks.transforms.filter_transform import FilterTransform
+from blocks.transforms.weighting import Weighting
 
 ALL_BLOCKS: list[type[BlockBase]] = [
     CSVSource,
@@ -53,13 +58,18 @@ ALL_BLOCKS: list[type[BlockBase]] = [
     FilterTransform,
     ColumnRecoding,
     DataCleaning,
+    Weighting,
     LLMGeneration,
+    ConceptDrafter,
+    DiscussionGuide,
     RubricEvaluation,
     SideBySideComparator,
     PromptFlex,
     ConditionalRouter,
     ApprovalGate,
     MarkdownReport,
+    NarrativeReport,
+    PresentationOutline,
     ApiPushSink,
     JSONSink,
     NotificationSink,
@@ -140,6 +150,8 @@ class TestBlockContracts:
         assert len(block.description) > 0
 
     def test_execute_returns_declared_outputs(self, block_cls: type[BlockBase]) -> None:
+        from unittest.mock import AsyncMock, patch
+
         from blocks._llm_client import HITLSuspendSignal
         from blocks.integration import IntegrationMixin
 
@@ -155,13 +167,47 @@ class TestBlockContracts:
             assert isinstance(exc_info.value.checkpoint_data, dict)
         elif isinstance(block, IntegrationMixin):
             # IntegrationMixin blocks call external services -- mock call_external
-            from unittest.mock import AsyncMock
-
             block.call_external = AsyncMock(return_value={"status": "ok"})  # type: ignore[assignment]
             result = _run(block.execute(fixtures["inputs"], fixtures["config"]))
             assert isinstance(result, dict)
             for port in block.output_schemas:
                 assert port in result, f"Missing output port: {port}"
+        elif block_cls.__name__ == "ConceptDrafter":
+            # ConceptDrafter uses LLM client -- mock call_llm_json
+            with patch("blocks.generation.concept_drafter.call_llm_json") as mock_llm:
+                # Return expected output from test fixtures
+                mock_llm.return_value = fixtures["expected_output"]["concept_brief_set"]
+                result = _run(block.execute(fixtures["inputs"], fixtures["config"]))
+                assert isinstance(result, dict)
+                for port in block.output_schemas:
+                    assert port in result, f"Missing output port: {port}"
+        elif block_cls.__name__ == "DiscussionGuide":
+            # DiscussionGuide uses LLM client -- mock call_llm
+            with patch("blocks.generation.discussion_guide.call_llm") as mock_llm:
+                # Return expected output from test fixtures
+                mock_llm.return_value = fixtures["expected_output"]["text_corpus"]["documents"][0]
+                result = _run(block.execute(fixtures["inputs"], fixtures["config"]))
+                assert isinstance(result, dict)
+                for port in block.output_schemas:
+                    assert port in result, f"Missing output port: {port}"
+        elif block_cls.__name__ == "PresentationOutline":
+            # PresentationOutline uses LLM client -- mock call_llm
+            with patch("blocks.reporting.presentation_outline.call_llm") as mock_llm:
+                # Return a mock outline
+                mock_llm.return_value = "Slide 1: Mock Outline\n- Mock content"
+                result = _run(block.execute(fixtures["inputs"], fixtures["config"]))
+                assert isinstance(result, dict)
+                for port in block.output_schemas:
+                    assert port in result, f"Missing output port: {port}"
+        elif block_cls.__name__ == "NarrativeReport":
+            # NarrativeReport uses LLM client -- mock call_llm
+            with patch("blocks.reporting.narrative_report.call_llm") as mock_llm:
+                # Return expected output from test fixtures
+                mock_llm.return_value = fixtures["expected_output"]["text_corpus"]["documents"][0]
+                result = _run(block.execute(fixtures["inputs"], fixtures["config"]))
+                assert isinstance(result, dict)
+                for port in block.output_schemas:
+                    assert port in result, f"Missing output port: {port}"
         else:
             result = _run(block.execute(fixtures["inputs"], fixtures["config"]))
             assert isinstance(result, dict)
@@ -170,8 +216,8 @@ class TestBlockContracts:
 
     def test_validate_config_rejects_empty(self, block_cls: type[BlockBase]) -> None:
         block = block_cls()
-        # ApprovalGate accepts empty config because all fields have defaults
-        if block_cls.__name__ == "ApprovalGate":
+        # ApprovalGate and PresentationOutline accept empty config because all fields have defaults
+        if block_cls.__name__ in ("ApprovalGate", "PresentationOutline"):
             assert block.validate_config({}) is True
         else:
             assert block.validate_config({}) is False

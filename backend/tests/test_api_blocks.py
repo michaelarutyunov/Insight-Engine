@@ -44,6 +44,7 @@ EXPECTED_BLOCKS = {
     ("transform", "data_cleaning"),
     ("analysis", "segmentation_kmeans"),
     ("generation", "llm_generation"),
+    ("generation", "concept_drafter"),
     ("evaluation", "rubric_evaluation"),
     ("evaluation", "concept_evaluator"),
     ("comparator", "side_by_side_comparator"),
@@ -274,8 +275,7 @@ async def test_list_blocks_each_entry_has_tags(client):
 
     for block in data:
         assert "tags" in block, (
-            f"Block ({block['block_type']}, {block['block_implementation']}) "
-            f"missing tags"
+            f"Block ({block['block_type']}, {block['block_implementation']}) missing tags"
         )
         assert isinstance(block["tags"], list)
         for tag in block["tags"]:

@@ -1,0 +1,113 @@
+{
+  "pipeline_id": "1fce4452-91a4-436f-9003-14ab9c5b7ec4",
+  "name": "Discussion Guide Builder",
+  "version": "1.0",
+  "created_at": "2026-03-31T00:00:00Z",
+  "updated_at": "2026-03-31T00:00:00Z",
+  "metadata": {
+    "description": "Loads respondent data, filters by criteria, generates discussion guide content via LLM, applies custom prompt transformations, and persists results to JSON. Ideal for qualitative research planning.",
+    "tags": ["qualitative", "discussion-guide", "llm-generation", "content-creation"],
+    "author": "system"
+  },
+  "nodes": [
+    {
+      "node_id": "be90eceb-a8c7-4dac-9c73-ae0483badf83",
+      "block_type": "source",
+      "block_implementation": "csv_source",
+      "label": "Load Survey Data",
+      "position": {"x": 100, "y": 200},
+      "config": {
+        "csv_data": "participant_id,age_group,topic_interest\nP001,18-24,Technology\nP002,25-34,Health\nP003,35-44,Finance\nP004,45-54,Education\nP005,55+,Technology",
+        "delimiter": ","
+      },
+      "input_schema": [],
+      "output_schema": ["respondent_collection"]
+    },
+    {
+      "node_id": "3a1e278c-b92e-4855-8b62-6005f3f944f8",
+      "block_type": "transform",
+      "block_implementation": "filter_transform",
+      "label": "Filter by Interest",
+      "position": {"x": 350, "y": 200},
+      "config": {
+        "column": "topic_interest",
+        "operator": "eq",
+        "value": "Technology"
+      },
+      "input_schema": ["respondent_collection"],
+      "output_schema": ["respondent_collection"]
+    },
+    {
+      "node_id": "9b82e532-6e7b-4643-8461-7a8ef9e4b2da",
+      "block_type": "generation",
+      "block_implementation": "llm_generation",
+      "label": "Generate Guide Content",
+      "position": {"x": 600, "y": 200},
+      "config": {
+        "prompt_template": "Create a discussion guide for a focus group about {input}. Include opening questions, exploration topics, and closing activities.",
+        "model": "claude-sonnet-4-20250514",
+        "seed": 42
+      },
+      "input_schema": ["respondent_collection"],
+      "output_schema": ["text_corpus"]
+    },
+    {
+      "node_id": "9c86a96e-e7b7-48bd-bcff-ac544f968088",
+      "block_type": "llm_flex",
+      "block_implementation": "prompt_flex",
+      "label": "Refine with Custom Prompt",
+      "position": {"x": 850, "y": 200},
+      "config": {
+        "system_prompt": "You are an expert qualitative research moderator.",
+        "user_prompt_template": "Review and improve the following discussion guide: {input}. Ensure questions are open-ended and flow logically.",
+        "output_format": "bullet_list"
+      },
+      "input_schema": ["text_corpus"],
+      "output_schema": ["text_corpus"]
+    },
+    {
+      "node_id": "eb067100-760d-4146-8d1b-3329ac23fa9b",
+      "block_type": "sink",
+      "block_implementation": "json_sink",
+      "label": "Save Discussion Guide",
+      "position": {"x": 1100, "y": 200},
+      "config": {
+        "output_key": "discussion_guide_output",
+        "pretty_print": true
+      },
+      "input_schema": ["text_corpus"],
+      "output_schema": []
+    }
+  ],
+  "edges": [
+    {
+      "edge_id": "c7084908-6e26-4908-8ab1-9d2f6ef4ab1e",
+      "source_node": "be90eceb-a8c7-4dac-9c73-ae0483badf83",
+      "target_node": "3a1e278c-b92e-4855-8b62-6005f3f944f8",
+      "data_type": "respondent_collection",
+      "validated": true
+    },
+    {
+      "edge_id": "586138f4-56a6-4ba0-94c6-abece44a17d1",
+      "source_node": "3a1e278c-b92e-4855-8b62-6005f3f944f8",
+      "target_node": "9b82e532-6e7b-4643-8461-7a8ef9e4b2da",
+      "data_type": "respondent_collection",
+      "validated": true
+    },
+    {
+      "edge_id": "e4afef96-92a9-4bae-a2bf-a86c5ef8f208",
+      "source_node": "9b82e532-6e7b-4643-8461-7a8ef9e4b2da",
+      "target_node": "9c86a96e-e7b7-48bd-bcff-ac544f968088",
+      "data_type": "text_corpus",
+      "validated": true
+    },
+    {
+      "edge_id": "51906889-a182-4382-9d3a-758366ddc990",
+      "source_node": "9c86a96e-e7b7-48bd-bcff-ac544f968088",
+      "target_node": "eb067100-760d-4146-8d1b-3329ac23fa9b",
+      "data_type": "text_corpus",
+      "validated": true
+    }
+  ],
+  "loop_definitions": []
+}

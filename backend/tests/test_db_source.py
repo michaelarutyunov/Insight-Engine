@@ -8,7 +8,6 @@ Verifies:
   - PostgreSQL code path (smoke test, import only)
 """
 
-
 import pytest
 
 from blocks._llm_client import BlockExecutionError
@@ -66,15 +65,11 @@ class TestDBSourceContract:
         assert DBSource().validate_config({"query": "SELECT 1"}) is False
 
     def test_validate_config_rejects_missing_query(self):
-        assert (
-            DBSource().validate_config({"connection_string": "sqlite:///test.db"}) is False
-        )
+        assert DBSource().validate_config({"connection_string": "sqlite:///test.db"}) is False
 
     def test_validate_config_rejects_empty_strings(self):
         assert (
-            DBSource().validate_config(
-                {"connection_string": "sqlite:///test.db", "query": "  "}
-            )
+            DBSource().validate_config({"connection_string": "sqlite:///test.db", "query": "  "})
             is False
         )
 

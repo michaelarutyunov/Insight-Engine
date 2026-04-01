@@ -160,9 +160,7 @@ class DataCleaning(TransformBase):
 
         return {"respondent_collection": {"rows": rows}}
 
-    def _resolve_target_columns(
-        self, rows: list[dict], columns: list[str] | None
-    ) -> list[str]:
+    def _resolve_target_columns(self, rows: list[dict], columns: list[str] | None) -> list[str]:
         if columns:
             return columns
         # Auto-detect numeric columns from all rows
@@ -173,20 +171,14 @@ class DataCleaning(TransformBase):
                     numeric_cols.add(key)
         return sorted(numeric_cols)
 
-    def _handle_missing(
-        self, rows: list[dict], target_cols: list[str], config: dict
-    ) -> list[dict]:
+    def _handle_missing(self, rows: list[dict], target_cols: list[str], config: dict) -> list[dict]:
         strategy = config["missing_strategy"]
 
         if strategy == "drop":
             return [
                 row
                 for row in rows
-                if not any(
-                    row.get(col) is None
-                    for col in target_cols
-                    if col in row
-                )
+                if not any(row.get(col) is None for col in target_cols if col in row)
             ]
 
         # Impute
@@ -207,10 +199,14 @@ class DataCleaning(TransformBase):
             if method == "constant":
                 result[col] = config["impute_value"]
             elif method == "mean":
-                numeric = [v for v in values if isinstance(v, (int, float)) and not isinstance(v, bool)]
+                numeric = [
+                    v for v in values if isinstance(v, (int, float)) and not isinstance(v, bool)
+                ]
                 result[col] = statistics.mean(numeric) if numeric else None
             elif method == "median":
-                numeric = [v for v in values if isinstance(v, (int, float)) and not isinstance(v, bool)]
+                numeric = [
+                    v for v in values if isinstance(v, (int, float)) and not isinstance(v, bool)
+                ]
                 result[col] = statistics.median(numeric) if numeric else None
             elif method == "mode":
                 if values:
@@ -234,7 +230,9 @@ class DataCleaning(TransformBase):
             numeric = [
                 row[col]
                 for row in rows
-                if col in row and isinstance(row[col], (int, float)) and not isinstance(row[col], bool)
+                if col in row
+                and isinstance(row[col], (int, float))
+                and not isinstance(row[col], bool)
             ]
             if len(numeric) < 2:
                 continue
@@ -245,7 +243,11 @@ class DataCleaning(TransformBase):
                 low, high = self._iqr_bounds(numeric, threshold)
 
             for row in rows:
-                if col in row and isinstance(row[col], (int, float)) and not isinstance(row[col], bool):
+                if (
+                    col in row
+                    and isinstance(row[col], (int, float))
+                    and not isinstance(row[col], bool)
+                ):
                     if row[col] < low:
                         row[col] = low
                     elif row[col] > high:

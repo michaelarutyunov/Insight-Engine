@@ -217,12 +217,12 @@ def main():
         writer.writerows(rows)
 
     print(f"Generated {N} respondents: {OUTPUT_PATH}")
-    print(f"\nColumn categories:")
+    print("\nColumn categories:")
     print(f"  Demographics: {len([c for c in fieldnames if c in ['age', 'gender', 'education', 'income_bracket', 'region', 'urban_rural', 'household_size']])} columns")
     print(f"  Behavioral: {len([c for c in fieldnames if c in ['primary_category', 'purchase_frequency', 'avg_monthly_spend', 'brand_used_most_often', 'channel_preference']])} columns")
     print(f"  Attitudinal: {len([c for c in fieldnames if 'importance' in c or c == 'brand_loyalty'])} columns")
     print(f"  Outcome: {len([c for c in fieldnames if c in ['satisfaction_score', 'nps_likelihood', 'would_recommend']])} columns")
-    print(f"  Ground truth: segment_persona")
+    print("  Ground truth: segment_persona")
 
 if __name__ == "__main__":
     main()

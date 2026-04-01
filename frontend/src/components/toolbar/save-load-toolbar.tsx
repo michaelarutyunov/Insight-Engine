@@ -1,6 +1,7 @@
 import { useState, useEffect, useCallback } from 'react'
 import { usePipelineStore } from '../../stores/pipeline'
 import type { Pipeline } from '../../types/pipeline'
+import { TemplatePickerDialog } from './template-picker-dialog'
 
 // ---------------------------------------------------------------------------
 // Save Dialog
@@ -250,6 +251,7 @@ export function SaveLoadToolbar() {
 
   const [saveOpen, setSaveOpen] = useState(false)
   const [loadOpen, setLoadOpen] = useState(false)
+  const [templateOpen, setTemplateOpen] = useState(false)
 
   const hasId = Boolean(pipeline?.id)
   const currentName = pipeline?.name ?? ''
@@ -258,6 +260,13 @@ export function SaveLoadToolbar() {
   return (
     <>
       <div className="flex items-center gap-2">
+        <button
+          onClick={() => setTemplateOpen(true)}
+          title="Create new pipeline from template"
+          className="px-3 py-1.5 text-sm font-medium text-white bg-green-600 hover:bg-green-700 rounded-md transition-colors"
+        >
+          New
+        </button>
         <button
           onClick={() => setSaveOpen(true)}
           title={hasId ? 'Save pipeline (Ctrl+S)' : 'Save pipeline as new'}
@@ -284,6 +293,10 @@ export function SaveLoadToolbar() {
       <LoadDialog
         isOpen={loadOpen}
         onClose={() => setLoadOpen(false)}
+      />
+      <TemplatePickerDialog
+        isOpen={templateOpen}
+        onClose={() => setTemplateOpen(false)}
       />
     </>
   )

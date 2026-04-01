@@ -15,6 +15,7 @@ import type {
   PipelineEdge,
   PipelineMetadata,
 } from '../types/pipeline'
+import type { PipelineDiff } from './chat'
 
 // ---------------------------------------------------------------------------
 // Our custom data shape stored inside each React Flow Node.data
@@ -125,6 +126,9 @@ interface PipelineStore {
 
   // --- pipeline-level mutations ---
   updatePipelineMeta: (meta: Partial<PipelineMetadata>) => void
+
+  // --- co-pilot mutations ---
+  applyDiff: (diff: PipelineDiff) => void
 
   // --- execution actions ---
   setActiveRunId: (runId: string | null) => void
@@ -286,6 +290,67 @@ export const usePipelineStore = create<PipelineStore>((set, get) => ({
           metadata: { ...state.pipeline.metadata, ...meta },
           updatedAt: new Date().toISOString(),
         },
+      }
+    })
+  },
+
+  // -----------------------------------------------------------------------
+  // Co-pilot mutations
+  // -----------------------------------------------------------------------
+
+  applyDiff: (diff: PipelineDiff) => {
+    set((state) => {
+      let updatedNodes = [...state.nodes]
+      let updatedEdges = [...state.edges]
+
+      // Remove nodes (and their connected edges)
+      const removedNodeIds = new Set(diff.removed_nodes.map((n) => n.id))
+      if (removedNodeIds.size > 0) {
+        updatedNodes = updatedNodes.filter((n) => !removedNodeIds.has(n.id))
+        // Also remove edges connected to removed nodes
+        updatedEdges = updatedEdges.filter(
+          (e) => !removedNodeIds.has(e.source) && !removedNodeIds.has(e.target),
+        )
+      }
+
+      // Remove edges by ID
+      const removedEdgeIds = new Set(diff.removed_edges.map((e) => e.id))
+      if (removedEdgeIds.size > 0) {
+        updatedEdges = updatedEdges.filter((e) => !removedEdgeIds.has(e.id))
+      }
+
+      // Add new nodes
+      for (const nodeDiff of diff.added_nodes) {
+        const pipelineNode: PipelineNode = {
+          id: nodeDiff.id,
+          label: nodeDiff.label || nodeDiff.block_implementation,
+          type: nodeDiff.block_type as PipelineNode['type'],
+          blockImplementation: nodeDiff.block_implementation,
+          description: '',
+          position: { x: nodeDiff.position[0], y: nodeDiff.position[1] },
+          config: { ...nodeDiff.config },
+          inputSchema: [...nodeDiff.input_schema],
+          outputSchema: [...nodeDiff.output_schema],
+        }
+        updatedNodes.push(pipelineNodeToReactFlow(pipelineNode))
+      }
+
+      // Add new edges
+      for (const edgeDiff of diff.added_edges) {
+        const pipelineEdge: PipelineEdge = {
+          id: edgeDiff.id,
+          source: edgeDiff.source,
+          target: edgeDiff.target,
+          dataType: edgeDiff.data_type,
+          validated: false,
+        }
+        updatedEdges.push(pipelineEdgeToReactFlow(pipelineEdge))
+      }
+
+      return {
+        nodes: updatedNodes,
+        edges: updatedEdges,
+        pipeline: syncPipelineFromReactFlow(state.pipeline, updatedNodes, updatedEdges),
       }
     })
   },

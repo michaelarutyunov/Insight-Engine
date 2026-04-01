@@ -1,0 +1,72 @@
+{
+  "pipeline_id": "1be515c0-6308-4187-bcbb-c9acf21e584d",
+  "name": "Segmentation Report Pipeline",
+  "version": "1.0",
+  "created_at": "2026-03-31T00:00:00Z",
+  "updated_at": "2026-03-31T00:00:00Z",
+  "metadata": {
+    "description": "Performs K-Means clustering on respondent data and exports results to JSON. Use for customer segmentation and persona development workflows.",
+    "tags": ["segmentation", "clustering", "k-means", "persona-development"],
+    "author": "system"
+  },
+  "nodes": [
+    {
+      "node_id": "3005b39d-85a4-49ea-9980-1cb72e4431f8",
+      "block_type": "source",
+      "block_implementation": "csv_source",
+      "label": "Load Customer Data",
+      "position": {"x": 100, "y": 200},
+      "config": {
+        "csv_data": "customer_id,age,annual_income,purchase_frequency,satisfaction_score\nC001,28,45000,12,7\nC002,35,65000,24,8\nC003,42,85000,36,9\nC004,31,55000,18,6\nC005,38,75000,30,8\nC006,45,95000,42,9\nC007,29,50000,15,7\nC008,33,60000,21,8",
+        "delimiter": ","
+      },
+      "input_schema": [],
+      "output_schema": ["respondent_collection"]
+    },
+    {
+      "node_id": "a9c5fc08-b2c9-4fb5-a7f7-80cc1327dc6f",
+      "block_type": "analysis",
+      "block_implementation": "segmentation_kmeans",
+      "label": "K-Means Segmentation",
+      "position": {"x": 350, "y": 200},
+      "config": {
+        "n_clusters": 3,
+        "features": ["age", "annual_income", "purchase_frequency", "satisfaction_score"],
+        "scaling": "standard",
+        "random_state": 42
+      },
+      "input_schema": ["respondent_collection"],
+      "output_schema": ["segment_profile_set"]
+    },
+    {
+      "node_id": "51d40dbb-14f7-45bf-a77a-121b3a91373c",
+      "block_type": "sink",
+      "block_implementation": "json_sink",
+      "label": "Export Segments JSON",
+      "position": {"x": 600, "y": 200},
+      "config": {
+        "output_key": "segmentation_results",
+        "pretty_print": true
+      },
+      "input_schema": ["segment_profile_set"],
+      "output_schema": []
+    }
+  ],
+  "edges": [
+    {
+      "edge_id": "10329e0b-8848-4aa5-be5f-256e3ee366c3",
+      "source_node": "3005b39d-85a4-49ea-9980-1cb72e4431f8",
+      "target_node": "a9c5fc08-b2c9-4fb5-a7f7-80cc1327dc6f",
+      "data_type": "respondent_collection",
+      "validated": true
+    },
+    {
+      "edge_id": "89ad8b20-9ac4-4d93-aa46-9fde61f40122",
+      "source_node": "a9c5fc08-b2c9-4fb5-a7f7-80cc1327dc6f",
+      "target_node": "51d40dbb-14f7-45bf-a77a-121b3a91373c",
+      "data_type": "segment_profile_set",
+      "validated": true
+    }
+  ],
+  "loop_definitions": []
+}

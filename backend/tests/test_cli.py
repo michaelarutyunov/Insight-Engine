@@ -209,3 +209,224 @@ def test_api_url_override():
     assert result.exit_code == 0
     called_url = mock_get.call_args[0][0]
     assert "myserver:9000" in called_url
+
+
+# ---------------------------------------------------------------------------
+# advise command
+# ---------------------------------------------------------------------------
+
+
+# Fixtures for advise endpoints
+CHARACTERIZE_FIXTURE = {
+    "profile": {
+        "research_question": "How do customers perceive our brand?",
+        "dimensions": {
+            "data_type": "quantitative",
+            "sample_size": "medium",
+            "time_horizon": "cross_sectional",
+            "inference_goal": "description",
+            "explanation_need": "low",
+            "domain_specificity": "general",
+        },
+        "situational_context": {
+            "available_data": "Survey responses",
+            "hypothesis_state": "Exploratory",
+            "time_constraint": "None",
+            "epistemic_stance": "Inductive",
+            "deliverable_expectation": "Presentation deck",
+        },
+        "reasoning": "Brand perception study with survey data",
+    }
+}
+
+MATCH_FIXTURE = {
+    "candidates": [
+        {
+            "block_implementation": "sentiment_analysis",
+            "block_type": "analysis",
+            "fit_score": 0.85,
+            "fit_reasoning": "Well-suited for text-based sentiment analysis",
+            "tradeoffs": "Requires pre-processing, may miss nuanced sentiment",
+            "dimensions": {
+                "data_type": "quantitative",
+                "sample_size": "medium",
+                "time_horizon": "cross_sectional",
+                "inference_goal": "description",
+                "explanation_need": "low",
+                "domain_specificity": "general",
+            },
+        },
+        {
+            "block_implementation": "topic_modeling",
+            "block_type": "analysis",
+            "fit_score": 0.72,
+            "fit_reasoning": "Can uncover themes in open-ended responses",
+            "tradeoffs": "Less interpretable than supervised approaches",
+            "dimensions": {
+                "data_type": "quantitative",
+                "sample_size": "medium",
+                "time_horizon": "cross_sectional",
+                "inference_goal": "description",
+                "explanation_need": "low",
+                "domain_specificity": "general",
+            },
+        },
+    ]
+}
+
+RECOMMEND_FIXTURE = {
+    "recommendation": {
+        "selected_method": "sentiment_analysis",
+        "rationale": "Sentiment analysis is the most appropriate method for this brand perception study.",
+        "pipeline_sketch": {
+            "nodes": [
+                {"id": "n1", "block_type": "source", "implementation": "csv_loader"},
+                {"id": "n2", "block_type": "analysis", "implementation": "sentiment_analysis"},
+            ],
+            "edges": [{"source": "n1", "target": "n2"}],
+        },
+        "practitioner_workflow": "1. Load survey data\n2. Run sentiment analysis\n3. Visualize results",
+    }
+}
+
+
+def test_advise_basic_stages_1_and_2():
+    """Test advise command with basic research question (stages 1 and 2 only)."""
+
+    def mock_post_side_effect(*args, **kwargs):
+        url = args[0] if args else kwargs.get("url", "")
+        if "characterize" in url:
+            return _mock_response(CHARACTERIZE_FIXTURE)
+        elif "match" in url:
+            return _mock_response(MATCH_FIXTURE)
+        return _mock_response({})
+
+    with patch("httpx.post", side_effect=mock_post_side_effect):
+        result = runner.invoke(app, ["advise", "How do customers perceive our brand?"])
+
+    assert result.exit_code == 0
+    assert "Stage 1" in result.output
+    assert "Stage 2" in result.output
+    assert "sentiment_analysis" in result.output
+    assert "0.85" in result.output
+    assert "Stage 3" not in result.output  # Without --recommend flag
+
+
+def test_advise_with_recommend_flag():
+    """Test advise command with --recommend flag (includes stage 3)."""
+
+    def mock_post_side_effect(*args, **kwargs):
+        url = args[0] if args else kwargs.get("url", "")
+        if "characterize" in url:
+            return _mock_response(CHARACTERIZE_FIXTURE)
+        elif "match" in url:
+            return _mock_response(MATCH_FIXTURE)
+        elif "recommend" in url:
+            return _mock_response(RECOMMEND_FIXTURE)
+        return _mock_response({})
+
+    with patch("httpx.post", side_effect=mock_post_side_effect):
+        result = runner.invoke(
+            app, ["advise", "How do customers perceive our brand?", "--recommend"]
+        )
+
+    assert result.exit_code == 0
+    assert "Stage 1" in result.output
+    assert "Stage 2" in result.output
+    assert "Stage 3" in result.output
+    assert "Selected Method:" in result.output
+    assert "sentiment_analysis" in result.output
+    assert "Rationale:" in result.output
+    assert "Pipeline Sketch:" in result.output
+
+
+def test_advise_with_profile_flag():
+    """Test advise command with --profile flag."""
+
+    def mock_post_side_effect(*args, **kwargs):
+        url = args[0] if args else kwargs.get("url", "")
+        # Check that profile parameter is in URL
+        if "profile=" in url:
+            return _mock_response(CHARACTERIZE_FIXTURE)
+        return _mock_response({})
+
+    with patch("httpx.post", side_effect=mock_post_side_effect) as mock_post:
+        result = runner.invoke(
+            app, ["advise", "How do customers perceive our brand?", "--profile", "academic"]
+        )
+
+    assert result.exit_code == 0
+    # Verify profile parameter was passed
+    called_urls = [call[0][0] for call in mock_post.call_args_list]
+    assert any("profile=academic" in url for url in called_urls)
+
+
+def test_advise_with_data_context():
+    """Test advise command with --data-context flag."""
+
+    def mock_post_side_effect(*args, **kwargs):
+        url = args[0] if args else kwargs.get("url", "")
+        if "characterize" in url:
+            # Check payload includes data_context
+            payload = kwargs.get("json", {})
+            if payload.get("data_context"):
+                return _mock_response(CHARACTERIZE_FIXTURE)
+        return _mock_response({})
+
+    with patch("httpx.post", side_effect=mock_post_side_effect) as mock_post:
+        result = runner.invoke(
+            app,
+            [
+                "advise",
+                "How do customers perceive our brand?",
+                "--data-context",
+                '{"sample_size": 1000, "data_source": "survey"}',
+            ],
+        )
+
+    assert result.exit_code == 0
+    # Verify data_context was included in request
+    call_kwargs = mock_post.call_args_list[0][1]
+    payload = call_kwargs.get("json", {})
+    assert payload.get("data_context") == {"sample_size": 1000, "data_source": "survey"}
+
+
+def test_advise_invalid_json_data_context():
+    """Test advise command with invalid JSON in --data-context."""
+    result = runner.invoke(
+        app,
+        ["advise", "How do customers perceive our brand?", "--data-context", "{invalid json}"],
+    )
+
+    assert result.exit_code == 1
+    assert "Invalid JSON" in result.output
+
+
+def test_advise_no_candidates():
+    """Test advise command when no candidates are found."""
+    empty_match = {"candidates": []}
+
+    def mock_post_side_effect(*args, **kwargs):
+        url = args[0] if args else kwargs.get("url", "")
+        if "characterize" in url:
+            return _mock_response(CHARACTERIZE_FIXTURE)
+        elif "match" in url:
+            return _mock_response(empty_match)
+        return _mock_response({})
+
+    with patch("httpx.post", side_effect=mock_post_side_effect):
+        result = runner.invoke(app, ["advise", "How do customers perceive our brand?"])
+
+    assert result.exit_code == 0
+    assert "No matching methods found" in result.output
+
+
+def test_advise_connection_error():
+    """Test advise command handles connection errors gracefully."""
+    import httpx as httpx_lib
+
+    with patch("httpx.post", side_effect=httpx_lib.ConnectError("refused")):
+        result = runner.invoke(app, ["advise", "How do customers perceive our brand?"])
+
+    assert result.exit_code == 1
+    assert "Connection refused" in result.output

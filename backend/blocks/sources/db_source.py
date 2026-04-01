@@ -133,17 +133,11 @@ class DBSource(SourceBase):
                     db.row_factory = aiosqlite.Row
                     async with db.execute(query) as cursor:
                         columns = [desc[0] for desc in cursor.description]
-                        return [
-                            dict(zip(columns, row)) for row in await cursor.fetchall()
-                        ]
+                        return [dict(zip(columns, row)) for row in await cursor.fetchall()]
         except TimeoutError as exc:
-            raise BlockExecutionError(
-                f"SQLite query timed out after {timeout}s"
-            ) from exc
+            raise BlockExecutionError(f"SQLite query timed out after {timeout}s") from exc
         except Exception as exc:
-            raise BlockExecutionError(
-                f"SQLite query failed: {exc}"
-            ) from exc
+            raise BlockExecutionError(f"SQLite query failed: {exc}") from exc
 
     async def _execute_postgres(
         self, connection_string: str, query: str, timeout: int
@@ -153,23 +147,15 @@ class DBSource(SourceBase):
 
         try:
             async with asyncio.timeout(timeout):
-                async with await psycopg.AsyncConnection.connect(
-                    connection_string
-                ) as conn:
+                async with await psycopg.AsyncConnection.connect(connection_string) as conn:
                     async with conn.cursor() as cur:
                         await cur.execute(query)
                         columns = [desc[0] for desc in cur.description]
-                        return [
-                            dict(zip(columns, row)) for row in await cur.fetchall()
-                        ]
+                        return [dict(zip(columns, row)) for row in await cur.fetchall()]
         except TimeoutError as exc:
-            raise BlockExecutionError(
-                f"PostgreSQL query timed out after {timeout}s"
-            ) from exc
+            raise BlockExecutionError(f"PostgreSQL query timed out after {timeout}s") from exc
         except Exception as exc:
-            raise BlockExecutionError(
-                f"PostgreSQL query failed: {exc}"
-            ) from exc
+            raise BlockExecutionError(f"PostgreSQL query failed: {exc}") from exc
 
     def test_fixtures(self) -> dict:
         return {
